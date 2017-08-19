@@ -1,0 +1,29 @@
+
+
+
+
+
+
+Goals:
+
+
+
+
+problems:
+bullets dont have momentum of the gun they are shot from
+
+camera should "clamp" to the edges of rooms.
+come up with
+
+
+room goes out at all edges in issac, maybe use like 75degree angle.
+
+
+
+player transfer between scenes:
+
+https://forum.unity3d.com/threads/how-to-transfer-player-data-between-scenes.443347/
+
+
+
+bullet dont shoot cause velocity is zero
