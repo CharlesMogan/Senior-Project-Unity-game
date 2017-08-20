@@ -73,7 +73,7 @@ public class MapMaker : MonoBehaviour {
 				int numberOfAdjacentWalls = GetSurroundingWallCountAtPosition(x,y);
 				if(numberOfAdjacentWalls > 4){
 					tempMap[x,y] = 1;
-				}else if(numberOfAdjacentWalls < 3){
+				}else if(numberOfAdjacentWalls < 2){
 					tempMap[x,y] = 0;
 				}
 			}

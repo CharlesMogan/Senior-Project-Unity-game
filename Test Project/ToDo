@@ -2,6 +2,10 @@
 
 
 
+notes to self:
+room goes out at all edges in issac, maybe use like 75degree angle.
+
+work on the cave generation algarithm, there are some notes on how a person might change it at the end of the first video in the series.
 
 
 Goals:
@@ -10,20 +14,24 @@ Goals:
 
 
 problems:
-bullets dont have momentum of the gun they are shot from
+bullets dont have momentum of the gun they are shot from- fixed!
 
-camera should "clamp" to the edges of rooms.
-come up with
-
-
-room goes out at all edges in issac, maybe use like 75degree angle.
+camera should "clamp" to the edges of rooms if you move to close to the edge.
 
 
 
-player transfer between scenes:
+
+
+Shit I will need latter: player transfer between scenes:
 
 https://forum.unity3d.com/threads/how-to-transfer-player-data-between-scenes.443347/
 
 
 
-bullet dont shoot cause velocity is zero
+
+
+
+
+sources:
+https://www.youtube.com/user/Brackeys specifically his how to make a unity game basics series.
+https://unity3d.com/learn/tutorials/projects/procedural-cave-generation-tutorial
