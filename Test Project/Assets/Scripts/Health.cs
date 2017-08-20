@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Health : MonoBehaviour {
 
-	public float maxHealth, health;
-	
+	public float maxHealth;
+	public float health;
 	// Update is called once per frame
 	protected virtual void Update () {
 		if(health <= 0){
@@ -20,7 +20,7 @@ public class Health : MonoBehaviour {
 	}
 
 
-	public void takeDamage(float damage){
+	public void TakeDamage(float damage){
 		health-=damage;
 	}
 

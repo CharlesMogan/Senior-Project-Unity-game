@@ -30,7 +30,7 @@ public class Shooting : MonoBehaviour {
 
 
 
-	protected void shoot(){
+	protected void Shoot(){
 			nextFire = Time.time + fireRate;
 			foreach(Transform gun in guns){
 				GameObject lastBullet= Instantiate(bullet, gun.position, gun.rotation);

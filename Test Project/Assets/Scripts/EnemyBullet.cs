@@ -10,7 +10,7 @@ public class EnemyBullet : Bullet {
        	if(other.gameObject.tag == "Player"){
        		Debug.Log("player got shot");
        		Health health = other.GetComponent<Health>();
-       		health.takeDamage(bulletDamage);
+       		health.TakeDamage(bulletDamage);
 
        	}
 
