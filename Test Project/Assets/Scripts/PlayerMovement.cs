@@ -15,8 +15,8 @@ public class PlayerMovement : Movement {
 
 	private GameObject playerObject;
 void Update () {
-		xInput =Input.GetAxis("Horizontal");
-		yInput =Input.GetAxis("Vertical");
+		xInput = Input.GetAxis("Horizontal");
+		yInput = Input.GetAxis("Vertical");
 			
 		//Mouse position is designed forr 2d you have to do this shenanages for it to work
 		mousePosition3D = new Vector3(playerCamera.ScreenToWorldPoint(Input.mousePosition).x,character.position.y,playerCamera.ScreenToWorldPoint(Input.mousePosition).z);

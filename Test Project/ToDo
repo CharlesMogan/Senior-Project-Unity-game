@@ -7,6 +7,11 @@ room goes out at all edges in issac, maybe use like 75degree angle.
 
 work on the cave generation algarithm, there are some notes on how a person might change it at the end of the first video in the series.
 
+LINQ seems like cool shit but seems useless for 2d arrays.
+
+
+look int OnDrawGizmos
+
 
 Goals:
 
@@ -18,7 +23,7 @@ bullets dont have momentum of the gun they are shot from- fixed!
 
 camera should "clamp" to the edges of rooms if you move to close to the edge.
 
-
+refacter classes into one script maybe?? c# is weird you can have nested public classes.
 
 
 

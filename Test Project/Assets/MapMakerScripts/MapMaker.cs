@@ -44,8 +44,12 @@ public class MapMaker : MonoBehaviour {
 		RandomFillMap();
 
 		for(int i = 1; i <= smoothingPasses; i++){
-			SmoothMap();
+			SmoothMapV2();
 		}
+
+		//stuff from the second tutroial 
+		MeshGenerator meshGen = GetComponent<MeshGenerator>();
+		meshGen.MakeMesh(map,1);
 	}
 
 
@@ -66,7 +70,20 @@ public class MapMaker : MonoBehaviour {
 	}
 
 
-	void SmoothMap(){								//properly I should be using a temp map but in practice I seem to get better resaults without
+	void SmoothMapV1(){								//properly I should be using a temp map but in practice I seem to get better resaults without
+		for(int x = 0; x < width; x++){	
+			for(int y = 0; y < height; y++){
+				int numberOfAdjacentWalls = GetSurroundingWallCountAtPosition(x,y);
+				if(numberOfAdjacentWalls > 4){
+					map[x,y] = 1;
+				}else if(numberOfAdjacentWalls < 4){
+					map[x,y] = 0;
+				}
+			}
+		}	
+	}
+
+	void SmoothMapV2(){								//temp map version
 		int [,] tempMap = new int [width,height];
 		for(int x = 0; x < width; x++){	
 			for(int y = 0; y < height; y++){
@@ -83,7 +100,7 @@ public class MapMaker : MonoBehaviour {
 
 	int GetSurroundingWallCountAtPosition(int x, int y){
 		int numberOfWalls = 0;
-		for(int adjacentTileX = x-1; adjacentTileX <= x + 1; adjacentTileX++){	//goes through all neighbours 
+		for(int adjacentTileX = x-1; adjacentTileX <= x + 1; adjacentTileX++){	//goes through all neighbors 
 			for(int adjacentTileY = y-1; adjacentTileY <= y + 1; adjacentTileY++){
 				if(adjacentTileX >= 0 && adjacentTileY >= 0 && adjacentTileX < width && adjacentTileY <	 height){
 					if(x != adjacentTileX || y != adjacentTileY){
@@ -101,8 +118,8 @@ public class MapMaker : MonoBehaviour {
 
 
 
-//draws the map in a location, i dont think ill need this later
-	void OnDrawGizmos(){     // look into this gizmos thing
+//draws the map in a location, i dont think ill need this later ------ I was right this is just for testing
+	/*void OnDrawGizmos(){     // look into this gizmos thing
 		if(map != null){
 			for(int x = 0; x < width; x++){
 				for(int y = 0; y < height; y++){
@@ -118,7 +135,7 @@ public class MapMaker : MonoBehaviour {
 		}
 
 	}
-
+*/
 
 
 
