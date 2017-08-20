@@ -12,6 +12,8 @@ LINQ seems like cool shit but seems useless for 2d arrays.
 
 look int OnDrawGizmos
 
+look into celular atomita and marching squares.
+
 
 Goals:
 
@@ -39,4 +41,5 @@ https://forum.unity3d.com/threads/how-to-transfer-player-data-between-scenes.443
 
 sources:
 https://www.youtube.com/user/Brackeys specifically his how to make a unity game basics series.
+https://unity3d.com/learn/tutorials/projects/space-shooter-tutorial
 https://unity3d.com/learn/tutorials/projects/procedural-cave-generation-tutorial

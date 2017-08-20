@@ -21,6 +21,7 @@ public class MapMaker : MonoBehaviour {
 	public string seed;
 	public bool randomSeed;
 	public int smoothingPasses;
+	public float squareSize;
 
 
 
@@ -41,7 +42,7 @@ public class MapMaker : MonoBehaviour {
 
 	void MakeMap(){
 		map = new int [width,height];
-		RandomFillMap();
+		RandomFillMapV2();
 
 		for(int i = 1; i <= smoothingPasses; i++){
 			SmoothMapV2();
@@ -49,11 +50,11 @@ public class MapMaker : MonoBehaviour {
 
 		//stuff from the second tutroial 
 		MeshGenerator meshGen = GetComponent<MeshGenerator>();
-		meshGen.MakeMesh(map,1);
+		meshGen.MakeMesh(map,squareSize);
 	}
 
 
-	void RandomFillMap(){
+	void RandomFillMapV1(){
 		if(randomSeed){
 			seed = DateTime.Now.Ticks.ToString();  // not stock
 		}
@@ -66,9 +67,22 @@ public class MapMaker : MonoBehaviour {
 				}
 			}
 		}
-
 	}
 
+	void RandomFillMapV2(){
+		if(randomSeed){
+			seed = DateTime.Now.Ticks.ToString();  // not stock
+		}
+		System.Random randomNumbers = new System.Random(seed.GetHashCode());      
+
+		for(int x = 0; x < width; x++){										//initalizes the map randomly based on fill%
+			for(int y = 0; y < height; y++){
+				if(randomNumbers.Next(0,100) < fillPercent || x == 0 || y == 0 || x == width-1 || y == height-1 || x == 1 || y == 1 || x == width-2 || y == height-2){ // makes sure all edges are walls
+					map[x,y] = 1; 
+				}
+			}
+		}
+	}
 
 	void SmoothMapV1(){								//properly I should be using a temp map but in practice I seem to get better resaults without
 		for(int x = 0; x < width; x++){	
