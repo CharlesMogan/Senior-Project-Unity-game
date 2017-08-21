@@ -22,7 +22,8 @@ public class MapMaker : MonoBehaviour {
 	public bool randomSeed;
 	public int smoothingPasses;
 	public float squareSize;
-
+	[Range(0,25)]
+	public int borderSize;
 
 
 	private int [,] map;
@@ -42,11 +43,13 @@ public class MapMaker : MonoBehaviour {
 
 	void MakeMap(){
 		map = new int [width,height];
-		RandomFillMapV2();
+		RandomFillMapV3();
 
 		for(int i = 1; i <= smoothingPasses; i++){
 			SmoothMapV2();
 		}
+
+
 
 		//stuff from the second tutroial 
 		MeshGenerator meshGen = GetComponent<MeshGenerator>();
@@ -62,7 +65,7 @@ public class MapMaker : MonoBehaviour {
 
 		for(int x = 0; x < width; x++){										//initalizes the map randomly based on fill%
 			for(int y = 0; y < height; y++){
-				if(randomNumbers.Next(0,100) < fillPercent || x == 0 || y == 0 || x == width-1 || y == height-1){ // makes sure all edges are walls
+				if(randomNumbers.Next(0,100) < fillPercent || x == 0|| y ==0 || x == width-1 || y == height-1){ // makes sure all edges are walls
 					map[x,y] = 1; 
 				}
 			}
@@ -78,6 +81,23 @@ public class MapMaker : MonoBehaviour {
 		for(int x = 0; x < width; x++){										//initalizes the map randomly based on fill%
 			for(int y = 0; y < height; y++){
 				if(randomNumbers.Next(0,100) < fillPercent || x == 0 || y == 0 || x == width-1 || y == height-1 || x == 1 || y == 1 || x == width-2 || y == height-2){ // makes sure all edges are walls
+					map[x,y] = 1; 
+				}
+			}
+		}
+	}
+
+
+
+	void RandomFillMapV3(){   //this may not be a good solution always makes the wall one less thick at the top alternitive is at 3:00 in vid 4 use with random fill map v1 --------nvm it is not a prob with random fill map v3 but with the drawing somewhere down the line.
+		if(randomSeed){
+			seed = DateTime.Now.Ticks.ToString();  // not stock
+		}
+		System.Random randomNumbers = new System.Random(seed.GetHashCode());      
+
+		for(int x = 0; x < width; x++){										//initalizes the map randomly based on fill%
+			for(int y = 0; y < height; y++){
+				if(randomNumbers.Next(0,100) < fillPercent || x < borderSize || y < borderSize || x >= width-borderSize || y >= height-borderSize){ // makes sure all edges are walls
 					map[x,y] = 1; 
 				}
 			}
@@ -148,8 +168,8 @@ public class MapMaker : MonoBehaviour {
 			}
 		}
 
-	}
-*/
+	}*/
+
 
 
 

@@ -14,6 +14,15 @@ look int OnDrawGizmos
 
 look into celular atomita and marching squares.
 
+an outline edge is two verticies which share exactly one triangle.
+
+
+look up structs, know what the difrence is.
+
+look up Dictionary in c#
+
+look up indexers in c# seems useful for wepon wheel
+
 
 Goals:
 
@@ -28,6 +37,8 @@ camera should "clamp" to the edges of rooms if you move to close to the edge.
 refacter classes into one script maybe?? c# is weird you can have nested public classes.
 
 
+
+map border is always one smaller on the top, not sure what I did, could be a prob eventualy --- looked into it it is not from the first two vids of stuff, must be from the third 
 
 Shit I will need latter: player transfer between scenes:
 
