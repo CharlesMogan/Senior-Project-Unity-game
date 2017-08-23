@@ -7,12 +7,16 @@ public class Shooting : MonoBehaviour {
 	protected List <Transform> guns;
 	protected Transform shooter;
 	protected Rigidbody shooterRB;
+	protected Vector3 previousPosition;
+	protected Vector3 characterVelocity;
 
 	
 	public GameObject bullet;
 	public float bulletLifetime;
 	public float bulletSpeed;
 	public float fireRate;
+
+	public float transferedMomentum;
 
 	// Use this for initialization
 	void Start () {
@@ -27,7 +31,12 @@ public class Shooting : MonoBehaviour {
 		}
 	}	
 
-
+	void FixedUpdate(){
+		if (Time.fixedDeltaTime != 0){
+			characterVelocity = Vector3 (shooterRB.position - previousPosition).magnitude / Time.fixedDeltaTime;
+			previousPosition = shooterRB.position;
+		}
+	}
 
 
 	protected void Shoot(){
@@ -36,8 +45,8 @@ public class Shooting : MonoBehaviour {
 				GameObject lastBullet= Instantiate(bullet, gun.position, gun.rotation);
 				Transform lastBulletTransform = lastBullet.GetComponent<Transform>();
 				Rigidbody lastBulletRigedBody = lastBullet.GetComponent<Rigidbody>();
-				Vector3 yLessVelocity = new Vector3(shooterRB.velocity.x,0.0f,shooterRB.velocity.z); 
-				lastBulletRigedBody.velocity = yLessVelocity + lastBulletTransform.forward*bulletSpeed; //http://answers.unity3d.com/questions/808262/how-to-instantiate-a-prefab-with-initial-velocity.html
+				Vector3 yLessVelocity = new Vector3(characterVelocity.x,0.0f,characterVelocity.z); 
+				lastBulletRigedBody.velocity = transferedMomentum*yLessVelocity + lastBulletTransform.forward*bulletSpeed; //http://answers.unity3d.com/questions/808262/how-to-instantiate-a-prefab-with-initial-velocity.html
 				Destroy(lastBullet, bulletLifetime);
 			}
 	}

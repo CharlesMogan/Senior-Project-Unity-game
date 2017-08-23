@@ -208,6 +208,7 @@ MonoBehaviour:
   bulletLifetime: 2
   bulletSpeed: 10
   fireRate: 0.2
+  transferedMomentum: 0
 --- !u!23 &137883561
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -447,6 +448,7 @@ MonoBehaviour:
   bulletLifetime: 3
   bulletSpeed: 10
   fireRate: 0.2
+  transferedMomentum: 0.8
 --- !u!1 &310513460
 GameObject:
   m_ObjectHideFlags: 0
@@ -1519,6 +1521,7 @@ MonoBehaviour:
   bulletLifetime: 10
   bulletSpeed: 5
   fireRate: 1
+  transferedMomentum: 0
 --- !u!54 &1858128163
 Rigidbody:
   m_ObjectHideFlags: 0

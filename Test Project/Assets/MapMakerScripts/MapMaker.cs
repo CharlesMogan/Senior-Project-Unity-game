@@ -31,6 +31,7 @@ public class MapMaker : MonoBehaviour {
 	[Range(0,250)]
 	public int roomThresholdSize;
 	
+	public bool removingSmallRooms;
 
 
 	private int [,] map;
@@ -56,8 +57,9 @@ public class MapMaker : MonoBehaviour {
 			SmoothMapV2();
 		}
 		//from tatorial 5
-		removeSmallMapRegions();
-
+		if(removingSmallRooms){
+			removeSmallMapRegions();
+		}
 		//stuff from the second tutroial 
 		MeshGenerator meshGen = GetComponent<MeshGenerator>();
 		meshGen.MakeMesh(map,squareSize);
