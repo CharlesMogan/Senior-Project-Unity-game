@@ -222,7 +222,7 @@ public class MapMaker : MonoBehaviour {
 		return regions;
 	}
 
-	void removeSmallMapRegions(){
+	void removeSmallMapRegions(){   ///process map
 		List<Room> survivingRooms = new List<Room>();
 		List<List<Coordinate>> wallRegions = GetRegions(1);
 		foreach(List<Coordinate> wallRegion in wallRegions){
@@ -248,27 +248,49 @@ public class MapMaker : MonoBehaviour {
 				survivingRooms.Add(new Room(roomRegion, map));
 			}
 		}
+		survivingRooms.Sort();
+		survivingRooms[0].isMainRoom = true;
+		survivingRooms[0].isAccesibleFromMain = true;
 		connectClosestRooms(survivingRooms);
 	}
 
 
-	void connectClosestRooms(List<Room> allRooms){
+	void connectClosestRooms(List<Room> allRooms, bool forceAccessibilityFromMain = false){
+		List<Room> roomListA = new List<Room>();
+		List<Room> roomListB = new List<Room>();
+
+		if(forceAccessibilityFromMain){
+			foreach(Room room in allRooms){
+				if(room.isAccesibleFromMain){
+					roomListB.Add(room);
+				}else{
+					roomListA.Add(room);
+				}
+			}
+		}else{
+			roomListA = allRooms;
+			roomListB = allRooms;
+		}
+
 		int bestDistance = 0;
 		Coordinate bestTileA = new Coordinate();
 		Coordinate bestTileB = new Coordinate();
 		Room bestRoomA = new Room();
 		Room bestRoomB = new Room();
-		bool possibleConnectionFound;
+		bool possibleConnectionFound = false;
 		Debug.Log("connectClosestRooms");
-		foreach(Room roomA in allRooms){
-			possibleConnectionFound = false;
-			foreach(Room roomB in allRooms){
-				if(roomA == roomB){
+		foreach(Room roomA in roomListA){
+			if(!forceAccessibilityFromMain){      //e7 8:00
+				possibleConnectionFound = false;
+
+				if(roomA.adjacentRooms.Count > 0){
 					continue;
+					
 				}
-				if(roomA.IsConnected(roomB)){
-					possibleConnectionFound = false;
-					break;
+			}
+			foreach(Room roomB in roomListB){
+				if(roomA == roomB || roomA.IsConnected(roomB)){
+					continue;
 				}
 				for(int tileIndexA = 0; tileIndexA < roomA.edgeTiles.Count; tileIndexA++){
 					for(int tileIndexB = 0; tileIndexB < roomB.edgeTiles.Count; tileIndexB++){
@@ -287,10 +309,19 @@ public class MapMaker : MonoBehaviour {
 					}		
 				}
 			}
-			if(possibleConnectionFound){
+			if(possibleConnectionFound && forceAccessibilityFromMain){
 				MakePassage(bestRoomA,bestRoomB,bestTileA,bestTileB);
 			}
 		}
+		if(possibleConnectionFound && forceAccessibilityFromMain){
+				MakePassage(bestRoomA,bestRoomB,bestTileA,bestTileB);
+				connectClosestRooms(allRooms,true);
+			}
+
+		if(!forceAccessibilityFromMain){
+			connectClosestRooms(allRooms,true);
+		}
+
 	}
 
 	void MakePassage(Room roomA, Room roomB, Coordinate tileA, Coordinate tileB){
@@ -305,11 +336,13 @@ public class MapMaker : MonoBehaviour {
 		return new Vector3(-width/2 + .5f + tile.x, 2, -height/2 + .5f + tile.y);
 	}
 
-	class Room {
+	class Room : IComparable<Room> {
 		public List<Coordinate> tiles;
 		public List<Coordinate> edgeTiles;
 		public List<Room> adjacentRooms;
 		public int roomSize;
+		public bool isAccesibleFromMain;
+		public bool isMainRoom;
 
 		public Room(){
 		}
@@ -324,8 +357,6 @@ public class MapMaker : MonoBehaviour {
 				for(int x = tile.x-1; x <= tile.x+1; x++){	
 					for(int y = tile.y-1; y <= tile.y+1; y++){
 						if(x == tile.x || y == tile.y){
-							//Debug.Log("x= "+ x);
-							//Debug.Log("y= "+ y);
 							if(map[x,y] == 1){
 								edgeTiles.Add(tile);
 							}
@@ -337,6 +368,11 @@ public class MapMaker : MonoBehaviour {
 		}
 
 		public static void ConnectRooms(Room roomA, Room roomB){
+			if(roomA.isAccesibleFromMain){
+				roomB.setAccessibleFromMain();
+			}else if(roomB.isAccesibleFromMain){
+				roomA.setAccessibleFromMain();
+			}
 			roomA.adjacentRooms.Add(roomB);
 			roomB.adjacentRooms.Add(roomA);
 		}
@@ -345,6 +381,18 @@ public class MapMaker : MonoBehaviour {
 			return adjacentRooms.Contains(otherRoom);
 		}
 
+		public int CompareTo(Room otherRoom){
+			return otherRoom.roomSize.CompareTo(roomSize);
+		}
+
+		public void setAccessibleFromMain(){
+			if(!isAccesibleFromMain){
+				isAccesibleFromMain = true;
+				foreach(Room room in adjacentRooms){
+					room.setAccessibleFromMain();
+				}
+			}
+		}
 	}
 	
 
