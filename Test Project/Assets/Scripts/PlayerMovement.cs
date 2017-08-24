@@ -37,10 +37,7 @@ void Update () {
 
 	// Update is called once per frame
 	void FixedUpdate () {
-		if (Time.fixedDeltaTime != 0){
-			characterVelocity = (rb.position - previousPosition)/ Time.fixedDeltaTime;
-			previousPosition = rb.position;
-		}
+		
 		xInputFixed= xInput * Time.fixedDeltaTime*speed;	
 		yInputFixed = yInput* Time.fixedDeltaTime*speed;
 		movement = new Vector3(xInputFixed,0.0f,yInputFixed);

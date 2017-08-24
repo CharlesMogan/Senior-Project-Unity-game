@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -33,7 +33,7 @@ public class Shooting : MonoBehaviour {
 
 	void FixedUpdate(){
 		if (Time.fixedDeltaTime != 0){
-			characterVelocity = Vector3 (shooterRB.position - previousPosition).magnitude / Time.fixedDeltaTime;
+			characterVelocity = (shooterRB.position - previousPosition) / Time.fixedDeltaTime;
 			previousPosition = shooterRB.position;
 		}
 	}

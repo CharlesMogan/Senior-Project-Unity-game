@@ -22,7 +22,7 @@ public class MapMaker : MonoBehaviour {
 	public bool randomSeed;
 	public int smoothingPasses;
 	public float squareSize;
-	[Range(0,25)]
+	[Range(1,25)]
 	public int borderSize;
 
 	[Range(0,250)]
@@ -50,6 +50,7 @@ public class MapMaker : MonoBehaviour {
 
 
 	void MakeMap(){
+		Debug.Log("can print errors");
 		map = new int [width,height];
 		RandomFillMapV3();
 
@@ -57,9 +58,9 @@ public class MapMaker : MonoBehaviour {
 			SmoothMapV2();
 		}
 		//from tatorial 5
-		if(removingSmallRooms){
-			removeSmallMapRegions();
-		}
+
+		removeSmallMapRegions();
+		
 		//stuff from the second tutroial 
 		MeshGenerator meshGen = GetComponent<MeshGenerator>();
 		meshGen.MakeMesh(map,squareSize);
@@ -222,11 +223,14 @@ public class MapMaker : MonoBehaviour {
 	}
 
 	void removeSmallMapRegions(){
+		List<Room> survivingRooms = new List<Room>();
 		List<List<Coordinate>> wallRegions = GetRegions(1);
 		foreach(List<Coordinate> wallRegion in wallRegions){
 			if(wallRegion.Count < wallThresholdSize){
 				foreach(Coordinate tile in wallRegion){
-					map[tile.x,tile.y] = 0;
+					if(removingSmallRooms){
+						map[tile.x,tile.y] = 0;
+					}
 				}
 			}
 		}
@@ -236,11 +240,113 @@ public class MapMaker : MonoBehaviour {
 		foreach(List<Coordinate> roomRegion in roomRegions){
 			if(roomRegion.Count < roomThresholdSize){
 				foreach(Coordinate tile in roomRegion){
-					map[tile.x,tile.y] = 1;
+					if(removingSmallRooms){
+						map[tile.x,tile.y] = 1;
+					}
 				}
+			}else{
+				survivingRooms.Add(new Room(roomRegion, map));
+			}
+		}
+		connectClosestRooms(survivingRooms);
+	}
+
+
+	void connectClosestRooms(List<Room> allRooms){
+		int bestDistance = 0;
+		Coordinate bestTileA = new Coordinate();
+		Coordinate bestTileB = new Coordinate();
+		Room bestRoomA = new Room();
+		Room bestRoomB = new Room();
+		bool possibleConnectionFound;
+		Debug.Log("connectClosestRooms");
+		foreach(Room roomA in allRooms){
+			possibleConnectionFound = false;
+			foreach(Room roomB in allRooms){
+				if(roomA == roomB){
+					continue;
+				}
+				if(roomA.IsConnected(roomB)){
+					possibleConnectionFound = false;
+					break;
+				}
+				for(int tileIndexA = 0; tileIndexA < roomA.edgeTiles.Count; tileIndexA++){
+					for(int tileIndexB = 0; tileIndexB < roomB.edgeTiles.Count; tileIndexB++){
+						Coordinate tileA = roomA.edgeTiles[tileIndexA];
+						Coordinate tileB = roomB.edgeTiles[tileIndexB];
+						int distanceBetweenRooms = (int) ((tileA.x-tileB.x)*(tileA.x-tileB.x)+(tileA.y-tileB.y)*(tileA.y-tileB.y));
+						if(distanceBetweenRooms < bestDistance || !possibleConnectionFound){
+							bestDistance = distanceBetweenRooms;
+							possibleConnectionFound = true;
+							bestRoomA = roomA;
+							bestRoomB = roomB;
+							bestTileA = tileA;
+							bestTileB = tileB;
+
+						}
+					}		
+				}
+			}
+			if(possibleConnectionFound){
+				MakePassage(bestRoomA,bestRoomB,bestTileA,bestTileB);
 			}
 		}
 	}
+
+	void MakePassage(Room roomA, Room roomB, Coordinate tileA, Coordinate tileB){
+		Debug.Log("making Passage");
+		Room.ConnectRooms(roomA, roomB);
+		Debug.DrawLine(CoordinateToWorldPoint(tileA),CoordinateToWorldPoint(tileB), Color.green, 100);
+
+	}
+
+
+	Vector3 CoordinateToWorldPoint(Coordinate tile){
+		return new Vector3(-width/2 + .5f + tile.x, 2, -height/2 + .5f + tile.y);
+	}
+
+	class Room {
+		public List<Coordinate> tiles;
+		public List<Coordinate> edgeTiles;
+		public List<Room> adjacentRooms;
+		public int roomSize;
+
+		public Room(){
+		}
+
+		public Room(List<Coordinate> roomTiles, int[,] map){
+			tiles = roomTiles; 
+			roomSize = roomTiles.Count;
+			adjacentRooms = new List<Room>();
+			edgeTiles = new List<Coordinate>();
+
+			foreach(Coordinate tile in tiles){
+				for(int x = tile.x-1; x <= tile.x+1; x++){	
+					for(int y = tile.y-1; y <= tile.y+1; y++){
+						if(x == tile.x || y == tile.y){
+							//Debug.Log("x= "+ x);
+							//Debug.Log("y= "+ y);
+							if(map[x,y] == 1){
+								edgeTiles.Add(tile);
+							}
+						}
+					}
+				}
+			}
+
+		}
+
+		public static void ConnectRooms(Room roomA, Room roomB){
+			roomA.adjacentRooms.Add(roomB);
+			roomB.adjacentRooms.Add(roomA);
+		}
+
+		public bool IsConnected(Room otherRoom){
+			return adjacentRooms.Contains(otherRoom);
+		}
+
+	}
+	
 
 
 //draws the map in a location, i dont think ill need this later ------ I was right this is just for testing

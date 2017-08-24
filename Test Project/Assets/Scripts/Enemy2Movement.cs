@@ -16,10 +16,6 @@ public class Enemy2Movement : Movement {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-		if (Time.fixedDeltaTime != 0){
-			characterVelocity = (rb.position - previousPosition)/ Time.fixedDeltaTime;
-			previousPosition = rb.position;
-		}
 		//float xInputFixed= xInput * Time.fixedDeltaTime*speed;	
 		//float yInputFixed = yInput* Time.fixedDeltaTime*speed;
 		character.LookAt(player);

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,8 +6,7 @@ public class Movement : MonoBehaviour {
 	public float speed;
 	protected Rigidbody rb;
 	protected Transform character;
-	protected Vector3 previousPosition;
-	protected Vector3 characterVelocity;
+
 	protected Vector3 movement;
 	
 
