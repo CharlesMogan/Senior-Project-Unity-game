@@ -325,9 +325,77 @@ public class MapMaker : MonoBehaviour {
 	}
 
 	void MakePassage(Room roomA, Room roomB, Coordinate tileA, Coordinate tileB){
-		Debug.Log("making Passage");
 		Room.ConnectRooms(roomA, roomB);
 		Debug.DrawLine(CoordinateToWorldPoint(tileA),CoordinateToWorldPoint(tileB), Color.green, 100);
+		List<Coordinate> line = GetLine(tileA, tileB);
+		foreach(Coordinate aCoordinate in line){
+			DrawCircle(aCoordinate,1);                  //-----------------------------------------------------fix add adjustments
+		}
+	}
+
+	void DrawCircle(Coordinate aCoordinate, int radius){
+		for(int x=-radius; x<=radius; x++){
+			for(int y=-radius; y<=radius; y++){
+				if(x*x + y*y <= radius*radius){
+					int drawX = aCoordinate.x + x;
+					int drawY = aCoordinate.y + y;
+					if(IsInMapRange(drawX,drawY)){
+						map[drawX,drawY] = 0;
+					}
+				}
+			}
+		}
+	}
+
+
+
+	List<Coordinate> GetLine(Coordinate from, Coordinate to){  //ep 8 seems real stupid way to do this explination of use @ 950
+		List<Coordinate> line = new List<Coordinate>();
+		bool inverted = false;
+		int x = from.x;
+		int y = from.y;
+
+		int dx = to.x - from.x;
+		int dy = to.y - from.y;
+
+		int step = Math.Sign(dx);
+		int gradientStep = Math.Sign(dy);
+
+
+		int longest = Mathf.Abs(dx);
+		int shortest = Mathf.Abs(dy);
+
+		if(longest < shortest){
+			inverted = true;
+			longest = Mathf.Abs(dy);
+			shortest = Mathf.Abs(dx);
+			step = Math.Sign(dy);
+			gradientStep = Math.Sign(dx);
+		}
+
+		int gradientAccumulation = longest / 2;
+		for(int i=0; i<longest; i++){
+			line.Add(new Coordinate(x,y));
+
+			if(inverted){
+				y+=step;
+			}else{
+				x+=step;
+			}
+
+			gradientAccumulation += shortest;
+			if(gradientAccumulation >= longest){
+				
+				if(inverted){
+					x+=gradientStep;
+				}else{
+					y+=gradientStep;
+				}
+				gradientAccumulation= gradientAccumulation-longest;				
+			}
+		}
+		
+		return line;
 
 	}
 

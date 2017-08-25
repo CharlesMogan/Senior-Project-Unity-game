@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -56,6 +56,7 @@ public class MeshGenerator : MonoBehaviour {
 		List<Vector3> wallVertices = new List<Vector3>();
 		List<int> wallTriangles = new List<int>();
 		Mesh wallMesh = new Mesh();	
+	
 
 		foreach(List<int> outline in outlines){
 			for(int i = 0; i < outline.Count -1; i++){

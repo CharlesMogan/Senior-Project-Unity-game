@@ -361,15 +361,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9da4fc522ef53e4d95d22ae8e4248df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fillPercent: 48
+  fillPercent: 64
   width: 100
   height: 60
   seed: 
   randomSeed: 0
   smoothingPasses: 5
   squareSize: 1
-  borderSize: 0
+  borderSize: 1
   wallThresholdSize: 100
+  roomThresholdSize: 0
+  removingSmallRooms: 0
 --- !u!4 &1513645514
 Transform:
   m_ObjectHideFlags: 0
