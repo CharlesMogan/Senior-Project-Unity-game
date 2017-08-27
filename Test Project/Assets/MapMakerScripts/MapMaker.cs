@@ -30,6 +30,10 @@ public class MapMaker : MonoBehaviour {
 
 	[Range(0,250)]
 	public int roomThresholdSize;
+
+
+	[Range(1,10)]
+	public int tunnelWidth;
 	
 	public bool removingSmallRooms;
 
@@ -329,7 +333,7 @@ public class MapMaker : MonoBehaviour {
 		Debug.DrawLine(CoordinateToWorldPoint(tileA),CoordinateToWorldPoint(tileB), Color.green, 100);
 		List<Coordinate> line = GetLine(tileA, tileB);
 		foreach(Coordinate aCoordinate in line){
-			DrawCircle(aCoordinate,1);                  //-----------------------------------------------------fix add adjustments
+			DrawCircle(aCoordinate,tunnelWidth);                  //-----------------------------------------------------fix add adjustments
 		}
 	}
 
