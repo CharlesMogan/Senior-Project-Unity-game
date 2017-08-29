@@ -66,10 +66,10 @@ public class MeshGenerator : MonoBehaviour {
 
 
 	void MakeWallMesh(){
-		Mesh[] currentColliders = gameObject.GetComponents<Mesh>();
-		for(int i = 0; i < currentColliders.Length; i++){
-			Destroy(currentColliders[i]);
-		}
+		//Mesh[] currentColliders = gameObject.GetComponents<Mesh>();
+		//for(int i = 0; i < currentColliders.Length; i++){
+		//	Destroy(currentColliders[i]);
+		//}
 
 		CalculateMeshOutlines();
 

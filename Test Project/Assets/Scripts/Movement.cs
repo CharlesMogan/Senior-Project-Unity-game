@@ -11,7 +11,7 @@ public class Movement : MonoBehaviour {
 	
 
 	// Use this for initialization
-	void Start () {
+	protected void Start () {
 		rb = GetComponent<Rigidbody>();
 		character = GetComponent<Transform>();
 	}

@@ -512,7 +512,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9da4fc522ef53e4d95d22ae8e4248df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fillPercent: 64
+  fillPercent: 61
   width: 80
   height: 80
   seed: 
