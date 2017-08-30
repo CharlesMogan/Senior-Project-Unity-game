@@ -7,6 +7,7 @@ public class Shooting : MonoBehaviour {
 	protected List <Transform> guns;
 	protected Transform shooter;
 	protected Rigidbody shooterRB;
+	protected Movement shooterMovement;
 	protected Vector3 previousPosition;
 	protected Vector3 characterVelocity;
 
@@ -15,6 +16,7 @@ public class Shooting : MonoBehaviour {
 	public float bulletLifetime;
 	public float bulletSpeed;
 	public float fireRate;
+	public float shotChargeTime;
 
 	public float transferedMomentum;
 
@@ -23,6 +25,7 @@ public class Shooting : MonoBehaviour {
 		nextFire = Time.time;
 		shooter = GetComponent<Transform>();
 		shooterRB = GetComponent<Rigidbody>();
+		shooterMovement = GetComponent<Movement>();
 		guns = new List<Transform>();
 		foreach(Transform child in shooter){
 			if(child.tag == "Gun"){
@@ -39,15 +42,30 @@ public class Shooting : MonoBehaviour {
 	}
 
 
-	protected void Shoot(){
-			nextFire = Time.time + fireRate;
-			foreach(Transform gun in guns){
-				GameObject lastBullet= Instantiate(bullet, gun.position, gun.rotation);
-				Transform lastBulletTransform = lastBullet.GetComponent<Transform>();
-				Rigidbody lastBulletRigedBody = lastBullet.GetComponent<Rigidbody>();
-				Vector3 yLessVelocity = new Vector3(characterVelocity.x,0.0f,characterVelocity.z); 
-				lastBulletRigedBody.velocity = transferedMomentum*yLessVelocity + lastBulletTransform.forward*bulletSpeed; //http://answers.unity3d.com/questions/808262/how-to-instantiate-a-prefab-with-initial-velocity.html
-				Destroy(lastBullet, bulletLifetime);
-			}
+
+
+	protected IEnumerator ShootWithDelay(){    
+		nextFire = Time.time + fireRate + shotChargeTime;
+		if(shotChargeTime != 0){
+			IEnumerator paralizeShooter = shooterMovement.ParalyzeForTime(shotChargeTime);
+			StartCoroutine(paralizeShooter);
+		}
+		yield return new WaitForSeconds(shotChargeTime);
+		Shoot();
 	}
+
+
+	protected void Shoot(){
+		foreach(Transform gun in guns){
+			GameObject lastBullet= Instantiate(bullet, gun.position, gun.rotation);
+			Transform lastBulletTransform = lastBullet.GetComponent<Transform>();
+			Rigidbody lastBulletRigedBody = lastBullet.GetComponent<Rigidbody>();
+			Vector3 yLessVelocity = new Vector3(characterVelocity.x,0.0f,characterVelocity.z); 
+			lastBulletRigedBody.velocity = transferedMomentum*yLessVelocity + lastBulletTransform.forward*bulletSpeed; //http://answers.unity3d.com/questions/808262/how-to-instantiate-a-prefab-with-initial-velocity.html
+			Destroy(lastBullet, bulletLifetime);
+		}
+	}
+
+
+
 }

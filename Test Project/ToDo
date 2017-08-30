@@ -5,7 +5,6 @@
 notes to self:
 room goes out at all edges in issac, maybe use like 75degree angle.
 
-work on the cave generation algarithm, there are some notes on how a person might change it at the end of the first video in the series.
 
 LINQ seems like cool shit but seems useless for 2d arrays.
 
@@ -30,6 +29,9 @@ look up bresenhams line algorithm
 figure out what a mesh filter and a mesh renderer are.
 
 
+to make a laser just make a really long bullet.
+
+
 Goals:
 
 
@@ -40,7 +42,7 @@ bullets dont have momentum of the gun they are shot from- fixed! kinda broke aga
 
 camera should "clamp" to the edges of rooms if you move to close to the edge.
 
-refacter classes into one script maybe?? c# is weird you can have nested public classes.
+refacter classes into one script maybe?? 
 
 
 
@@ -59,3 +61,8 @@ sources:
 https://www.youtube.com/user/Brackeys specifically his how to make a unity game basics series.
 https://unity3d.com/learn/tutorials/projects/space-shooter-tutorial
 https://unity3d.com/learn/tutorials/projects/procedural-cave-generation-tutorial
+
+
+
+
+for fun now that school has started Im going to start logging how much time im working on this.
