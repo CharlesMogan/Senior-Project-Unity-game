@@ -9,9 +9,7 @@ public class PlayerBullet : Bullet {
 		base.OnTriggerEnter(other);
        	if(other.gameObject.tag == "Enemy"){
        		Health health = other.GetComponent<Health>();
-       		health.TakeDamage(bulletDamage);
-
+       		health.TakeDamage(projectileDamage);
        	}
     }
-
 }

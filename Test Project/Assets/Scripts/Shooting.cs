@@ -59,12 +59,33 @@ public class Shooting : MonoBehaviour {
 		foreach(Transform gun in guns){
 			GameObject lastBullet= Instantiate(bullet, gun.position, gun.rotation);
 			Transform lastBulletTransform = lastBullet.GetComponent<Transform>();
-			Rigidbody lastBulletRigedBody = lastBullet.GetComponent<Rigidbody>();
 			Vector3 yLessVelocity = new Vector3(characterVelocity.x,0.0f,characterVelocity.z); 
-			lastBulletRigedBody.velocity = transferedMomentum*yLessVelocity + lastBulletTransform.forward*bulletSpeed; //http://answers.unity3d.com/questions/808262/how-to-instantiate-a-prefab-with-initial-velocity.html
+			
+			Rigidbody lastBulletRigedBody = lastBullet.GetComponent<Rigidbody>();
+			if(lastBulletRigedBody != null){
+				lastBulletRigedBody.velocity = transferedMomentum*yLessVelocity + lastBulletTransform.forward*bulletSpeed; //http://answers.unity3d.com/questions/808262/how-to-instantiate-a-prefab-with-initial-velocity.html
+			}
+			
+			
 			Destroy(lastBullet, bulletLifetime);
 		}
 	}
+
+
+
+	/*protected void Shoot(){           ///this atempted to rotate cylinder for laser. this functionality was moved to the projectile itself
+		foreach(Transform gun in guns){
+			Vector3 bulletEulerRotation = gun.rotation.eulerAngles + new Vector3(90,0,0);
+			Vector3 bulletPosition = gun.position + gun.forward;//*;
+			GameObject lastBullet= Instantiate(bullet, bulletPosition, Quaternion.Euler(bulletEulerRotation.x,bulletEulerRotation.y,bulletEulerRotation.z));    //---------------------------------------------------------- new Vector3(gun.rotation.x,gun.rotation.y,90)
+			Transform lastBulletTransform = lastBullet.GetComponent<Transform>();
+			Rigidbody lastBulletRigedBody = lastBullet.GetComponent<Rigidbody>();
+			Vector3 yLessVelocity = new Vector3(characterVelocity.x,0.0f,characterVelocity.z); 
+
+			lastBulletRigedBody.velocity = transferedMomentum*yLessVelocity + lastBulletTransform.forward*bulletSpeed; //http://answers.unity3d.com/questions/808262/how-to-instantiate-a-prefab-with-initial-velocity.html
+			Destroy(lastBullet, bulletLifetime);
+		}
+	}*/
 
 
 

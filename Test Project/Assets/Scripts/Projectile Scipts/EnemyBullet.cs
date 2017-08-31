@@ -6,14 +6,9 @@ public class EnemyBullet : Bullet {
 
 	 protected override void OnTriggerEnter(Collider other) {
 	 	base.OnTriggerEnter(other);
-	 	Debug.Log("player got kinda shot");
        	if(other.gameObject.tag == "Player"){
-       		Debug.Log("player got shot");
        		Health health = other.GetComponent<Health>();
-       		health.TakeDamage(bulletDamage);
-
+       		health.TakeDamage(projectileDamage);
        	}
-
     }
-
 }
