@@ -20,10 +20,10 @@ MonoBehaviour:
     y: 30
     width: 1536
     height: 731
-  m_MinSize: {x: 683, y: 671}
-  m_MaxSize: {x: 14002, y: 18021}
+  m_MinSize: {x: 681, y: 713}
+  m_MaxSize: {x: 14004, y: 18063}
   vertical: 0
-  controlID: 18881
+  controlID: 30804
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -80,18 +80,18 @@ MonoBehaviour:
       y: 17
       width: 766
       height: 190
-    m_Scale: {x: 1.5566454, y: 1.5566454}
-    m_Translation: {x: 362.7859, y: 76.03769}
+    m_Scale: {x: 1.6842154, y: 1.6842154}
+    m_Translation: {x: 355.84515, y: 75.7038}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -233.05621
-      y: -48.84715
-      width: 492.0838
-      height: 122.05734
+      x: -211.28244
+      y: -44.948997
+      width: 454.8112
+      height: 112.81217
     m_MinimalGUI: 1
   m_defaultScale: 1
   m_TargetTexture: {fileID: 0}
@@ -120,10 +120,10 @@ MonoBehaviour:
     y: 0
     width: 1101
     height: 731
-  m_MinSize: {x: 406, y: 671}
-  m_MaxSize: {x: 10000, y: 18021}
+  m_MinSize: {x: 404, y: 713}
+  m_MaxSize: {x: 10002, y: 18063}
   vertical: 1
-  controlID: 18882
+  controlID: 30805
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -144,10 +144,10 @@ MonoBehaviour:
     y: 0
     width: 1101
     height: 454
-  m_MinSize: {x: 406, y: 421}
-  m_MaxSize: {x: 8006, y: 8021}
+  m_MinSize: {x: 404, y: 442}
+  m_MaxSize: {x: 8004, y: 8042}
   vertical: 0
-  controlID: 18883
+  controlID: 30806
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -166,8 +166,8 @@ MonoBehaviour:
     y: 0
     width: 331
     height: 454
-  m_MinSize: {x: 202, y: 221}
-  m_MaxSize: {x: 4002, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 6}
   m_Panes:
   - {fileID: 6}
@@ -201,8 +201,8 @@ MonoBehaviour:
     height: 433
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 4af7fcff
-    m_LastClickedID: 0
+    m_SelectedIDs: e0fbffff
+    m_LastClickedID: -1056
     m_ExpandedIDs: c6fbffffe2fbffff00000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -246,10 +246,10 @@ MonoBehaviour:
     y: 0
     width: 770
     height: 454
-  m_MinSize: {x: 204, y: 421}
-  m_MaxSize: {x: 4004, y: 8021}
+  m_MinSize: {x: 204, y: 442}
+  m_MaxSize: {x: 4004, y: 8042}
   vertical: 1
-  controlID: 18884
+  controlID: 30580
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -268,8 +268,8 @@ MonoBehaviour:
     y: 0
     width: 770
     height: 228
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 204, y: 221}
+  m_MaxSize: {x: 4004, y: 4021}
   m_ActualView: {fileID: 2}
   m_Panes:
   - {fileID: 2}
@@ -464,19 +464,19 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets
+    - Assets/Enemys/Stationary turrets
   m_ViewMode: 1
   m_StartGridSize: 72
   m_LastFolders:
-  - Assets
+  - Assets/Enemys/Stationary turrets
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\cmogan\Documents\GitHub\unity-crappy-issac-clone\Test
     Project
   m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 65}
-    m_SelectedIDs: e4240000
-    m_LastClickedID: 9444
+    scrollPos: {x: 0, y: 51}
+    m_SelectedIDs: 9e250000
+    m_LastClickedID: 9630
     m_ExpandedIDs: 00000000e424000098250000ba25000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -530,8 +530,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 4af7fcff
-    m_LastClickedInstanceID: -198838
+    m_SelectedInstanceIDs: e0fbffff
+    m_LastClickedInstanceID: -1056
     m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: c623000000000000
     m_RenameOverlay:
@@ -638,7 +638,7 @@ MonoBehaviour:
     y: 92
     width: 433
     height: 710
-  m_ScrollPosition: {x: 0, y: 8.955078}
+  m_ScrollPosition: {x: 0, y: 306.95508}
   m_InspectorMode: 0
   m_PreviewResizer:
     m_CachedPref: 134

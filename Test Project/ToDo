@@ -36,8 +36,13 @@ figure out what the diference between a trigger and a colider is.
 
 forward.normalized might fix the momentium thing
 
+laser should have rotation lock for player
+
 Goals:
 
+lasers
+
+maybe networking
 
 
 
@@ -49,6 +54,11 @@ camera should "clamp" to the edges of rooms if you move to close to the edge.
 refacter classes into one script maybe?? 
 
 
+
+make sure all damage and health mecanics are tied to phisics frame rate. currently lasers are tied to the framerate to do their ticks of damage. im also not sure fire rate is not framerate dependent 
+
+
+when the laser shooter shoots his laser he is only paralized for the begining of the shot not until the laser disapears.
 
 
 Shit I will need latter: player transfer between scenes:
@@ -73,4 +83,15 @@ for fun now that school has started Im going to start logging how much time im w
 
 0. 10-25 hours
 1.~2:30:00
-2. 
+2. 1:41:46
+
+
+
+
+
+
+
+stuff for the speach
+
+spent like two hours trying to have the properties of the projectile determined by the gun that made it then realized that should be something the bullet handles itself.
+

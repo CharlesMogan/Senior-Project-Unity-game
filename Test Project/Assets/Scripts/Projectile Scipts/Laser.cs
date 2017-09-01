@@ -12,4 +12,5 @@ public class Laser : Projectile{
 		laser.position += laser.forward * (laser.localScale.y -0.5f);
 		laser.eulerAngles += new Vector3(0,90,90);
 	}
+	
 }
