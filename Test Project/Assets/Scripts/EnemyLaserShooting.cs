@@ -2,17 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerShooting : Shooting {
+public class EnemyLaserShooting : Shooting {
+
 	void Update () {
-		if(Input.GetButton("Fire1") &&  Time.time > nextFire){
-			Shoot();
-		}
-		if(Input.GetButton("Fire2") &&  Time.time > nextFire){
+		if(Time.time > nextFire && isFiring == false){
+			isFiring = true;
 			IEnumerator delayShot = ShootWithDelay();
 			StartCoroutine(delayShot);
 		}
-
 	}
 }
-
-

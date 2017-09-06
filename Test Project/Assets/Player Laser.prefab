@@ -24,8 +24,8 @@ GameObject:
   - component: {fileID: 23848679325696196}
   - component: {fileID: 114351182864531240}
   m_Layer: 0
-  m_Name: Player Laser 1
-  m_TagString: Untagged
+  m_Name: Player Laser
+  m_TagString: Friendly Laser
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -94,7 +94,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectileDamage: 10
-  ticksPerSecond: 0
 --- !u!136 &136854501334596048
 CapsuleCollider:
   m_ObjectHideFlags: 1

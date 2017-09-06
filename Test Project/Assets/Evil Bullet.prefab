@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 114124083743112614}
   m_Layer: 0
   m_Name: Evil Bullet
-  m_TagString: Friendly Bullet
+  m_TagString: Unfriendly Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -109,7 +109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8eb154f48a3f792498da8a12ccebc77c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletDamage: 1
+  projectileDamage: 0
 --- !u!135 &135641302092758880
 SphereCollider:
   m_ObjectHideFlags: 1

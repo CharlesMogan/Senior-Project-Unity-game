@@ -10,8 +10,6 @@ using UnityEngine;
 
 public class Enemy2Movement : Movement {
 	private Transform player; 
-	//protected override void Start(){
-	//}
 
 
 	void Start(){
@@ -21,10 +19,7 @@ public class Enemy2Movement : Movement {
 	}
 	
 	// Update is called once per frame
-	void FixedUpdate () {
-		//float xInputFixed= xInput * Time.fixedDeltaTime*speed;	
-		//float yInputFixed = yInput* Time.fixedDeltaTime*speed;
-		
+	void FixedUpdate () {		
 		if(player == null){
 			player = GameObject.FindWithTag("Player").transform;
 		}else{

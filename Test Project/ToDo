@@ -46,6 +46,12 @@ maybe networking
 
 
 
+
+
+you should be able to pass in a value for the speed and damage too a bullet and with that value the bullet should be able to set an ofset and contol min and max bounds.
+
+
+
 problems:
 bullets dont have momentum of the gun they are shot from- fixed! kinda broke again
 
@@ -59,6 +65,8 @@ make sure all damage and health mecanics are tied to phisics frame rate. current
 
 
 when the laser shooter shoots his laser he is only paralized for the begining of the shot not until the laser disapears.
+
+if you get hit (by another rb) then try to shoot your laser you just end up spinning around.
 
 
 Shit I will need latter: player transfer between scenes:
@@ -84,7 +92,7 @@ for fun now that school has started Im going to start logging how much time im w
 0. 10-25 hours
 1.~2:30:00
 2. 1:41:46
-
+3. 1:34:58
 
 
 
@@ -94,4 +102,32 @@ for fun now that school has started Im going to start logging how much time im w
 stuff for the speach
 
 spent like two hours trying to have the properties of the projectile determined by the gun that made it then realized that should be something the bullet handles itself.
+
+
+
+
+
+
+
+
+procedural generation plan:
+
+
+make cells
+cellular atomita cells
+make a door along each wall of the border.
+make sure all walls are conected in some way. probs by drawing a line to a random point int the room maybe have difrent pathing to get to the points so it is not just a strait wall every time.
+
+the walls at the borders should be indestructable.
+
+when you click on a room it generates a new room of a bounded random size, unless the new room already boarders an existing room, then it must be big enough to not intersect or if it does line up it should use the previously unused door
+every room should have a small chance to spawn a door to the next level THIS DOES NOT NECCESSARLY NEED TO BE IN THE MAIN AREA, if it is cut off it can just be remade in another room.
+
+at the start of the next floor maybe have a boss?
+
+
+
+maybe only have the walls be visable if they are exposed ie there is a 1 in their von nomin nabhorhood.
+
+
 

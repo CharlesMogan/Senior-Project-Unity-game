@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Laser : Projectile{
-	public int ticksPerSecond;
 	private Transform laser;
 
 	// Use this for initialization

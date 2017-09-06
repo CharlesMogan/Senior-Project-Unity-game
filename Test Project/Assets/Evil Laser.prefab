@@ -24,8 +24,8 @@ GameObject:
   - component: {fileID: 23666021724793798}
   - component: {fileID: 114181483194091058}
   m_Layer: 0
-  m_Name: Evil Laser 1
-  m_TagString: Untagged
+  m_Name: Evil Laser
+  m_TagString: Unfriendly Laser
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -36,7 +36,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1689559743629124}
-  m_LocalRotation: {x: 0.5, y: 0.5, z: 0.5, w: 0.5}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 199.5}
   m_LocalScale: {x: 0.6, y: 200, z: 0.6}
   m_Children: []
@@ -94,7 +94,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectileDamage: 10
-  ticksPerSecond: 0
 --- !u!136 &136446618316393676
 CapsuleCollider:
   m_ObjectHideFlags: 1

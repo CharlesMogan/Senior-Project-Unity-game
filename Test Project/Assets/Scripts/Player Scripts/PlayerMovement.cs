@@ -18,14 +18,15 @@ void Update () {
 		xInput = Input.GetAxis("Horizontal");
 		yInput = Input.GetAxis("Vertical");
 			
-		//Mouse position is designed forr 2d you have to do this shenanages for it to work
-		mousePosition3D = new Vector3(playerCamera.ScreenToWorldPoint(Input.mousePosition).x,character.position.y,playerCamera.ScreenToWorldPoint(Input.mousePosition).z);
-		character.LookAt(mousePosition3D);
-		crosshair.position = mousePosition3D;
-		//Debug.Log(Camera.main.ScreenToWorldPoint(Input.mousePosition));
-
-		//from fixed update
 		
+		if(!isParalyzed){
+		//Mouse position is designed forr 2d you have to do this shenanages for it to work
+			mousePosition3D = new Vector3(playerCamera.ScreenToWorldPoint(Input.mousePosition).x,character.position.y,playerCamera.ScreenToWorldPoint(Input.mousePosition).z);
+			character.LookAt(mousePosition3D);
+			crosshair.position = mousePosition3D;		
+		}else{
+			Debug.Log("I Am isParalyzed!!!!!!!!!");
+		}
 
 	}
 
@@ -37,12 +38,12 @@ void Update () {
 
 	// Update is called once per frame
 	void FixedUpdate () {
-		
-		xInputFixed= xInput * Time.fixedDeltaTime*speed;	
-		yInputFixed = yInput* Time.fixedDeltaTime*speed;
-		movement = new Vector3(xInputFixed,0.0f,yInputFixed);
-		rb.MovePosition(rb.position + movement);
-
+		if(!isParalyzed){
+			xInputFixed= xInput * Time.fixedDeltaTime*speed;	
+			yInputFixed = yInput* Time.fixedDeltaTime*speed;
+			movement = new Vector3(xInputFixed,0.0f,yInputFixed);
+			rb.MovePosition(rb.position + movement);
+		}
 	}
 
 	/*
