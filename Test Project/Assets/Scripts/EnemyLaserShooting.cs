@@ -5,8 +5,8 @@ using UnityEngine;
 public class EnemyLaserShooting : Shooting {
 
 	void Update () {
-		if(Time.time > nextFire && isFiring == false){
-			isFiring = true;
+		if(Time.time > nextFire && isFiringLaser == false){
+			isFiringLaser  = true;
 			IEnumerator delayShot = ShootWithDelay();
 			StartCoroutine(delayShot);
 		}

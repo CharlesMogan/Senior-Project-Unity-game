@@ -68,6 +68,10 @@ when the laser shooter shoots his laser he is only paralized for the begining of
 
 if you get hit (by another rb) then try to shoot your laser you just end up spinning around.
 
+there is a rendering error with enemy lasers now that I Fixed the walls
+
+movement is completely broke, it gets floaty with the forces
+
 
 Shit I will need latter: player transfer between scenes:
 

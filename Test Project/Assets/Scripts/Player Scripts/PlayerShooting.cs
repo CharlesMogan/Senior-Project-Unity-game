@@ -7,7 +7,8 @@ public class PlayerShooting : Shooting {
 		if(Input.GetButton("Fire1") &&  Time.time > nextFire){
 			Shoot();
 		}
-		if(Input.GetButton("Fire2") &&  Time.time > nextFire){
+		if(Input.GetButton("Fire2") &&  Time.time > nextFire && !isFiringLaser){
+			isFiringLaser = true;
 			IEnumerator delayShot = ShootWithDelay();
 			StartCoroutine(delayShot);
 		}

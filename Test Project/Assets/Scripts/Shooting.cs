@@ -10,7 +10,7 @@ public class Shooting : MonoBehaviour {
 	protected Movement shooterMovement;
 	protected Vector3 previousPosition;
 	protected Vector3 characterVelocity;
-	protected bool isFiring = false;
+	protected bool isFiringLaser = false;
 	
 	public GameObject bullet;
 	public GameObject laser;
@@ -83,9 +83,8 @@ public class Shooting : MonoBehaviour {
 		for(int i = 0; i < shotsPerBurst; i++){
 			ShootLaser(laserLifetime);			
 			yield return new WaitForSeconds(laserLifetime);
-			isFiring = false;
 		}
-		
+		isFiringLaser = false;
 	}
 
 
