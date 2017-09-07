@@ -12,17 +12,21 @@ public class Shooting : MonoBehaviour {
 	protected Vector3 characterVelocity;
 	protected bool isFiringLaser = false;
 	
-	public GameObject bullet;
+	
 	public GameObject laser;
-	public float bulletLifetime;
+	public float laserLifetime;
+	public float laserLength;
+	public float lasersPerBurst;
 	public float bulletSpeed;
+	public float laserChargeDelay;
+	
+	
+	public Bullet bullet;
+	public float bulletLifetime;
 	public float fireRate;
-	public float shotChargeDelay;
-	public float BurstDelay;
 	public float transferedMomentum;
-	public int shotsPerBurst;
-
-
+	public float bulletDamage;
+	
 	// Use this for initialization
 	void Start () {
 		nextFire = Time.time;
@@ -73,16 +77,14 @@ public class Shooting : MonoBehaviour {
 
 
 	protected IEnumerator ShootWithDelay(){    
-		nextFire = Time.time + fireRate;
-		IEnumerator paralizeShooter = shooterMovement.ParalyzeForTime(shotChargeDelay+bulletLifetime);
+		nextFire = Time.time + laserChargeDelay+laserLifetime;
+		IEnumerator paralizeShooter = shooterMovement.ParalyzeForTime(laserChargeDelay+laserLifetime);
 		StartCoroutine(paralizeShooter);
-		yield return new WaitForSeconds(shotChargeDelay);
-		nextFire = Time.time + fireRate + shotChargeDelay;
-		shotsPerBurst = 13;
-		float laserLifetime = bulletLifetime/shotsPerBurst;
-		for(int i = 0; i < shotsPerBurst; i++){
-			ShootLaser(laserLifetime);			
-			yield return new WaitForSeconds(laserLifetime);
+		yield return new WaitForSeconds(laserChargeDelay);
+		float laserFragmentLifetime = laserLifetime/lasersPerBurst;
+		for(int i = 0; i < lasersPerBurst; i++){
+			ShootLaser(laserFragmentLifetime);			
+			yield return new WaitForSeconds(laserFragmentLifetime);
 		}
 		isFiringLaser = false;
 	}
@@ -103,11 +105,13 @@ public class Shooting : MonoBehaviour {
 	protected void Shoot(){
 		foreach(Transform gun in guns){
 			nextFire = Time.time + fireRate;
-			GameObject lastBullet= Instantiate(bullet, gun.position, gun.rotation);
+			Bullet lastBullet= Instantiate(bullet, gun.position, gun.rotation);
+			lastBullet.Damage = 10000000;
+			lastBullet.projectileDamage = bulletDamage;
 			Transform lastBulletTransform = lastBullet.GetComponent<Transform>();
 			Vector3 yLessVelocity = new Vector3(characterVelocity.x,0.0f,characterVelocity.z); 
 			Rigidbody lastBulletRigedBody = lastBullet.GetComponent<Rigidbody>();
-				lastBulletRigedBody.velocity = transferedMomentum*yLessVelocity + lastBulletTransform.forward*bulletSpeed; //http://answers.unity3d.com/questions/808262/how-to-instantiate-a-prefab-with-initial-velocity.html
+			lastBulletRigedBody.velocity = transferedMomentum*yLessVelocity + lastBulletTransform.forward*bulletSpeed; //http://answers.unity3d.com/questions/808262/how-to-instantiate-a-prefab-with-initial-velocity.html
 			Destroy(lastBullet, bulletLifetime);
 		}
 	}

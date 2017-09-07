@@ -39,7 +39,7 @@ void Update () {
 	// Update is called once per frame
 	void FixedUpdate () {
 		if(!isParalyzed){
-			xInputFixed= xInput * Time.fixedDeltaTime*speed;	
+			xInputFixed= xInput * Time.fixedDeltaTime*speed;
 			yInputFixed = yInput* Time.fixedDeltaTime*speed;
 			movement = new Vector3(xInputFixed,0.0f,yInputFixed);
 			rb.MovePosition(rb.position + movement);

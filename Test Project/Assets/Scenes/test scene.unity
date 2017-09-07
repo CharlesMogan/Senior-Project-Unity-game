@@ -600,6 +600,31 @@ Prefab:
       propertyPath: m_Constraints
       value: 112
       objectReference: {fileID: 0}
+    - target: {fileID: 114884646421712664, guid: 5d03cfb9a00ce9d428f919ce476f15db,
+        type: 2}
+      propertyPath: laserLifetime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114884646421712664, guid: 5d03cfb9a00ce9d428f919ce476f15db,
+        type: 2}
+      propertyPath: laserLength
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114884646421712664, guid: 5d03cfb9a00ce9d428f919ce476f15db,
+        type: 2}
+      propertyPath: lasersPerBurst
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114884646421712664, guid: 5d03cfb9a00ce9d428f919ce476f15db,
+        type: 2}
+      propertyPath: laserChargeDelay
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114884646421712664, guid: 5d03cfb9a00ce9d428f919ce476f15db,
+        type: 2}
+      propertyPath: bulletDamage
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5d03cfb9a00ce9d428f919ce476f15db, type: 2}
   m_IsPrefabParent: 0
