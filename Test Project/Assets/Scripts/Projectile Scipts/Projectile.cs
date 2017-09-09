@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 public class Projectile : MonoBehaviour {
-	public float projectileDamage;
+	protected float projectileDamage;
 	private static float projectileDamage2;
 
 	public float Damage{
@@ -9,5 +9,4 @@ public class Projectile : MonoBehaviour {
 
 		set{projectileDamage = value;}
 	}
-	
 }

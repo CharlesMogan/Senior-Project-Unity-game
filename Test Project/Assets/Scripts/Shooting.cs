@@ -13,10 +13,11 @@ public class Shooting : MonoBehaviour {
 	protected bool isFiringLaser = false;
 	
 	
-	public GameObject laser;
+	public Laser laser;
+	public float laserDamage;
 	public float laserLifetime;
 	public float laserLength;
-	public float lasersPerBurst;
+	protected float lasersPerBurst = 13;
 	public float bulletSpeed;
 	public float laserChargeDelay;
 	
@@ -93,10 +94,11 @@ public class Shooting : MonoBehaviour {
 	protected void ShootLaser(float laserLifetime){
 		foreach(Transform gun in guns){
 			Debug.Log("actually shooting a laser");
-			GameObject lastLaser= Instantiate(laser, gun.position, gun.rotation);
+			Laser lastLaser= Instantiate(laser, gun.position, gun.rotation);
+			lastLaser.Damage = 11;
 			Transform lastLaserTransform = lastLaser.GetComponent<Transform>();
 			Vector3 yLessVelocity = new Vector3(characterVelocity.x,0.0f,characterVelocity.z);
-			Destroy(lastLaser, laserLifetime);
+			Destroy(lastLaser.gameObject, laserLifetime);
 		}
 	}
 
@@ -106,13 +108,13 @@ public class Shooting : MonoBehaviour {
 		foreach(Transform gun in guns){
 			nextFire = Time.time + fireRate;
 			Bullet lastBullet= Instantiate(bullet, gun.position, gun.rotation);
-			lastBullet.Damage = 10000000;
-			lastBullet.projectileDamage = bulletDamage;
+			lastBullet.Damage = bulletDamage; 
 			Transform lastBulletTransform = lastBullet.GetComponent<Transform>();
 			Vector3 yLessVelocity = new Vector3(characterVelocity.x,0.0f,characterVelocity.z); 
 			Rigidbody lastBulletRigedBody = lastBullet.GetComponent<Rigidbody>();
 			lastBulletRigedBody.velocity = transferedMomentum*yLessVelocity + lastBulletTransform.forward*bulletSpeed; //http://answers.unity3d.com/questions/808262/how-to-instantiate-a-prefab-with-initial-velocity.html
-			Destroy(lastBullet, bulletLifetime);
+			Debug.Log(lastBullet);
+			Destroy(lastBullet.gameObject, bulletLifetime);  /// for some reason you have to get the game object, compiles either way, just doesn't work.
 		}
 	}
 

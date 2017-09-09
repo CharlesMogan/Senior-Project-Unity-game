@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour {
 	public int seed;
 
 	void Start(){
-		Debug.Log(DateTime.Now.Millisecond);
+		//Debug.Log(DateTime.Now.Millisecond);
 		if(seedIsSetable){
 			random = new System.Random(seed);
 		}else{
@@ -23,10 +23,6 @@ public class GameManager : MonoBehaviour {
 		return random.Next(1, 1001)/1000;
 	}
 
-
-	void Update(){
-		Debug.Log(random.Next(10,12));
-	}
 
 	void EndGame(){
 		Debug.Log("game over script active");
