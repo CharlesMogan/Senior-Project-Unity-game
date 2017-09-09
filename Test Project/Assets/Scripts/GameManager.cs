@@ -19,6 +19,11 @@ public class GameManager : MonoBehaviour {
 	}
 
 
+	public float nextRandom(){
+		return random.Next(1, 1001)/1000;
+	}
+
+
 	void Update(){
 		Debug.Log(random.Next(10,12));
 	}
