@@ -478,7 +478,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4420953214853814, guid: 5d03cfb9a00ce9d428f919ce476f15db, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4420953214853814, guid: 5d03cfb9a00ce9d428f919ce476f15db, type: 2}
       propertyPath: m_LocalPosition.z
@@ -625,6 +625,11 @@ Prefab:
     - target: {fileID: 114884646421712664, guid: 5d03cfb9a00ce9d428f919ce476f15db,
         type: 2}
       propertyPath: bulletDamage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114884646421712664, guid: 5d03cfb9a00ce9d428f919ce476f15db,
+        type: 2}
+      propertyPath: laserDamage
       value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []

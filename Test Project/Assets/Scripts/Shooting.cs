@@ -95,7 +95,7 @@ public class Shooting : MonoBehaviour {
 		foreach(Transform gun in guns){
 			Debug.Log("actually shooting a laser");
 			Laser lastLaser= Instantiate(laser, gun.position, gun.rotation);
-			lastLaser.Damage = 11;
+			lastLaser.Damage = laserDamage;
 			Transform lastLaserTransform = lastLaser.GetComponent<Transform>();
 			Vector3 yLessVelocity = new Vector3(characterVelocity.x,0.0f,characterVelocity.z);
 			Destroy(lastLaser.gameObject, laserLifetime);

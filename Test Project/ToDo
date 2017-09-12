@@ -13,8 +13,6 @@ look int OnDrawGizmos
 
 look into celular atomita and marching squares.
 
-an outline edge is two verticies which share exactly one triangle.
-
 
 look up structs, know what the difrence is.
 
@@ -32,7 +30,6 @@ figure out what a mesh filter and a mesh renderer are.
 to make a laser just make a really long bullet.
 
 figure out what the diference between a trigger and a colider is.
-
 
 forward.normalized might fix the momentium thing
 
@@ -114,7 +111,7 @@ spent like two hours trying to have the properties of the projectile determined 
 
 
 
-procedural generation plan:
+--------------------------------------------------------------procedural generation plan:
 
 
 make cells
@@ -135,12 +132,120 @@ maybe only have the walls be visable if they are exposed ie there is a 1 in thei
 
 
 
+-------------------------------------------- Ideas for enemy movement paterns:--------------------------------
+
+Teleporting:
+teleporting enemies would engage when the player enters a certin radius, or when they are shot the first time. after this they will relentlessly prasue the player
+
+
+	-right behind you and then dellay and then laser.
+
+	-teleport every second or two to a random position around the player.
+
+
+normal: 
+	-move tword player but also tries to dodge bullets with sometype of triger or collider.
+	a melee varient of this would be nice.
 
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+///----------------------------------------------praposal-------------------------------------------------------
+
+
+I am proposing to make a top down shooter with the following features:
+
+1. A player that can fire at least two distinct projectile types. 
+	A.Possible Projectile types include:
+		medium speed bullets fired rapidly.
+		a  beam wepon that can penetrate enemies.
+			it will extend to the length of the room.
+			there is a delay before firing during which time the player is not able to move.
+			perhaps taking enough damage will prevent the laser from firing, and unparalize the player early.
+			perhaps during the charge up there is a sighting laser
+
+
+2. A HUD that at the minimum desplays the players health.
+
+3. At least X distinct enemies with diffrent combinations of movement and shooting paterns.
+	A. possible enemies include:
+		A Stationary turret that shoots:
+			bullets in a random direction.
+			bullets at the player.
+			4 bullets, one in each of the cardinal directions.
+			4 bullets, one in each of the primary intercardinal directions.
+			8 bullets, one in each of the cardinal directions and one in the primary intercardinal directions.
+			8 bullets, one in each of the secondary intercardinal directions.
+			16 bullets, one in each direction.
+
+			in the fashion of any turret listed above, but also rotates.
+
+			in the fashion of any turret listed above, but instead fires a beam weapon.
+
+
+
+		A mobile enemy that moves directly towards the player:
+			and shoots bullets.
+			and shoots bullets but also moves to strafe the player once close enough.
+			doesn't shoot, and detenates on impact with the player dealing high damage.
+			and detenates on impact with the player dealing high damage.
+			and shoots bullets, and has a front facing shield that blocks a limited number of bullets.
+		
+
+		A mobile enemy that moves in a zig-zag twords the player moving at 45 degrees reletive to the player and alterneates every second or two:
+			and does anything the enemy above does.
+			does not face the player but has an indistructable shield.
+
+
+
+		
+
+
+
+4. at least one boss with at least 2 phases that a player can face at the end of a floor.
+
+4. A main menu that you can exit to the desktop from or start a game.
+
+5. A pickup system that lets the player improve their character.
+	A. Possible pickups include:
+		Increasing character health.
+		Increasing beam Damage.
+		Increasing bullet Damage.
+		Increasing bullet fire rate.
+		Increasing player movement speed.
+		Increasing beam weapon diamater.
+		Increasing bullet size.
+		increasing bullet movement speed.
+		increasing bullet range. (time before despawn)
+		Decreasing the time the player is paralized before firing thier beam weapon.
+		Decreasing the delay before player can fire their beam weapon.
+		Decreasing player size (making it easyer to dodge).
+
+	All pickups will have caps so that the players stats do not become to high. This is not just a balance issue as something like too high a movement speed could make the game very unfun.
+
+
+6. A dungen based on procedural generation that generates rooms with distructable walls that conect together and eventually lead to a boss room.
+	The dungeon will consist of mutliple rooms of random size.
+	Each room will consist of many cube walls that will be destructable with the expception of the last layer of wall, which will be indestructable.
+	their will be one or more door out of each room, if this results in a door adjacent to an existing room then the rooms will be connected.
+	each door can only be opened once the room's enemy
 
 
 
