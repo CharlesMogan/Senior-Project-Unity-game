@@ -35,6 +35,15 @@ forward.normalized might fix the momentium thing
 
 laser should have rotation lock for player
 
+
+trying to code in culling is entirely 100% pointless 
+using built in occlusion culling should help. https://docs.unity3d.com/Manual/OcclusionCulling.html
+
+
+optimising for cubes:
+https://forum.unity.com/threads/optimizing-thousands-of-cubes.77093/
+
+
 Goals:
 
 lasers
@@ -132,7 +141,7 @@ maybe only have the walls be visable if they are exposed ie there is a 1 in thei
 
 
 
--------------------------------------------- Ideas for enemy movement paterns:--------------------------------
+///----------------------------------- Ideas for enemy movement paterns:------------------------------------
 
 Teleporting:
 teleporting enemies would engage when the player enters a certin radius, or when they are shot the first time. after this they will relentlessly prasue the player
@@ -156,8 +165,8 @@ normal:
 
 
 
-
-
+///------------------------------------------------where----------------------------------------------------------
+	should the map generate a random powerup or should a powerup generate a random effect. - figured it out pickups should have a set effect but which one is made 
 
 
 
@@ -171,6 +180,7 @@ normal:
 
 
 I am proposing to make a top down shooter with the following features:
+
 
 1. A player that can fire at least two distinct projectile types. 
 	A.Possible Projectile types include:
@@ -221,9 +231,9 @@ I am proposing to make a top down shooter with the following features:
 
 4. at least one boss with at least 2 phases that a player can face at the end of a floor.
 
-4. A main menu that you can exit to the desktop from or start a game.
+5. A main menu that you can exit to the desktop from or start a game.
 
-5. A pickup system that lets the player improve their character.
+6. A pickup system that lets the player improve their character.
 	A. Possible pickups include:
 		Increasing character health.
 		Increasing beam Damage.
@@ -240,12 +250,43 @@ I am proposing to make a top down shooter with the following features:
 
 	All pickups will have caps so that the players stats do not become to high. This is not just a balance issue as something like too high a movement speed could make the game very unfun.
 
+	Which pickups the player will encounter will be determined by the random seed.
 
-6. A dungen based on procedural generation that generates rooms with distructable walls that conect together and eventually lead to a boss room.
+	Pickups will be given as a reward at the end of every room.
+	or
+	Pickups will be given as a reward at the end of every floor. 
+
+
+
+7. A dungen based on procedural generation that generates rooms with distructable walls that conect together and eventually lead to a boss room.
 	The dungeon will consist of mutliple rooms of random size.
 	Each room will consist of many cube walls that will be destructable with the expception of the last layer of wall, which will be indestructable.
-	their will be one or more door out of each room, if this results in a door adjacent to an existing room then the rooms will be connected.
-	each door can only be opened once the room's enemy
+	the distrubution of these wall cubes will be determined by a cellular atomita algarithum.
+	
+	The walls and door placement will 
+	
+	Once the rooms placement has been determined, the contents of each room can be gernerated with multiple threads.
+	Their will be one or more door out of each room.
 
+	Inside a room conectivity between doors will be determined with bresenhams line algorithm.
+		Any wall cubes under the line will be disabled.
 
+		The lines will go from all doors the center of the room ensuring that getting to any door is possible.
+		or
+		The lines will go from all doors a random point in the room ensuring that getting to any door is possible.
+		or
+		The lines will go from all doors to all other doors in the room ensuring that getting to any door is possible.
 
+	or
+	I find a more clever way to do this
+
+	if two rooms are adjacent they will share a door.
+	Each rooms door can only be opened once the room's enemies have been defeated.
+	
+	the first room is pregenerated the others will be generated once the door is opened.
+	or
+	the first room is pregenerated the others will be generated once entering an adjacent room.
+	or
+	The entire floor is generated once starting a game, the next floor is generated when going to the next floor
+
+	The final decision on this will be based on how long it takes to generate a satisfactory room.

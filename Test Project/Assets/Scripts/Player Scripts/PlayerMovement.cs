@@ -10,11 +10,9 @@ public class PlayerMovement : Movement {
 	public Camera playerCamera;
 	public Transform crosshair;
 	private Vector3 mousePosition3D;
-
-	
-
 	private GameObject playerObject;
-void Update () {
+	
+	void Update () {
 		xInput = Input.GetAxis("Horizontal");
 		yInput = Input.GetAxis("Vertical");
 			
