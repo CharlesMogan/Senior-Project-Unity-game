@@ -52,6 +52,10 @@ maybe networking
 
 
 
+break out the move twords player as its own script if you can.
+
+
+
 
 
 you should be able to pass in a value for the speed and damage too a bullet and with that value the bullet should be able to set an ofset and contol min and max bounds.
@@ -176,7 +180,21 @@ normal:
 
 
 
+
+
+
+
+
+
+
 ///----------------------------------------------praposal-------------------------------------------------------
+
+I at least need an intro paragraph.
+
+	My goal with this project is to make a geometric styled top down shooter. The envirenment in the game will consist of a series of random rooms filled with various enemies. At the end of each floor will be a boss that the player must deffet before they can advance to the next one.
+
+
+through this project I will explore the basics of the unity game engine and c# and procedular generation, all subjects I have no experence with at all.
 
 
 I am proposing to make a top down shooter with the following features:
@@ -185,12 +203,13 @@ I am proposing to make a top down shooter with the following features:
 1. A player that can fire at least two distinct projectile types. 
 	A.Possible Projectile types include:
 		medium speed bullets fired rapidly.
-		a  beam wepon that can penetrate enemies.
+		a beam wepon that can penetrate enemies.
 			it will extend to the length of the room.
 			there is a delay before firing during which time the player is not able to move.
 			perhaps taking enough damage will prevent the laser from firing, and unparalize the player early.
 			perhaps during the charge up there is a sighting laser
 
+	When the player takes damage they will be made invincible for a short time, maybe half a second during this time they will be invincable.
 
 2. A HUD that at the minimum desplays the players health.
 
@@ -224,11 +243,6 @@ I am proposing to make a top down shooter with the following features:
 			does not face the player but has an indistructable shield.
 
 
-
-		
-
-
-
 4. at least one boss with at least 2 phases that a player can face at the end of a floor.
 
 5. A main menu that you can exit to the desktop from or start a game.
@@ -247,6 +261,7 @@ I am proposing to make a top down shooter with the following features:
 		Decreasing the time the player is paralized before firing thier beam weapon.
 		Decreasing the delay before player can fire their beam weapon.
 		Decreasing player size (making it easyer to dodge).
+		Pull back camera to make it easyer to see.
 
 	All pickups will have caps so that the players stats do not become to high. This is not just a balance issue as something like too high a movement speed could make the game very unfun.
 
@@ -256,6 +271,8 @@ I am proposing to make a top down shooter with the following features:
 	or
 	Pickups will be given as a reward at the end of every floor. 
 
+	Enemies will also have a small chance of generating a health pickup on death.
+
 
 
 7. A dungen based on procedural generation that generates rooms with distructable walls that conect together and eventually lead to a boss room.
@@ -263,7 +280,7 @@ I am proposing to make a top down shooter with the following features:
 	Each room will consist of many cube walls that will be destructable with the expception of the last layer of wall, which will be indestructable.
 	the distrubution of these wall cubes will be determined by a cellular atomita algarithum.
 	
-	The walls and door placement will 
+	The walls and door placement will be done with ahead of time with a single thread.
 	
 	Once the rooms placement has been determined, the contents of each room can be gernerated with multiple threads.
 	Their will be one or more door out of each room.
@@ -278,12 +295,12 @@ I am proposing to make a top down shooter with the following features:
 		The lines will go from all doors to all other doors in the room ensuring that getting to any door is possible.
 
 	or
-	I find a more clever way to do this
+	I find a more clever way to do this.
 
 	if two rooms are adjacent they will share a door.
 	Each rooms door can only be opened once the room's enemies have been defeated.
 	
-	the first room is pregenerated the others will be generated once the door is opened.
+	the first room is pregenerated the others will be generated once the door is opened. - no longer being concidered.
 	or
 	the first room is pregenerated the others will be generated once entering an adjacent room.
 	or
