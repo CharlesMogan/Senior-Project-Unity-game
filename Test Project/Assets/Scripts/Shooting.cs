@@ -20,6 +20,8 @@ public class Shooting : MonoBehaviour {
 	protected float lasersPerBurst = 13;
 	public float bulletSpeed;
 	public float laserChargeDelay;
+	public float laserDiameter;
+	public float laserRange;
 	
 	
 	public Bullet bullet;
@@ -97,6 +99,7 @@ public class Shooting : MonoBehaviour {
 			Laser lastLaser= Instantiate(laser, gun.position, gun.rotation);
 			lastLaser.Damage = laserDamage;
 			Transform lastLaserTransform = lastLaser.GetComponent<Transform>();
+			lastLaserTransform.localScale = new Vector3(laserDiameter,laserRange,laserDiameter);
 			Vector3 yLessVelocity = new Vector3(characterVelocity.x,0.0f,characterVelocity.z);
 			Destroy(lastLaser.gameObject, laserLifetime);
 		}
@@ -161,7 +164,19 @@ public class Shooting : MonoBehaviour {
 			laserLifetime = 100;
 		}
 	}
+	public void BulletFireRateUp(){
+		fireRate = fireRate*.75f;
+		if(fireRate < 0.01f){
+			fireRate = 0.01f;
+		}
+	}
 
+	public void LaserDiameterUp(){
+		laserDiameter = laserDiameter*1.35f;
+		if(laserDiameter > 2){
+			laserDiameter = 2;
+		}
+	}
 	
 }
 

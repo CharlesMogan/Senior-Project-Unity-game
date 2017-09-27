@@ -15,7 +15,9 @@ public class Pickup : MonoBehaviour {
        		if(randomNum < 1000){
        			Health health = other.GetComponent<Health>();
             Shooting shooting = other.GetComponent<Shooting>();
-       			shooting.BulletDamageUp();
+       			//shooting.BulletFireRateUp();
+            //shooting.LaserDiameterUp();
+            shooting.LaserDamageUp();
             //health.MaxHealthUp();
        		}
     		Destroy(this.gameObject);

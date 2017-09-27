@@ -157,12 +157,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 131420104}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ef9b09db6ed0324c9f60c2335304a93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  howManyCubes: 550
+  howManyCubes: 200
   cube: {fileID: 1148138093383282, guid: ba306425bdd750b4293f04f5d83381ee, type: 2}
 --- !u!1 &310513460
 GameObject:
@@ -550,7 +550,7 @@ Prefab:
     - target: {fileID: 114884646421712664, guid: 5d03cfb9a00ce9d428f919ce476f15db,
         type: 2}
       propertyPath: fireRate
-      value: 0.2
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 114884646421712664, guid: 5d03cfb9a00ce9d428f919ce476f15db,
         type: 2}
@@ -591,7 +591,7 @@ Prefab:
     - target: {fileID: 114884646421712664, guid: 5d03cfb9a00ce9d428f919ce476f15db,
         type: 2}
       propertyPath: laserLifetime
-      value: 1
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 114884646421712664, guid: 5d03cfb9a00ce9d428f919ce476f15db,
         type: 2}

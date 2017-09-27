@@ -283,11 +283,11 @@ I am proposing to make a top down shooter with the following features:
 6. A pickup system that lets the player improve their character. ~10
 	A. Possible pickups include:
 		Increasing character health.  done
-		Increasing beam Damage.
+		Increasing beam Damage.       done
 		Increasing bullet Damage.     done
-		Increasing bullet fire rate.
+		Increasing bullet fire rate.  done
 		Increasing player movement speed.
-		Increasing beam weapon diamater.
+		Increasing beam weapon diamater.  done
 		Increasing bullet size.
 		increasing bullet movement speed.
 		increasing bullet range. (time before despawn)
