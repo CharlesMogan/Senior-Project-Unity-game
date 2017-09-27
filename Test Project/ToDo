@@ -1,8 +1,22 @@
+ -------------things to for sure impliment soon-----------------
+sighting laser charge up. 
+contact damage
+invincibility after taking damage.
+powerups
+
+
+oh shit what if for laser paralization you just disable movement script entirely
+
+	get componenents of type movement
 
 
 
+player bulets get destroyed when hitting enemy bullets
 
-notes to self:
+
+the way laser damage is calculated needs to be redone.
+
+-----------------------------------------------notes to self:
 room goes out at all edges in issac, maybe use like 75degree angle.
 
 
@@ -62,7 +76,7 @@ you should be able to pass in a value for the speed and damage too a bullet and 
 
 
 
-problems:
+-------------------------------------------------------------------------------problems:
 bullets dont have momentum of the gun they are shot from- fixed! kinda broke again
 
 camera should "clamp" to the edges of rooms if you move to close to the edge.
@@ -97,16 +111,6 @@ sources:
 https://www.youtube.com/user/Brackeys specifically his how to make a unity game basics series.
 https://unity3d.com/learn/tutorials/projects/space-shooter-tutorial
 https://unity3d.com/learn/tutorials/projects/procedural-cave-generation-tutorial
-
-
-
-
-for fun now that school has started Im going to start logging how much time im working on this.
-
-0. 10-25 hours
-1.~2:30:00
-2. 1:41:46
-3. 1:34:58
 
 
 
@@ -191,27 +195,38 @@ normal:
 
 I at least need an intro paragraph.
 
-	My goal with this project is to make a geometric styled top down shooter. The envirenment in the game will consist of a series of random rooms filled with various enemies. At the end of each floor will be a boss that the player must deffet before they can advance to the next one.
-
-
-through this project I will explore the basics of the unity game engine and c# and procedular generation, all subjects I have no experence with at all.
+	My goal with this project is to make a geometric styled top down shooter. The envirenment in the game will consist of a series of random rooms filled with various enemies that the player must traverse. At the end of each floor will be a boss that the player must defeat before they can advance to the next floor. Through this project I will explore the basics of the unity game engine, c# and procedular generation, all subjects I have no experence with at all.
 
 
 I am proposing to make a top down shooter with the following features:
 
 
-1. A player that can fire at least two distinct projectile types. 
-	A.Possible Projectile types include:
-		medium speed bullets fired rapidly.
-		a beam wepon that can penetrate enemies.
-			it will extend to the length of the room.
-			there is a delay before firing during which time the player is not able to move.
-			perhaps taking enough damage will prevent the laser from firing, and unparalize the player early.
-			perhaps during the charge up there is a sighting laser
+1. A player that can
+	fire at least two distinct projectile types. 
+		A.Possible Projectile types include:
+			medium speed bullets fired rapidly. ~2
+			a beam wepon that can penetrate enemies.  ~7
+				it will extend to the length of the room. ~2
+				there is a delay before firing during which time the player is not able to move. ~3 
+				perhaps taking enough damage will prevent the laser from firing, and unparalize the player early.
+				
 
 	When the player takes damage they will be made invincible for a short time, maybe half a second during this time they will be invincable.
 
-2. A HUD that at the minimum desplays the players health.
+
+
+
+
+
+2. A HUD that at the minimum desplays ~3
+	the players health.
+
+
+
+
+
+
+
 
 3. At least X distinct enemies with diffrent combinations of movement and shooting paterns.
 	A. possible enemies include:
@@ -243,15 +258,33 @@ I am proposing to make a top down shooter with the following features:
 			does not face the player but has an indistructable shield.
 
 
-4. at least one boss with at least 2 phases that a player can face at the end of a floor.
+		an enemy that teleports every x seconds:
+			relitive to the player at a fixed distance
+				randomly. 
+				or at a fixed rotation. ie always teleports behind the player.
+			to a random place in the room
 
-5. A main menu that you can exit to the desktop from or start a game.
 
-6. A pickup system that lets the player improve their character.
+
+
+
+
+4. at least one boss with at least 2 phases that a player can face at the end of a floor.   
+
+
+
+
+5. A main menu that you can exit to the desktop from or start a game.   ~3
+
+
+
+
+
+6. A pickup system that lets the player improve their character. ~10
 	A. Possible pickups include:
-		Increasing character health.
+		Increasing character health.  done
 		Increasing beam Damage.
-		Increasing bullet Damage.
+		Increasing bullet Damage.     done
 		Increasing bullet fire rate.
 		Increasing player movement speed.
 		Increasing beam weapon diamater.
@@ -275,14 +308,14 @@ I am proposing to make a top down shooter with the following features:
 
 
 
-7. A dungen based on procedural generation that generates rooms with distructable walls that conect together and eventually lead to a boss room.
-	The dungeon will consist of mutliple rooms of random size.
+7. A dungen based on procedural generation that generates rooms with distructable walls that conect together and eventually lead to a boss room.  ~30
+	The dungeon will consist of mutliple rooms of random size.       
 	Each room will consist of many cube walls that will be destructable with the expception of the last layer of wall, which will be indestructable.
-	the distrubution of these wall cubes will be determined by a cellular atomita algarithum.
+	the distrubution of these wall cubes will be determined by a cellular atomita algarithum.         
 	
-	The walls and door placement will be done with ahead of time with a single thread.
+	The walls and door placement will be done first with a single thread.
 	
-	Once the rooms placement has been determined, the contents of each room can be gernerated with multiple threads.
+	Once the rooms placement has been determined, the contents of each room can be gernerated with multiple threads.     ~20
 	Their will be one or more door out of each room.
 
 	Inside a room conectivity between doors will be determined with bresenhams line algorithm.
@@ -297,13 +330,13 @@ I am proposing to make a top down shooter with the following features:
 	or
 	I find a more clever way to do this.
 
-	if two rooms are adjacent they will share a door.
+	if two rooms are adjacent they will share a door.										~10
 	Each rooms door can only be opened once the room's enemies have been defeated.
 	
 	the first room is pregenerated the others will be generated once the door is opened. - no longer being concidered.
 	or
 	the first room is pregenerated the others will be generated once entering an adjacent room.
 	or
-	The entire floor is generated once starting a game, the next floor is generated when going to the next floor
+	The entire floor is generated once starting a game, the next floor is generated when going to the next floor  --I think this 
 
 	The final decision on this will be based on how long it takes to generate a satisfactory room.

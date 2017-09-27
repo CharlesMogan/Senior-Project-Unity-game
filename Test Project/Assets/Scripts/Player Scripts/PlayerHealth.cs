@@ -7,7 +7,10 @@ public class PlayerHealth : Health {
 	// Update is called once per frame
 	protected override void Update () {
 		base.Update();
-		healthText.text =  health.ToString();
+		healthText.text =  health.ToString()+"/"+ maxHealth.ToString();
 	}
+
+
+
 
 }

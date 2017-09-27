@@ -44,6 +44,14 @@ public class PlayerMovement : Movement {
 		}
 	}
 
+
+
+
+	
+
+
+
+
 	/*
 
 	public float movementForce = 1700f;

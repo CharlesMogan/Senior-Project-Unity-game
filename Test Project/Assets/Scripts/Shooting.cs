@@ -118,4 +118,54 @@ public class Shooting : MonoBehaviour {
 		}
 	}
 
+
+	public void BulletDamageUp(){
+		bulletDamage += 10;
+		if(bulletDamage > 100){
+			bulletDamage = 100;
+		}
+	}
+
+	
+	public void BulletSpeedUp(){
+		bulletSpeed += 10;
+		if(bulletSpeed > 100){
+			bulletSpeed = 100;
+		}
+	}
+
+	public void BulletLifetimeUp(){
+		bulletLifetime += 10;
+		if(bulletLifetime > 100){
+			bulletLifetime = 100;
+		}
+	}
+
+	public void LaserDamageUp(){
+		laserDamage += 10;
+		if(laserDamage > 100){
+			laserDamage = 100;
+		}
+	}
+
+	public void laserLengthUp(){
+		laserLifetime += 10;
+		if(laserLifetime > 100){
+			laserLifetime = 100;
+		}
+	}
+
+	public void LaserLifetimeUp(){
+		laserLifetime += 10;
+		if(laserLifetime > 100){
+			laserLifetime = 100;
+		}
+	}
+
+	
 }
+
+
+
+
+

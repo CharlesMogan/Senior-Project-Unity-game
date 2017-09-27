@@ -30,4 +30,19 @@ public class Health : MonoBehaviour {
 		set{health = value;}
 
 	}*/	
+
+
+
+	public void MaxHealthUp(){
+		maxHealth += 10;
+		health += 10;
+	}
+
+	public void healthUp(){
+		health += 10;
+		if(health>maxHealth){
+			health = maxHealth;
+		}
+	}
+
 }
