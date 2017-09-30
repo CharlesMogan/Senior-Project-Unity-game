@@ -9,40 +9,18 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1177809799363156}
+  m_RootGameObject: {fileID: 1266701305908934}
   m_IsPrefabParent: 1
---- !u!1 &1177809799363156
+--- !u!1 &1123591949608890
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4420953214853814}
-  - component: {fileID: 33879662429697742}
-  - component: {fileID: 65125500745949164}
-  - component: {fileID: 23638214719391952}
-  - component: {fileID: 54781832891923006}
-  - component: {fileID: 114845178526178596}
-  - component: {fileID: 114384877779601394}
-  - component: {fileID: 114884646421712664}
-  m_Layer: 0
-  m_Name: Player
-  m_TagString: Player
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &1848151583788294
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4006224617032726}
-  - component: {fileID: 65111107336764640}
-  - component: {fileID: 23231658020942656}
+  - component: {fileID: 4178630713328790}
+  - component: {fileID: 65454664132312486}
+  - component: {fileID: 23297722980281378}
   m_Layer: 0
   m_Name: gun
   m_TagString: Gun
@@ -50,39 +28,61 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4006224617032726
+--- !u!1 &1266701305908934
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4606537169567870}
+  - component: {fileID: 33987111774184046}
+  - component: {fileID: 65948868175737142}
+  - component: {fileID: 23640109208647890}
+  - component: {fileID: 54683052279399898}
+  - component: {fileID: 114377387166180400}
+  - component: {fileID: 114080118274937478}
+  - component: {fileID: 114173002092031118}
+  m_Layer: 0
+  m_Name: Player
+  m_TagString: Player
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4178630713328790
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1848151583788294}
+  m_GameObject: {fileID: 1123591949608890}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.8}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4420953214853814}
+  m_Father: {fileID: 4606537169567870}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4420953214853814
+--- !u!4 &4606537169567870
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1177809799363156}
+  m_GameObject: {fileID: 1266701305908934}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4, y: 0, z: 4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4006224617032726}
+  - {fileID: 4178630713328790}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &23231658020942656
+--- !u!23 &23297722980281378
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1848151583788294}
+  m_GameObject: {fileID: 1123591949608890}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -109,12 +109,12 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!23 &23638214719391952
+--- !u!23 &23640109208647890
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1177809799363156}
+  m_GameObject: {fileID: 1266701305908934}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -141,93 +141,102 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!33 &33879662429697742
+--- !u!33 &33987111774184046
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1177809799363156}
+  m_GameObject: {fileID: 1266701305908934}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!54 &54781832891923006
+--- !u!54 &54683052279399898
 Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1177809799363156}
+  m_GameObject: {fileID: 1266701305908934}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 1
+  m_Drag: 10
   m_AngularDrag: 0
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 1
---- !u!65 &65111107336764640
+--- !u!65 &65454664132312486
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1848151583788294}
+  m_GameObject: {fileID: 1123591949608890}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!65 &65125500745949164
+--- !u!65 &65948868175737142
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1177809799363156}
+  m_GameObject: {fileID: 1266701305908934}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114384877779601394
+--- !u!114 &114080118274937478
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1177809799363156}
+  m_GameObject: {fileID: 1266701305908934}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f2d02c4740c46904b893eeb7678815c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 39
-  health: 444
+  maxHealth: 500000
+  health: 500000
   healthText: {fileID: 0}
---- !u!114 &114845178526178596
+--- !u!114 &114173002092031118
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1177809799363156}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86d26f7cd99817b4a9c3760ce6164ef7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 5
-  playerCamera: {fileID: 0}
-  crosshair: {fileID: 0}
---- !u!114 &114884646421712664
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1177809799363156}
+  m_GameObject: {fileID: 1266701305908934}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 799263efc6f0c3e429019243b9e70ab7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullet: {fileID: 1534068820156124, guid: 8714506f0703e784495bb53b923137c5, type: 2}
-  bulletLifetime: 3
-  bulletSpeed: 10
-  fireRate: 0.2
+  laser: {fileID: 114619251116961464, guid: 2d3be9a63e81a9847bb1602a84d52f2e, type: 2}
+  laserDamage: 10
+  laserLifetime: 1
+  laserLength: 2
+  bulletSpeed: 8
+  laserChargeDelay: 1
+  laserDiameter: 0.6
+  laserRange: 250
+  bullet: {fileID: 114294955228278028, guid: 8714506f0703e784495bb53b923137c5, type: 2}
+  bulletLifetime: 2
+  fireRate: 0.1
   transferedMomentum: 0.8
+  bulletDamage: 10
+  bulletScale: 0
+--- !u!114 &114377387166180400
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1266701305908934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86d26f7cd99817b4a9c3760ce6164ef7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 15
+  playerCamera: {fileID: 0}
+  crosshair: {fileID: 4029457872893602, guid: 6138e98b8e977534fb8023862d3f8ad9, type: 2}

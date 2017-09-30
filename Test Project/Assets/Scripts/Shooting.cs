@@ -29,6 +29,7 @@ public class Shooting : MonoBehaviour {
 	public float fireRate;
 	public float transferedMomentum;
 	public float bulletDamage;
+	public float bulletScale;
 	
 	// Use this for initialization
 	void Start () {
@@ -110,12 +111,13 @@ public class Shooting : MonoBehaviour {
 	protected void Shoot(){
 		foreach(Transform gun in guns){
 			nextFire = Time.time + fireRate;
-			Bullet lastBullet= Instantiate(bullet, gun.position, gun.rotation);
+			Bullet lastBullet= Instantiate(bullet, gun.position+gun.forward*.55f + gun.forward*.5f*bulletScale, gun.rotation);
 			lastBullet.Damage = bulletDamage; 
 			Transform lastBulletTransform = lastBullet.GetComponent<Transform>();
 			Vector3 yLessVelocity = new Vector3(characterVelocity.x,0.0f,characterVelocity.z); 
 			Rigidbody lastBulletRigedBody = lastBullet.GetComponent<Rigidbody>();
 			lastBulletRigedBody.velocity = transferedMomentum*yLessVelocity + lastBulletTransform.forward*bulletSpeed; //http://answers.unity3d.com/questions/808262/how-to-instantiate-a-prefab-with-initial-velocity.html
+			lastBulletTransform.localScale = new Vector3(bulletScale, bulletScale, bulletScale);
 			Debug.Log(lastBullet);
 			Destroy(lastBullet.gameObject, bulletLifetime);  /// for some reason you have to get the game object, compiles either way, just doesn't work.
 		}
@@ -138,9 +140,9 @@ public class Shooting : MonoBehaviour {
 	}
 
 	public void BulletLifetimeUp(){
-		bulletLifetime += 10;
-		if(bulletLifetime > 100){
-			bulletLifetime = 100;
+		bulletLifetime += .5f;
+		if(bulletLifetime > 10){
+			bulletLifetime = 10;
 		}
 	}
 
@@ -164,10 +166,19 @@ public class Shooting : MonoBehaviour {
 			laserLifetime = 100;
 		}
 	}
+
+
 	public void BulletFireRateUp(){
 		fireRate = fireRate*.75f;
 		if(fireRate < 0.01f){
 			fireRate = 0.01f;
+		}
+	}
+
+	public void BulletSizeUp(){
+		bulletScale = bulletScale*1.5f;
+		if(bulletScale > 0.99f){
+			bulletScale = 0.99f;
 		}
 	}
 
@@ -177,7 +188,13 @@ public class Shooting : MonoBehaviour {
 			laserDiameter = 2;
 		}
 	}
-	
+
+	public void LaserChargeDelayDown(){
+		laserChargeDelay = laserChargeDelay*.75f;
+		if(laserChargeDelay < .1f){
+			laserChargeDelay = .1f;
+		}
+	}
 }
 
 

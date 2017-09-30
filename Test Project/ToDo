@@ -16,6 +16,12 @@ player bulets get destroyed when hitting enemy bullets
 
 the way laser damage is calculated needs to be redone.
 
+
+i think I need to add the time of the finial laser fragment to the paralization
+
+
+small chance of spawning a bunch of errors when firing laser.
+
 -----------------------------------------------notes to self:
 room goes out at all edges in issac, maybe use like 75degree angle.
 
@@ -122,7 +128,7 @@ stuff for the speach
 spent like two hours trying to have the properties of the projectile determined by the gun that made it then realized that should be something the bullet handles itself.
 
 
-
+making bullets bigger required reworking.
 
 
 
@@ -286,11 +292,11 @@ I am proposing to make a top down shooter with the following features:
 		Increasing beam Damage.       done
 		Increasing bullet Damage.     done
 		Increasing bullet fire rate.  done
-		Increasing player movement speed.
+		Increasing player movement speed. done
 		Increasing beam weapon diamater.  done
-		Increasing bullet size.
-		increasing bullet movement speed.
-		increasing bullet range. (time before despawn)
+		Increasing bullet size.	      done
+		increasing bullet movement speed.  done
+		increasing bullet range. (time before despawn) done
 		Decreasing the time the player is paralized before firing thier beam weapon.
 		Decreasing the delay before player can fire their beam weapon.
 		Decreasing player size (making it easyer to dodge).

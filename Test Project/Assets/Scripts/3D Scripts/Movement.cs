@@ -31,6 +31,11 @@ public class Movement : MonoBehaviour {
 		set{isParalyzed = value;}
 	}
 		
-	
+	public void SpeedUp(){
+		speed += 2;
+		if(speed > 20){
+			speed = 20;
+		}
+	}
 	
 }
