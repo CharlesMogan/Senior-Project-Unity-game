@@ -16,7 +16,8 @@ public class Pickup : MonoBehaviour {
        			Health health = other.GetComponent<Health>();
             Shooting shooting = other.GetComponent<Shooting>();
             Movement movement = other.GetComponent<Movement>();
-            shooting.LaserChargeDelayDown();
+            movement.ScaleDown();
+            //shooting.LaserChargeDelayDown();
             //shooting.BulletSizeUp();
             //shooting.BulletLifetimeUp();
             //shooting.BulletSpeedUp();

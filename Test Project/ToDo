@@ -297,9 +297,8 @@ I am proposing to make a top down shooter with the following features:
 		Increasing bullet size.	      done
 		increasing bullet movement speed.  done
 		increasing bullet range. (time before despawn) done
-		Decreasing the time the player is paralized before firing thier beam weapon.
-		Decreasing the delay before player can fire their beam weapon.
-		Decreasing player size (making it easyer to dodge).
+		Decreasing the delay before player can fire their beam weapon. done
+		Decreasing player size (making it easyer to dodge). working, but bad idea causes problems with bullet scaling.
 		Pull back camera to make it easyer to see.
 
 	All pickups will have caps so that the players stats do not become to high. This is not just a balance issue as something like too high a movement speed could make the game very unfun.
