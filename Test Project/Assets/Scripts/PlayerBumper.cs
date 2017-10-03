@@ -16,11 +16,15 @@ public class PlayerBumper : MonoBehaviour {
        	if(collision.gameObject.tag == "Enemy"){
     		//Destroy(this.gameObject);
 
-    		Vector3 enemyDirection = collision.contacts[0].point - this.transform.position;
-    		rb = collision.gameObject.rigedBody;
+       		Vector3 collisionPoint = new Vector3(collision.contacts[0].point.x, 0, collision.contacts[0].point.z);
+       		Vector3 playerPosition = new Vector3(this.transform.position.x, 0, this.transform.position.z);
+    		Vector3 enemyDirection = collisionPoint - playerPosition;   //try replacing with this https://docs.unity3d.com/ScriptReference/Collider.ClosestPoint.html
+    		Rigidbody rb = collision.rigidbody;
 
-    		movement = enemyDirection*100*Time.fixedDeltaTime;
+    		Vector3 movement = enemyDirection*2.0f;
 			rb.MovePosition(rb.position + movement);
+			rb = this.GetComponent<Rigidbody>();
+			rb.MovePosition(rb.position - movement);
     	}
     }
     
