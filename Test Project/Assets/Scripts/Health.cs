@@ -6,6 +6,8 @@ public class Health : MonoBehaviour {
 
 	public float maxHealth;
 	public float health;
+	public float DamageDelay;
+	protected float timeWhenDamageable = 0;
 	// Update is called once per frame
 	protected virtual void Update () {
 		if(health <= 0){
@@ -21,7 +23,11 @@ public class Health : MonoBehaviour {
 
 
 	public void TakeDamage(float damage){
-		health-=damage;
+		if(Time.time >= timeWhenDamageable){
+			health-=damage;
+			timeWhenDamageable = Time.time + DamageDelay;	
+		}
+		
 	}
 
 	/*public float Health{

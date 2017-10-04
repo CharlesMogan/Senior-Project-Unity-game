@@ -25,6 +25,11 @@ public class PlayerBumper : MonoBehaviour {
 			rb.MovePosition(rb.position + movement);
 			rb = this.GetComponent<Rigidbody>();
 			rb.MovePosition(rb.position - movement);
+
+
+            Health health = this.GetComponent<Health>();
+            health.TakeDamage(10);
+
     	}
     }
     
