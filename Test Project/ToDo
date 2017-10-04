@@ -22,6 +22,8 @@ i think I need to add the time of the finial laser fragment to the paralization
 
 small chance of spawning a bunch of errors when firing laser.
 
+
+laser length and laser range, are duplicate variables.
 -----------------------------------------------notes to self:
 room goes out at all edges in issac, maybe use like 75degree angle.
 
