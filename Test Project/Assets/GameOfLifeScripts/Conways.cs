@@ -5,7 +5,7 @@ using UnityEngine;
 public class Conways : MonoBehaviour {
 
 	public GameObject cube;
-	bool[,] world = new bool[50,25];
+	bool[,] world = new bool[90,45];
 	float genDelay;
 
 
@@ -27,7 +27,7 @@ public class Conways : MonoBehaviour {
 			for (int j = 0; j < world.GetLength(1); j++){
 				if(world[i,j]){
 					GameObject myCube = Instantiate(cube, new Vector3(i,-20,j), Quaternion.identity);
-					Destroy(myCube,1f);
+					Destroy(myCube,.09f);
 				}
 			}
 		}
@@ -41,7 +41,7 @@ public class Conways : MonoBehaviour {
 			}
 		}
 		
-		int offset = 4;
+		int offset = 13;
 		world[1+offset,5+offset] = true;
 		world[1+offset,4+offset] = true;
 
@@ -99,7 +99,7 @@ public class Conways : MonoBehaviour {
 
 
 	void nextGeneration(){
-		bool[,] tempWorld = new bool[50,25];
+		bool[,] tempWorld = new bool[90,45];
 		for (int i = 0; i < world.GetLength(0); i++){
 			for (int j = 0; j < world.GetLength(1); j++){
 				tempWorld[i,j] = world[i,j];
@@ -156,9 +156,6 @@ public class Conways : MonoBehaviour {
 		if (world[x,y]){
 			sum-=1;
 		}
-		if(world[1,5] == false){
-			Debug.Log("moore2bad");
-		}
 		return sum;
 	}
 
@@ -170,7 +167,7 @@ public class Conways : MonoBehaviour {
 		if(Time.time> genDelay){
 			draw();
 			nextGeneration();
-			genDelay = Time.time + 1f;
+			genDelay = Time.time + .08f;
 		}
 
 	}
@@ -178,7 +175,7 @@ public class Conways : MonoBehaviour {
 
 			//12-13
 /*                      24
-........................O           35       0
+........................O           35     0
 ......................O.O                  1     
 ............OO......OO............OO       2
 ...........O...O....OO............OO       3
