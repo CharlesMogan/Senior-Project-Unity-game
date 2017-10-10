@@ -24,6 +24,10 @@ small chance of spawning a bunch of errors when firing laser.
 
 
 laser length and laser range, are duplicate variables.
+
+
+
+the player bounce can bounce you offscreen. this will allow you to be bounced into walls.
 -----------------------------------------------notes to self:
 room goes out at all edges in issac, maybe use like 75degree angle.
 
