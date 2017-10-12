@@ -179,11 +179,66 @@ normal:
 
 
 
+///-----------------------------------makin da world-------------------------------------------------
+	makeworld
+		make a room
+		add 4 doors
+		make a room atached to a rondom door.
+		add 3 doors
+		make a room ataced to another door
+		add 3 doors
+
+
+
+
+	world.
+		list of rooms
+		isCoordinateInRoom(x,y);
+
+	room.
+		list of cells
+		IsInRoom(aCell);
+
+	cell.
+		IsW
+		Isindistructable 
+		IsDoor
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+door room count
+1 room 4 doors implies 5 rooms
+another room 3 more door implies 7 rooms
+another room 3 more door implies 10 rooms
+3 more rooms with one door implies 13 rooms ish i think
 
 ///------------------------------------------------where----------------------------------------------------------
 	should the map generate a random powerup or should a powerup generate a random effect. - figured it out pickups should have a set effect but which one is made 
