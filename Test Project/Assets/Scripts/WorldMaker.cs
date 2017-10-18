@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class WorldMaker : MonoBehaviour {
-public GameObject cube;
+	//public GameObject gameManager = GameObject.FindWithTag("GameController");
+    //public GameManager gameManagerScript = gameManager.GetComponent<GameManager>(); //http://answers.unity3d.com/questions/305614/get-script-variable-from-collider.html
 
 	class Cell{
 		bool isOn;
@@ -15,28 +16,46 @@ public GameObject cube;
 			this.isDoor = isDoor;
 			// if it is not on the outer wall I need to add health at somepoint.
 		}
+		public bool IsOn{
+			get{return isOn;}
+
+			set{isOn = value;}
+		}
 	}
 
 	class World{
 		public World(){
 			Room firstRoom = new Room(50,50);
 		}
-
 	}
 	
 
 
 	class Room{
+		//GameObject gameManager = GameObject.FindWithTag("GameController");
+       	//GameManager gameManagerScript = gameManager.GetComponent<GameManager>(); //http://answers.unity3d.com/questions/305614/get-script-variable-from-collider.html
+
+		GameObject gameManager;
+       	GameManager gameManagerScript;
+		public GameObject cube;
 		int rows;
 		int cols;
 		public Room(int xDimension, int yDimension){
+		gameManager = GameObject.FindWithTag("GameController");
+       	gameManagerScript = gameManager.GetComponent<GameManager>();
+
 			int rows = xDimension;
 			int cols = yDimension;
 			Cell[,] room = new Cell[rows,cols];
-
 			for (int i = 0; i < room.GetLength(0); i++){
 				for (int j = 0; j < room.GetLength(1); j++){
-					room[i,j]= new Cell(true,false,false);
+					float ranNum = gameManagerScript.NextRandom(1,3);
+					Debug.Log("random number is" + ranNum);
+					if(ranNum < 1.5){
+						room[i,j]= new Cell(true,false,false);
+					}else{
+						room[i,j]= new Cell(false,false,false);
+					}
 				}
 			}
 
@@ -46,9 +65,11 @@ public GameObject cube;
 
 		for (int i = 0; i < room.GetLength(0); i++){
 			for (int j = 0; j < room.GetLength(1); j++){
-				if(room[i,j]){             ---------------------------------------------------------------
-					GameObject myCube = Instantiate(cube, new Vector3(i,-20,j), Quaternion.identity);
-					Destroy(myCube,.09f);
+				if(room[i,j].IsOn){
+					//GameObject myCube = Instantiate(cube, new Vector3(i,-20,j), Quaternion.identity);
+					GameObject myCube = Instantiate(Resources.Load("Cuber") as GameObject, new Vector3(i,-20,j), Quaternion.identity);
+					Debug.Log("cuber loop");
+					Destroy(myCube,111.09f);
 				}
 			}
 		}
@@ -83,7 +104,9 @@ public GameObject cube;
 
 	// Use this for initialization
 	void Start () {
-	World myWorld = new World();		
+		//GameManager gameManager = gameManager.GetComponent<GameManager>();
+		World myWorld = new World();
+
 	}
 
 

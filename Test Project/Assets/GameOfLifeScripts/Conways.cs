@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,7 +22,7 @@ public class Conways : MonoBehaviour {
 		if(world[1,5] == false){
 			Debug.Log("drawbad");
 		}
-
+		
 		for (int i = 0; i < world.GetLength(0); i++){
 			for (int j = 0; j < world.GetLength(1); j++){
 				if(world[i,j]){

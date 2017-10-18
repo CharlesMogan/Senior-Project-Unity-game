@@ -11,7 +11,7 @@ public class Pickup : MonoBehaviour {
        		GameObject gameManager = GameObject.FindWithTag("GameController");
        		GameManager gameManagerScript = gameManager.GetComponent<GameManager>(); //http://answers.unity3d.com/questions/305614/get-script-variable-from-collider.html
 
-       		float randomNum = gameManagerScript.nextRandom();
+       		float randomNum = gameManagerScript.NextRandom(1,2);
        		if(randomNum < 1000){
        			Health health = other.GetComponent<Health>();
             Shooting shooting = other.GetComponent<Shooting>();

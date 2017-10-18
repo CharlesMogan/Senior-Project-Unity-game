@@ -19,8 +19,8 @@ public class GameManager : MonoBehaviour {
 	}
 
 
-	public float nextRandom(){
-		return random.Next(1, 1001)/1000;
+	public float NextRandom(int lowerBound, int upperBound){
+		return random.Next(lowerBound, upperBound);
 	}
 
 

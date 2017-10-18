@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 65118566353482170}
   - component: {fileID: 23636518203646684}
   m_Layer: 0
-  m_Name: invisabeler cube
+  m_Name: Cuber
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
