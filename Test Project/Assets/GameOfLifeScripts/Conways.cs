@@ -146,7 +146,7 @@ public class Conways : MonoBehaviour {
 		for(int i = -1; i <= 1; i++){
 			for(int j = -1; j <= 1; j++){
 				//Debug.Log("tryingTo acsess"+ (x+i)+" "+(y+j));
-				if(x+i>-1 && y+j>-1 && x+i<world.GetLength(0) && y+j < world.GetLength(1)){           ///this is real bad, need to fix
+				if(x+i>-1 && y+j>-1 && x+i < world.GetLength(0) && y+j < world.GetLength(1)){           ///this is real bad, need to fix
 					if(world[x+i,y+j]){
 						sum += 1;
 					}

@@ -32,18 +32,16 @@ public class WorldMaker : MonoBehaviour {
 
 
 	class Room{
-		//GameObject gameManager = GameObject.FindWithTag("GameController");
-       	//GameManager gameManagerScript = gameManager.GetComponent<GameManager>(); //http://answers.unity3d.com/questions/305614/get-script-variable-from-collider.html
-
 		GameObject gameManager;
        	GameManager gameManagerScript;
 		public GameObject cube;
 		int rows;
 		int cols;
+
+
 		public Room(int xDimension, int yDimension){
 		gameManager = GameObject.FindWithTag("GameController");
        	gameManagerScript = gameManager.GetComponent<GameManager>();
-
 			int rows = xDimension;
 			int cols = yDimension;
 			Cell[,] room = new Cell[rows,cols];
@@ -61,50 +59,114 @@ public class WorldMaker : MonoBehaviour {
 
 
 
-			//testing
 
-		for (int i = 0; i < room.GetLength(0); i++){
-			for (int j = 0; j < room.GetLength(1); j++){
-				if(room[i,j].IsOn){
-					//GameObject myCube = Instantiate(cube, new Vector3(i,-20,j), Quaternion.identity);
-					GameObject myCube = Instantiate(Resources.Load("Cuber") as GameObject, new Vector3(i,-20,j), Quaternion.identity);
-					Debug.Log("cuber loop");
-					Destroy(myCube,111.09f);
+
+
+
+
+			for (int i = 0; i < room.GetLength(0); i++){
+				for (int j = 0; j < room.GetLength(1); j++){
+					if(room[i,j].IsOn){
+						//GameObject myCube = Instantiate(cube, new Vector3(i,-20,j), Quaternion.identity);
+						GameObject myCube = Instantiate(Resources.Load("Cuber") as GameObject, new Vector3(i,-20,j), Quaternion.identity);
+						Debug.Log("cuber loop");
+						Destroy(myCube,111.09f);
+					}
 				}
-			}
+			}			
 		}
 
 		
-		}
 
 
 
-		/*int getMooreNeighborhood(int x, int y){
-		int sum = 0;
-		for(int i = -1; i <= 1; i++){
-			for(int j = -1; j <= 1; j++){
-				//Debug.Log("tryingTo acsess"+ (x+i)+" "+(y+j));
-				if(x+i>-1 && y+j>-1 && x+i<world.GetLength(0) && y+j < world.GetLength(1)){           ///this is real bad, need to fix
-					if(world[x+i,y+j]){
-						sum += 1;
-					}
+		void nextGeneration(){
+			bool[,] tempRoom = new bool[rows,cols];
+			for (int i = 0; i < rows; i++){
+				for (int j = 0; j < cols; j++){
+					tempWorld[i,j] = room[i,j].IsOn;
 				}
 			}
-		}
-		if (world[x,y]){
-			sum-=1;
-		}
-		return sum;
-		}
-		*/
 
-	}
+			for (int i = 0; i < rows; i++){
+				for (int j = 0; j < cols; j++){
+					tempWorld[i,j] = B3S23(i,j);
+				}
+			}
 
-	
+
+			for (int i = 0; i < rows; i++){
+				for (int j = 0; j < cols; j++){
+					room[i][j].IsOn = tempWorld[i][j];
+				}
+			}
+
+
+			world = tempWorld;
+			
+		}
+
+
+
+		bool B3S23(int x, int y){                             //conway's rules
+			int neighbors = getMooreNeighborhood(x,y);
+					if(neighbors < 2){
+						return false;
+					}else if(neighbors > 3){
+						return false;
+					}else if(room[i,j] == false && neighbors == 3){
+						return true;
+					}
+				return false;
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		int getMooreNeighborhood(int x, int y){
+				int sum = 0;
+				for(int i = -1; i <= 1; i++){
+					for(int j = -1; j <= 1; j++){
+						//Debug.Log("tryingTo acsess"+ (x+i)+" "+(y+j));
+						if(x+i>-1 && y+j>-1 && x+i < rows && y+j < cols){           ///this is real bad, need to fix
+							if(room[x+i,y+j]){
+								sum += 1;
+							}
+						}
+					}
+				}
+				if (room[x,y]){
+					sum-=1;
+				}
+				return sum;
+			}
+			
+
+	}	
+
+
+
 
 	// Use this for initialization
 	void Start () {
-		//GameManager gameManager = gameManager.GetComponent<GameManager>();
 		World myWorld = new World();
 
 	}

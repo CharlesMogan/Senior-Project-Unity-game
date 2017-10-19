@@ -27,7 +27,7 @@ laser length and laser range, are duplicate variables.
 
 
 
-the player bounce can bounce you offscreen. this will allow you to be bounced into walls.
+the player bounce can bounce you offscreen. this will allow you to be bounced into walls. no, not into walls, outside of walls doesn't happen if you don't bounce far.
 -----------------------------------------------notes to self:
 room goes out at all edges in issac, maybe use like 75degree angle.
 
