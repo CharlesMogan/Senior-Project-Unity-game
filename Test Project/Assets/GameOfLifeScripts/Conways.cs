@@ -111,19 +111,10 @@ public class Conways : MonoBehaviour {
 
 		for (int i = 0; i < world.GetLength(0); i++){
 			for (int j = 0; j < world.GetLength(1); j++){
-				if(world[1,5] == false){
-					Debug.Log("bad for" +i+" "+j);
-				}
 				int neighbors = getMooreNeighborhood(i,j);
-				if(i == 1 && j == 5){
-					Debug.Log("neighbors= "+neighbors);
-				}
 				if(neighbors < 2){
 					tempWorld[i,j] = false;
 				}else if(neighbors > 3){
-					if(world[1,5] == false){
-						Debug.Log("bad3");
-					}
 					tempWorld[i,j] = false;
 				}else if(world[i,j] == false && neighbors == 3){
 					tempWorld[i,j] = true;
@@ -139,9 +130,6 @@ public class Conways : MonoBehaviour {
 
 
 	int getMooreNeighborhood(int x, int y){
-		if(world[1,5] == false){
-			Debug.Log("moorebad");
-		}
 		int sum = 0;
 		for(int i = -1; i <= 1; i++){
 			for(int j = -1; j <= 1; j++){

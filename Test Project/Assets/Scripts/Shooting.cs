@@ -46,7 +46,7 @@ public class Shooting : MonoBehaviour {
 	}	
 
 	void FixedUpdate(){
-		if (Time.fixedDeltaTime != 0){
+ 		if (Time.fixedDeltaTime != 0){
 			characterVelocity = (shooterRB.position - previousPosition) / Time.fixedDeltaTime;
 			previousPosition = shooterRB.position;
 		}

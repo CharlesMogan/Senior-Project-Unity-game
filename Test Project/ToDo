@@ -5,6 +5,12 @@ invincibility after taking damage.
 powerups
 
 
+do relitive coordinates to the room or absolute coordanates.
+
+can clip bullets when turning too fast. not good.
+	dont make bullets destroy when hitting the launching player.
+
+
 oh shit what if for laser paralization you just disable movement script entirely
 
 	get componenents of type movement

@@ -1,4 +1,14 @@
-﻿using System.Collections;
+﻿//rooms can be made.
+
+
+
+
+
+
+
+
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -28,6 +38,14 @@ public class WorldMaker : MonoBehaviour {
 			set{isOn = value;}
 		}
 
+		public bool IsOuterWall{
+			get{return isOuterWall;}
+
+			set{isOuterWall = value;}
+		}
+
+
+
 
 		public void Draw(){
 			Destroy(myCube);
@@ -35,22 +53,20 @@ public class WorldMaker : MonoBehaviour {
 				myCube = Instantiate(Resources.Load("Cuber") as GameObject, new Vector3(xLocation,-20,yLocation), Quaternion.identity);
 			}
 		}
-
-
-
-
-
 	}
 
 	class World{
 		public World(){
-			Room firstRoom = new Room(50,50);
+			Room firstRoom = new Room(250,250);
+			firstRoom.getDoors();
+
 		}
 	}
 	
 
 
 	class Room{
+		int fill = 36;
 		GameObject gameManager;
        	GameManager gameManagerScript;
 		public GameObject cube;
@@ -66,13 +82,10 @@ public class WorldMaker : MonoBehaviour {
 			room = new Cell[rows,cols];
 			for (int i = 0; i < room.GetLength(0); i++){
 				for (int j = 0; j < room.GetLength(1); j++){
-					float ranNum = gameManagerScript.NextRandom(1,20);
-					if(ranNum == 1){
-						Debug.Log("nooooobaadddx");
-					}
+					float ranNum = gameManagerScript.NextRandom(0,100);
 					if( i == 0 || j == 0 || i == room.GetLength(0)-1 || j == room.GetLength(1)-1){
 						room[i,j]= new Cell(true,true,false,i,j);
-					}else if(ranNum > 11){
+					}else if(ranNum < fill){
 						room[i,j]= new Cell(true,false,false,i,j);
 					}else{
 						room[i,j]= new Cell(false,false,false,i,j);
@@ -80,8 +93,7 @@ public class WorldMaker : MonoBehaviour {
 				}
 			}
 
-
-			for(int i = 0; i < 4; i++){  //i do ever even
+			for(int i = 0; i < 5; i++){  //i do ever even
 				nextGeneration();
 			}
 				Draw();	
@@ -141,7 +153,6 @@ public class WorldMaker : MonoBehaviour {
 				return false;
 		}
 */
-
 		bool B45678S45678(int x, int y){
 			int neighbors = getMooreNeighborhood(x,y);
 					if(neighbors < 4){
@@ -155,7 +166,6 @@ public class WorldMaker : MonoBehaviour {
 				return true;
 		}
 /*
-
 		bool B12S23(int x, int y){
 			int neighbors = getMooreNeighborhood(x,y);
 					if(neighbors < 2){
