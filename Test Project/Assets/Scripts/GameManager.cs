@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 
-	public float NextRandom(int lowerBound, int upperBound){
+	public int NextRandom(int lowerBound, int upperBound){
 		return random.Next(lowerBound, upperBound);
 	}
 

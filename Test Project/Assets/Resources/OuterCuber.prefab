@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 65118566353482170}
   - component: {fileID: 23636518203646684}
   m_Layer: 0
-  m_Name: Cuber
+  m_Name: OuterCuber
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -55,7 +55,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: e8caaaa8e7264ed4a8df2061e452235b, type: 2}
+  - {fileID: 2100000, guid: 90684b5888198354db5092ce44fd3d58, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

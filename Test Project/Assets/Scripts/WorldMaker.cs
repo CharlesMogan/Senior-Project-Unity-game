@@ -13,22 +13,24 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class WorldMaker : MonoBehaviour {
-	//public GameObject gameManager = GameObject.FindWithTag("GameController");
-    //public GameManager gameManagerScript = gameManager.GetComponent<GameManager>(); //http://answers.unity3d.com/questions/305614/get-script-variable-from-collider.html
-
+	
 	class Cell{
-		int xLocation;
-		int yLocation;
+		int xLocationInRoom;
+		int yLocationInRoom;
+		int absoluteXLocation;
+		int absoluteyLocation;
 		bool isOn;
 		bool isOuterWall;
 		bool isDoor;
 		GameObject myCube;
-		public Cell(bool isOn, bool isOuterWall, bool isDoor, int x, int y){
+		public Cell(bool isOn, bool isOuterWall, bool isDoor, int xInRoom, int yInRoom, int xOffset, int yOffset){
 			this.isOn = isOn;
 			this.isOuterWall = isOuterWall; 
 			this.isDoor = isDoor;
-			this.xLocation = x;
-			this.yLocation = y;
+			this.xLocationInRoom = xInRoom;
+			this.yLocationInRoom = yInRoom;
+			this.absoluteXLocation = xInRoom + xOffset;
+			this.absoluteyLocation = yInRoom + yOffset;
 			// if it is not on the outer wall I need to add health at somepoint.
 		}
 
@@ -44,21 +46,51 @@ public class WorldMaker : MonoBehaviour {
 			set{isOuterWall = value;}
 		}
 
+		public bool IsDoor{
+			get{return isDoor;}
+
+			set{isDoor = value;}
+		}
 
 
 
 		public void Draw(){
 			Destroy(myCube);
-			if(isOn){
-				myCube = Instantiate(Resources.Load("Cuber") as GameObject, new Vector3(xLocation,-20,yLocation), Quaternion.identity);
+			if(isDoor){
+				Debug.Log("implement me!");
+			}else if(isOuterWall){
+				myCube = Instantiate(Resources.Load("OuterCuber") as GameObject, new Vector3(absoluteXLocation,-20,absoluteyLocation), Quaternion.identity);
+			}else if(isOn){
+				myCube = Instantiate(Resources.Load("Cuber") as GameObject, new Vector3(absoluteXLocation,-20,absoluteyLocation), Quaternion.identity);
 			}
 		}
 	}
 
+
+
+
 	class World{
 		public World(){
-			Room firstRoom = new Room(250,250);
-			firstRoom.getDoors();
+			GameObject gameManager = GameObject.FindWithTag("GameController");
+       		GameManager gameManagerScript = gameManager.GetComponent<GameManager>();
+       		int ranRoomSize = gameManagerScript.NextRandom(40,125);
+       		int ranRoomSize2 = gameManagerScript.NextRandom(40,75);
+       		int ranRoomSize3 = gameManagerScript.NextRandom(60,125);
+       		int ranRoomSize4 = gameManagerScript.NextRandom(40,125);
+       		int ranRoomSize5 = gameManagerScript.NextRandom(40,125);
+       		int ranRoomSize6 = gameManagerScript.NextRandom(40,125);
+       		int ranRoomSize7 = gameManagerScript.NextRandom(40,125);
+			/*Room firstRoom = new Room(250,250,0,0);
+			Room secondRoom = new Room(250,250,250,0);
+			Room thirdRoom = new Room(250,250,0,250);
+			Room fourthRoom = new Room(250,250,250,250);*/
+			//firstRoom.getDoors();
+
+			Room firstRoom = new Room(ranRoomSize,ranRoomSize2,0,0);
+			Room secondRoom = new Room(ranRoomSize3,ranRoomSize4,ranRoomSize,0);
+			Room thirdRoom = new Room(ranRoomSize5,ranRoomSize6,0,ranRoomSize2);
+			//Room fourthRoom = new Room(ranRoomSize,ranRoomSize,ranRoomSize,ranRoomSize);
+
 
 		}
 	}
@@ -66,29 +98,33 @@ public class WorldMaker : MonoBehaviour {
 
 
 	class Room{
-		int fill = 36;
+		int fill = 32;
 		GameObject gameManager;
        	GameManager gameManagerScript;
 		public GameObject cube;
+		int xOffset;
+		int yOffset;
 		int rows;
 		int cols;
 		Cell[,] room;
 
-		public Room(int xDimension, int yDimension){
-		gameManager = GameObject.FindWithTag("GameController");
-       	gameManagerScript = gameManager.GetComponent<GameManager>();
+		public Room(int xDimension, int yDimension, int xOffset, int yOffset){
+			gameManager = GameObject.FindWithTag("GameController");
+       		gameManagerScript = gameManager.GetComponent<GameManager>();
+       		this.xOffset = xOffset;
+       		this.yOffset = yOffset;
 			rows = xDimension;
 			cols = yDimension;
 			room = new Cell[rows,cols];
 			for (int i = 0; i < room.GetLength(0); i++){
 				for (int j = 0; j < room.GetLength(1); j++){
-					float ranNum = gameManagerScript.NextRandom(0,100);
+					int ranNum = gameManagerScript.NextRandom(0,100);
 					if( i == 0 || j == 0 || i == room.GetLength(0)-1 || j == room.GetLength(1)-1){
-						room[i,j]= new Cell(true,true,false,i,j);
+						room[i,j]= new Cell(true,true,false,i,j,xOffset,yOffset);
 					}else if(ranNum < fill){
-						room[i,j]= new Cell(true,false,false,i,j);
+						room[i,j]= new Cell(true,false,false,i,j,xOffset,yOffset);
 					}else{
-						room[i,j]= new Cell(false,false,false,i,j);
+						room[i,j]= new Cell(false,false,false,i,j,xOffset,yOffset);
 					}
 				}
 			}
@@ -131,8 +167,8 @@ public class WorldMaker : MonoBehaviour {
 			}
 
 
-			for (int i = 0; i < rows; i++){
-				for (int j = 0; j < cols; j++){
+			for (int i = 1; i < rows-1; i++){    //so the sides are uneffected
+				for (int j = 1; j < cols-1; j++){
 					room[i,j].IsOn = tempRoom[i,j];
 				}
 			}
@@ -155,15 +191,12 @@ public class WorldMaker : MonoBehaviour {
 */
 		bool B45678S45678(int x, int y){
 			int neighbors = getMooreNeighborhood(x,y);
-					if(neighbors < 4){
-						return false;
-					}else if(neighbors > 8){
-						return false;
-						Debug.Log("negighbors =");
-					}else if(neighbors == 4 || neighbors == 5 || neighbors == 6 || neighbors == 7 || neighbors == 8){
-						return true;
-					}
+			if(neighbors < 4){
+				return false;
+			}else{
 				return true;
+			}
+	
 		}
 /*
 		bool B12S23(int x, int y){
@@ -208,19 +241,6 @@ public class WorldMaker : MonoBehaviour {
 
 
 		*/
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
