@@ -83,34 +83,105 @@ public class WorldMaker : MonoBehaviour {
 
 			GameObject gameManager = GameObject.FindWithTag("GameController");
        		GameManager gameManagerScript = gameManager.GetComponent<GameManager>();
-       		/*int ranRoomSize = gameManagerScript.NextRandom(40,125);
+       		int ranRoomSize1 = gameManagerScript.NextRandom(40,125);
        		int ranRoomSize2 = gameManagerScript.NextRandom(40,75);
-       		int ranRoomSize3 = gameManagerScript.NextRandom(60,125);
+			int ranRoomSize3 = gameManagerScript.NextRandom(60,125);
        		int ranRoomSize4 = gameManagerScript.NextRandom(40,125);
-       		int ranRoomSize5 = gameManagerScript.NextRandom(40,125);
-       		int ranRoomSize6 = gameManagerScript.NextRandom(40,125);
-       		int ranRoomSize7 = gameManagerScript.NextRandom(40,125);*/
+       			
+
+
 			/*Room firstRoom = new Room(250,250,0,0);
 			Room secondRoom = new Room(250,250,250,0);
 			Room thirdRoom = new Room(250,250,0,250);
 			Room fourthRoom = new Room(250,250,250,250);*/
 			//firstRoom.getDoors();
-
+		
 
 			//first room
-			Room firstRoom = new Room(250,25,0,0);
+			//Room firstRoom = new Room(250,25,0,0);
 			//second room
-			//Room firstRoom = new Room(ranRoomSize,ranRoomSize2,0,0);
+			Room firstRoom = new Room(ranRoomSize1,ranRoomSize2,0,0);
+
+			int nextSide = gameManagerScript.NextRandom(0,4);
+
+			Room secondRoom;												// switch statement?----------------------
+			if(nextSide == 0){
+				secondRoom = new Room(ranRoomSize3,ranRoomSize4,0,ranRoomSize2);
+			}else if(nextSide == 1){
+				secondRoom = new Room(ranRoomSize3,ranRoomSize4,ranRoomSize1,0);
+			}else if(nextSide == 2){
+				secondRoom = new Room(ranRoomSize3,ranRoomSize4,0,-ranRoomSize4);
+			}else {
+				Debug.Assert(nextSide == 3,"random number bounds error");
+				secondRoom = new Room(ranRoomSize3,ranRoomSize4,-ranRoomSize3,0);
+			}
+
+
+			List<Room> roomArray = new List<Room>();
+			roomArray.Add(firstRoom);
+			roomArray.Add(firstRoom);
+
+
+			while(roomArray.Count < 20){
+				int sideToBuildOn = gameManagerScript.NextRandom(0,4);
+				int whichRoomToBuldNextTo = gameManagerScript.NextRandom(0,roomArray.Count);//----------bad name
+       			int ranRoomSize = gameManagerScript.NextRandom(40,125);
+       			Room[] tempArray = roomArray.ToArray();
+       			int[] neighborRoomBounds = tempArray[whichRoomToBuldNextTo].NESWBounds;
+       			int xLocation = 0;        //location for the lower left corner of the room
+       			int yLocation = 0;
+  				if(sideToBuildOn == 0){   //north
+  					xLocation = neighborRoomBounds[3];
+					yLocation = neighborRoomBounds[0];
+					roomArray.Add(new Room(roomArray[whichRoomToBuldNextTo].Width,ranRoomSize,xLocation,yLocation));
+				}else if(sideToBuildOn == 1){   //east
+					xLocation = neighborRoomBounds[1];
+					yLocation = neighborRoomBounds[2];
+					roomArray.Add(new Room(ranRoomSize,roomArray[whichRoomToBuldNextTo].Height,xLocation,yLocation));
+				}else if(sideToBuildOn == 2){   // south
+					xLocation = neighborRoomBounds[3];
+					yLocation =  neighborRoomBounds[2]-ranRoomSize;
+					roomArray.Add(new Room(roomArray[whichRoomToBuldNextTo].Width,ranRoomSize,xLocation,yLocation));
+				}else if(sideToBuildOn == 3){   //west
+					xLocation = neighborRoomBounds[3] - ranRoomSize;
+					yLocation = neighborRoomBounds[2];
+					roomArray.Add(new Room(ranRoomSize,roomArray[whichRoomToBuldNextTo].Height,xLocation,yLocation));
+				}else{Debug.Log("something went teribad wrong in room generation");}
 
 
 
-			//Room secondRoom = new Room(ranRoomSize3,ranRoomSize4,ranRoomSize,0);
+
+
+				// do the bounds checking here
+
+
+
+
+
+
+				//roomArray.Add(new Room(ranRoomSizeX,ranRoomSizeY,xLocation,yLocation));
+				
+				}
+				//maybe havve avalable side list atached to rooms
+				//pick a side
+				//pick a cube 
+				// check if works
+				// if works add
+
+
+
+
+			}
+
+
+
+
 			//Room thirdRoom = new Room(ranRoomSize5,ranRoomSize6,0,ranRoomSize2);
 			//Room fourthRoom = new Room(ranRoomSize,ranRoomSize,ranRoomSize,ranRoomSize);
 
 
 		}
-	}
+	
 	
 
 
@@ -126,11 +197,11 @@ public class WorldMaker : MonoBehaviour {
 		int yDimension;
 		Cell[,] room;
 
-		public Room(int xDimension, int yDimension, int xOffset, int yOffset){
+		public Room(int xDimension, int yDimension, int xLocation, int yLocation){
 			gameManager = GameObject.FindWithTag("GameController");
        		gameManagerScript = gameManager.GetComponent<GameManager>();
-       		this.xOffset = xOffset;
-       		this.yOffset = yOffset;
+       		this.xOffset = xLocation;
+       		this.yOffset = yLocation;
 			this.xDimension = xDimension;
 			this.yDimension = yDimension;
 
@@ -153,6 +224,7 @@ public class WorldMaker : MonoBehaviour {
 			}
 				Draw();	
 		}
+
 
 
 
@@ -218,6 +290,16 @@ public class WorldMaker : MonoBehaviour {
 
 		}
 
+
+	public int Width{
+		get{return xDimension;}
+	}
+
+	public int Height{
+		get{return yDimension;}
+	}
+
+
 	public int[] NESWBounds{
 		get{return new int[4]{yDimension+yOffset,xDimension+xOffset,0+yOffset,0+xOffset};}///////////////// might be backwoards
 	}
@@ -244,14 +326,6 @@ public class WorldMaker : MonoBehaviour {
 				}
 				return sum;
 			}
-
-
-
-
-
-
-			
-
 	}	
 
 
