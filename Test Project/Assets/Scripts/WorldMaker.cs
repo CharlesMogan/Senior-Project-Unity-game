@@ -71,24 +71,41 @@ public class WorldMaker : MonoBehaviour {
 
 	class World{
 		public World(){
+
+
+			//make a room 
+			//make a touching room off of one of the sides
+			//propose a third room at a location
+			//check if that conflicts with other rooms.
+
+
+
+
 			GameObject gameManager = GameObject.FindWithTag("GameController");
        		GameManager gameManagerScript = gameManager.GetComponent<GameManager>();
-       		int ranRoomSize = gameManagerScript.NextRandom(40,125);
+       		/*int ranRoomSize = gameManagerScript.NextRandom(40,125);
        		int ranRoomSize2 = gameManagerScript.NextRandom(40,75);
        		int ranRoomSize3 = gameManagerScript.NextRandom(60,125);
        		int ranRoomSize4 = gameManagerScript.NextRandom(40,125);
        		int ranRoomSize5 = gameManagerScript.NextRandom(40,125);
        		int ranRoomSize6 = gameManagerScript.NextRandom(40,125);
-       		int ranRoomSize7 = gameManagerScript.NextRandom(40,125);
+       		int ranRoomSize7 = gameManagerScript.NextRandom(40,125);*/
 			/*Room firstRoom = new Room(250,250,0,0);
 			Room secondRoom = new Room(250,250,250,0);
 			Room thirdRoom = new Room(250,250,0,250);
 			Room fourthRoom = new Room(250,250,250,250);*/
 			//firstRoom.getDoors();
 
-			Room firstRoom = new Room(ranRoomSize,ranRoomSize2,0,0);
-			Room secondRoom = new Room(ranRoomSize3,ranRoomSize4,ranRoomSize,0);
-			Room thirdRoom = new Room(ranRoomSize5,ranRoomSize6,0,ranRoomSize2);
+
+			//first room
+			Room firstRoom = new Room(250,25,0,0);
+			//second room
+			//Room firstRoom = new Room(ranRoomSize,ranRoomSize2,0,0);
+
+
+
+			//Room secondRoom = new Room(ranRoomSize3,ranRoomSize4,ranRoomSize,0);
+			//Room thirdRoom = new Room(ranRoomSize5,ranRoomSize6,0,ranRoomSize2);
 			//Room fourthRoom = new Room(ranRoomSize,ranRoomSize,ranRoomSize,ranRoomSize);
 
 
@@ -99,13 +116,14 @@ public class WorldMaker : MonoBehaviour {
 
 	class Room{
 		int fill = 32;
+
 		GameObject gameManager;
        	GameManager gameManagerScript;
 		public GameObject cube;
 		int xOffset;
 		int yOffset;
-		int rows;
-		int cols;
+		int xDimension;
+		int yDimension;
 		Cell[,] room;
 
 		public Room(int xDimension, int yDimension, int xOffset, int yOffset){
@@ -113,13 +131,14 @@ public class WorldMaker : MonoBehaviour {
        		gameManagerScript = gameManager.GetComponent<GameManager>();
        		this.xOffset = xOffset;
        		this.yOffset = yOffset;
-			rows = xDimension;
-			cols = yDimension;
-			room = new Cell[rows,cols];
-			for (int i = 0; i < room.GetLength(0); i++){
-				for (int j = 0; j < room.GetLength(1); j++){
+			this.xDimension = xDimension;
+			this.yDimension = yDimension;
+
+			room = new Cell[xDimension,yDimension];
+			for (int i = 0; i < xDimension; i++){
+				for (int j = 0; j < yDimension; j++){
 					int ranNum = gameManagerScript.NextRandom(0,100);
-					if( i == 0 || j == 0 || i == room.GetLength(0)-1 || j == room.GetLength(1)-1){
+					if( i == 0 || j == 0 || i == xDimension-1 || j == yDimension-1){
 						room[i,j]= new Cell(true,true,false,i,j,xOffset,yOffset);
 					}else if(ranNum < fill){
 						room[i,j]= new Cell(true,false,false,i,j,xOffset,yOffset);
@@ -139,8 +158,8 @@ public class WorldMaker : MonoBehaviour {
 
 
 		void Draw(){
-			for (int i = 0; i < room.GetLength(0); i++){
-				for (int j = 0; j < room.GetLength(1); j++){
+			for (int i = 0; i < xDimension; i++){
+				for (int j = 0; j < yDimension; j++){
 					room[i,j].Draw();
 				}
 			}	
@@ -150,32 +169,32 @@ public class WorldMaker : MonoBehaviour {
 
 
 		void nextGeneration(){
-			bool[,] tempRoom = new bool[rows,cols];
+			bool[,] tempRoom = new bool[xDimension,yDimension];
 			
 
-			for (int i = 0; i < rows; i++){
-				for (int j = 0; j < cols; j++){
+			for (int i = 0; i < xDimension; i++){
+				for (int j = 0; j < yDimension; j++){
 					tempRoom[i,j] = room[i,j].IsOn;
 				}
 			}
 
 
-			for (int i = 0; i < rows; i++){
-				for (int j = 0; j < cols; j++){
+			for (int i = 0; i < xDimension; i++){
+				for (int j = 0; j < yDimension; j++){
 					tempRoom[i,j] = B45678S45678(i,j);
 				}
 			}
 
 
-			for (int i = 1; i < rows-1; i++){    //so the sides are uneffected
-				for (int j = 1; j < cols-1; j++){
+			for (int i = 1; i < xDimension-1; i++){    //so the sides are uneffected
+				for (int j = 1; j < yDimension-1; j++){
 					room[i,j].IsOn = tempRoom[i,j];
 				}
 			}
 			
 		}
 
-/*
+
 
 		bool B3S23(int x, int y){                             //conway's rules
 			int neighbors = getMooreNeighborhood(x,y);
@@ -188,7 +207,7 @@ public class WorldMaker : MonoBehaviour {
 					}
 				return false;
 		}
-*/
+
 		bool B45678S45678(int x, int y){
 			int neighbors = getMooreNeighborhood(x,y);
 			if(neighbors < 4){
@@ -196,51 +215,15 @@ public class WorldMaker : MonoBehaviour {
 			}else{
 				return true;
 			}
-	
-		}
-/*
-		bool B12S23(int x, int y){
-			int neighbors = getMooreNeighborhood(x,y);
-					if(neighbors < 2){
-						return false;
-					}else if(neighbors > 3){
-						return false;
-					}else if(room[x,y].IsOn == false && (neighbors == 1 || neighbors == 2)){
-						return true;
-					}
-				return false;
+
 		}
 
-
-		bool B1S23(int x, int y){
-			int neighbors = getMooreNeighborhood(x,y);
-					if(neighbors < 2){
-						return false;
-					}else if(neighbors > 3){
-						return false;
-					}else if(room[x,y].IsOn == false && neighbors == 1){
-						return true;
-					}
-				return false;
-		}
+	public int[] NESWBounds{
+		get{return new int[4]{yDimension+yOffset,xDimension+xOffset,0+yOffset,0+xOffset};}///////////////// might be backwoards
+	}
 
 
-
-		bool B4S34(int x, int y){
-			int neighbors = getMooreNeighborhood(x,y);
-					if(neighbors < 3){
-						return false;
-					}else if(neighbors > 3){
-						return false;
-					}else if(room[x,y].IsOn == false && neighbors == 4){
-						return true;
-					}
-				return false;
-		}
-
-
-
-		*/
+		
 
 
 
@@ -249,7 +232,7 @@ public class WorldMaker : MonoBehaviour {
 				for(int i = -1; i <= 1; i++){
 					for(int j = -1; j <= 1; j++){
 						//Debug.Log("tryingTo acsess"+ (x+i)+" "+(y+j));
-						if(x+i>-1 && y+j>-1 && x+i < rows && y+j < cols){           ///this is real bad, need to fix
+						if(x+i>-1 && y+j>-1 && x+i < xDimension && y+j < yDimension){           ///this is real bad, need to fix
 							if(room[x+i,y+j].IsOn){
 								sum += 1;
 							}
@@ -261,6 +244,12 @@ public class WorldMaker : MonoBehaviour {
 				}
 				return sum;
 			}
+
+
+
+
+
+
 			
 
 	}	
