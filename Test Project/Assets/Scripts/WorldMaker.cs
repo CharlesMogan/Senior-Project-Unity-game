@@ -152,9 +152,10 @@ public class WorldMaker : MonoBehaviour {
 
 
 
-				// do the bounds checking here
+				// do the bounds checking here-----------------------------------------
+				bool checkbounds(int[])								
 
-
+				// --------------------------------------------------------------------
 
 
 
@@ -172,13 +173,6 @@ public class WorldMaker : MonoBehaviour {
 
 
 			}
-
-
-
-
-			//Room thirdRoom = new Room(ranRoomSize5,ranRoomSize6,0,ranRoomSize2);
-			//Room fourthRoom = new Room(ranRoomSize,ranRoomSize,ranRoomSize,ranRoomSize);
-
 
 		}
 	
@@ -338,9 +332,4 @@ public class WorldMaker : MonoBehaviour {
 	}
 
 
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }
