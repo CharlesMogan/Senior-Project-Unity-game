@@ -144,7 +144,7 @@ public class WorldMaker : MonoBehaviour {
 
 
 		public bool IsInRoom(int x, int y){
-			if(y < northBounds && y > southBounds && x > westBounds && x <eastBounds){
+			if(y < northBounds && y > southBounds && x > westBounds && x <= eastBounds){
 				return true;
 			}
 			return false;
@@ -311,8 +311,8 @@ public class WorldMaker : MonoBehaviour {
 			Room firstRoom = new Room(50,50,0,0);
 			roomArray.Add(firstRoom);
 
-
-			while(roomArray.Count < 6){
+			//for(int i = 0; i < 16; i++){
+			while(roomArray.Count < 2){
 				int sideToBuildOn = gameManagerScript.NextRandom(0,4);
 				int whichRoomToBuldNextTo = gameManagerScript.NextRandom(0,roomArray.Count);
        			int ranRoomSize = gameManagerScript.NextRandom(50,100);
@@ -320,6 +320,7 @@ public class WorldMaker : MonoBehaviour {
        			int[] neighborRoomBounds = tempArray[whichRoomToBuldNextTo].NESWBounds;
        			int xLocation = 0;        //location for the lower left corner of the room
        			int yLocation = 0;
+       			Debug.Log("sideToBuildOn " + sideToBuildOn);
   				if(sideToBuildOn == 0){   //north
   					xLocation = neighborRoomBounds[3];
 					yLocation = neighborRoomBounds[0];
@@ -357,23 +358,27 @@ public class WorldMaker : MonoBehaviour {
 				}else{Debug.Log("something went teribad wrong in room generation");}
 
 			}
-				//maybe havve avalable side list atached to rooms
-				//pick a side
-				//pick a cube 
-				// check if works
-				// if works add
-
+			
+			for(int i = 0; i < roomArray.Count; i++){
+				Debug.Log("room " + i + " has a NESW bounds of " + roomArray[i].NESWBounds[0] + " " + roomArray[i].NESWBounds[1] + " " + roomArray[i].NESWBounds[2] + " " + roomArray[i].NESWBounds[3]);
+			}  
 
 		}
 
 			
 
 
+
+
+
+
+
+
 			//if min length room to max length room is only 3 times as big then checking at like 3 points along easch wall can confirm no intersections
 			bool IsSafeToBuild(int xDimension, int yDimension, int xLocation, int yLocation){  ///this should be 100% safe
 
-				int northBounds = yDimension+yLocation;
-				int eastBounds = xDimension+xLocation;
+				int northBounds = yDimension+yLocation-1;
+				int eastBounds = xDimension+xLocation-1;
 				int southBounds = yLocation;
 				int westBounds = xLocation;
 				// Debug.Log(northBounds + " is northBounds");

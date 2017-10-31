@@ -96,7 +96,7 @@ public class Shooting : MonoBehaviour {
 
 	protected void ShootLaser(float laserLifetime){
 		foreach(Transform gun in guns){
-			Debug.Log("actually shooting a laser");
+			//Debug.Log("actually shooting a laser");
 			Laser lastLaser= Instantiate(laser, gun.position, gun.rotation);
 			lastLaser.Damage = laserDamage;
 			Transform lastLaserTransform = lastLaser.GetComponent<Transform>();
