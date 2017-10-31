@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,7 +10,6 @@ public class Pickup : MonoBehaviour {
        		Debug.Log("Impact2");
        		GameObject gameManager = GameObject.FindWithTag("GameController");
        		GameManager gameManagerScript = gameManager.GetComponent<GameManager>(); //http://answers.unity3d.com/questions/305614/get-script-variable-from-collider.html
-
        		float randomNum = gameManagerScript.NextRandom(1,2);
        		if(randomNum < 1000){
        			Health health = other.GetComponent<Health>();

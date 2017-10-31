@@ -14,6 +14,10 @@ using UnityEngine;
 
 public class WorldMaker : MonoBehaviour {
 	
+
+
+
+
 	class Cell{
 		int xLocationInRoom;
 		int yLocationInRoom;
@@ -66,117 +70,14 @@ public class WorldMaker : MonoBehaviour {
 		}
 	}
 
-
-
-
-	class World{
-		public World(){
-
-
-			//make a room 
-			//make a touching room off of one of the sides
-			//propose a third room at a location
-			//check if that conflicts with other rooms.
-
-
-
-
-			GameObject gameManager = GameObject.FindWithTag("GameController");
-       		GameManager gameManagerScript = gameManager.GetComponent<GameManager>();
-       		int ranRoomSize1 = gameManagerScript.NextRandom(40,125);
-       		int ranRoomSize2 = gameManagerScript.NextRandom(40,75);
-			int ranRoomSize3 = gameManagerScript.NextRandom(60,125);
-       		int ranRoomSize4 = gameManagerScript.NextRandom(40,125);
-       			
-
-
-			/*Room firstRoom = new Room(250,250,0,0);
-			Room secondRoom = new Room(250,250,250,0);
-			Room thirdRoom = new Room(250,250,0,250);
-			Room fourthRoom = new Room(250,250,250,250);*/
-			//firstRoom.getDoors();
-		
-
-			//first room
-			//Room firstRoom = new Room(250,25,0,0);
-			//second room
-			Room firstRoom = new Room(ranRoomSize1,ranRoomSize2,0,0);
-
-			int nextSide = gameManagerScript.NextRandom(0,4);
-
-			Room secondRoom;												// switch statement?----------------------
-			if(nextSide == 0){
-				secondRoom = new Room(ranRoomSize3,ranRoomSize4,0,ranRoomSize2);
-			}else if(nextSide == 1){
-				secondRoom = new Room(ranRoomSize3,ranRoomSize4,ranRoomSize1,0);
-			}else if(nextSide == 2){
-				secondRoom = new Room(ranRoomSize3,ranRoomSize4,0,-ranRoomSize4);
-			}else {
-				Debug.Assert(nextSide == 3,"random number bounds error");
-				secondRoom = new Room(ranRoomSize3,ranRoomSize4,-ranRoomSize3,0);
-			}
-
-
-			List<Room> roomArray = new List<Room>();
-			roomArray.Add(firstRoom);
-			roomArray.Add(firstRoom);
-
-
-			while(roomArray.Count < 20){
-				int sideToBuildOn = gameManagerScript.NextRandom(0,4);
-				int whichRoomToBuldNextTo = gameManagerScript.NextRandom(0,roomArray.Count);//----------bad name
-       			int ranRoomSize = gameManagerScript.NextRandom(40,125);
-       			Room[] tempArray = roomArray.ToArray();
-       			int[] neighborRoomBounds = tempArray[whichRoomToBuldNextTo].NESWBounds;
-       			int xLocation = 0;        //location for the lower left corner of the room
-       			int yLocation = 0;
-  				if(sideToBuildOn == 0){   //north
-  					xLocation = neighborRoomBounds[3];
-					yLocation = neighborRoomBounds[0];
-					roomArray.Add(new Room(roomArray[whichRoomToBuldNextTo].Width,ranRoomSize,xLocation,yLocation));
-				}else if(sideToBuildOn == 1){   //east
-					xLocation = neighborRoomBounds[1];
-					yLocation = neighborRoomBounds[2];
-					roomArray.Add(new Room(ranRoomSize,roomArray[whichRoomToBuldNextTo].Height,xLocation,yLocation));
-				}else if(sideToBuildOn == 2){   // south
-					xLocation = neighborRoomBounds[3];
-					yLocation =  neighborRoomBounds[2]-ranRoomSize;
-					roomArray.Add(new Room(roomArray[whichRoomToBuldNextTo].Width,ranRoomSize,xLocation,yLocation));
-				}else if(sideToBuildOn == 3){   //west
-					xLocation = neighborRoomBounds[3] - ranRoomSize;
-					yLocation = neighborRoomBounds[2];
-					roomArray.Add(new Room(ranRoomSize,roomArray[whichRoomToBuldNextTo].Height,xLocation,yLocation));
-				}else{Debug.Log("something went teribad wrong in room generation");}
+//--------------------------------------------------------------------
 
 
 
 
 
-				// do the bounds checking here-----------------------------------------
-				bool checkbounds(int[])								
-
-				// --------------------------------------------------------------------
 
 
-
-
-				//roomArray.Add(new Room(ranRoomSizeX,ranRoomSizeY,xLocation,yLocation));
-				
-				}
-				//maybe havve avalable side list atached to rooms
-				//pick a side
-				//pick a cube 
-				// check if works
-				// if works add
-
-
-
-
-			}
-
-		}
-	
-	
 
 
 	class Room{
@@ -189,6 +90,11 @@ public class WorldMaker : MonoBehaviour {
 		int yOffset;
 		int xDimension;
 		int yDimension;
+
+		int northBounds;
+		int eastBounds;
+		int southBounds;
+		int westBounds;
 		Cell[,] room;
 
 		public Room(int xDimension, int yDimension, int xLocation, int yLocation){
@@ -198,6 +104,10 @@ public class WorldMaker : MonoBehaviour {
        		this.yOffset = yLocation;
 			this.xDimension = xDimension;
 			this.yDimension = yDimension;
+			northBounds = yDimension+yOffset;
+			eastBounds = xDimension+xOffset;
+			southBounds = yOffset;
+			westBounds = xOffset;
 
 			room = new Cell[xDimension,yDimension];
 			for (int i = 0; i < xDimension; i++){
@@ -216,7 +126,7 @@ public class WorldMaker : MonoBehaviour {
 			for(int i = 0; i < 5; i++){  //i do ever even
 				nextGeneration();
 			}
-				Draw();	
+			Draw();	
 		}
 
 
@@ -232,6 +142,13 @@ public class WorldMaker : MonoBehaviour {
 		}
 
 
+
+		public bool IsInRoom(int x, int y){
+			if(y < northBounds && y > southBounds && x > westBounds && x <eastBounds){
+				return true;
+			}
+			return false;
+		}
 
 
 		void nextGeneration(){
@@ -285,42 +202,253 @@ public class WorldMaker : MonoBehaviour {
 		}
 
 
-	public int Width{
-		get{return xDimension;}
-	}
+		public int Width{
+			get{return xDimension;}
+		}
 
-	public int Height{
-		get{return yDimension;}
-	}
-
-
-	public int[] NESWBounds{
-		get{return new int[4]{yDimension+yOffset,xDimension+xOffset,0+yOffset,0+xOffset};}///////////////// might be backwoards
-	}
+		public int Height{
+			get{return yDimension;}
+		}
 
 
+		public int[] NESWBounds{
+			get{return new int[4]{northBounds,eastBounds,southBounds,westBounds};}///////////////// might be backwoards
+		}
 		
 
 
 
 		int getMooreNeighborhood(int x, int y){
-				int sum = 0;
-				for(int i = -1; i <= 1; i++){
-					for(int j = -1; j <= 1; j++){
-						//Debug.Log("tryingTo acsess"+ (x+i)+" "+(y+j));
-						if(x+i>-1 && y+j>-1 && x+i < xDimension && y+j < yDimension){           ///this is real bad, need to fix
-							if(room[x+i,y+j].IsOn){
-								sum += 1;
-							}
+			int sum = 0;
+			for(int i = -1; i <= 1; i++){
+				for(int j = -1; j <= 1; j++){
+					//Debug.Log("tryingTo acsess"+ (x+i)+" "+(y+j));
+					if(x+i>-1 && y+j>-1 && x+i < xDimension && y+j < yDimension){           ///this is real bad, need to fix
+						if(room[x+i,y+j].IsOn){
+							sum += 1;
 						}
 					}
 				}
-				if (room[x,y].IsOn){
-					sum-=1;
-				}
-				return sum;
 			}
-	}	
+			if (room[x,y].IsOn){
+				sum-=1;
+			}
+			return sum;
+		}
+		}////////////----------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//---------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+	class World{
+		List<Room> roomArray;
+
+		public World(){
+
+
+			//make a room 
+			//make a touching room off of one of the sides
+			//propose a third room at a location
+			//check if that conflicts with other rooms.
+
+
+
+
+			GameObject gameManager = GameObject.FindWithTag("GameController");
+       		GameManager gameManagerScript = gameManager.GetComponent<GameManager>();
+       		int ranRoomSize1 = gameManagerScript.NextRandom(40,125);
+       		int ranRoomSize2 = gameManagerScript.NextRandom(40,75);
+			//int ranRoomSize3 = gameManagerScript.NextRandom(60,125);
+       		//int ranRoomSize4 = gameManagerScript.NextRandom(40,125);
+       			
+
+
+			/*Room firstRoom = new Room(250,250,0,0);
+			Room secondRoom = new Room(250,250,250,0);
+			Room thirdRoom = new Room(250,250,0,250);
+			Room fourthRoom = new Room(250,250,250,250);*/
+			//firstRoom.getDoors();
+		
+
+			//first room
+			//Room firstRoom = new Room(250,25,0,0);
+			//second room
+			//Room firstRoom = new Room(ranRoomSize1,ranRoomSize2,0,0);
+
+			//int nextSide = gameManagerScript.NextRandom(0,4);
+
+			/*Room secondRoom;												// switch statement?----------------------
+			if(nextSide == 0){
+				secondRoom = new Room(ranRoomSize3,ranRoomSize4,0,ranRoomSize2);
+			}else if(nextSide == 1){
+				secondRoom = new Room(ranRoomSize3,ranRoomSize4,ranRoomSize1,0);
+			}else if(nextSide == 2){
+				secondRoom = new Room(ranRoomSize3,ranRoomSize4,0,-ranRoomSize4);
+			}else {
+				Debug.Assert(nextSide == 3,"random number bounds error");
+				secondRoom = new Room(ranRoomSize3,ranRoomSize4,-ranRoomSize3,0);
+			}
+*/
+
+			roomArray = new List<Room>();
+			Room firstRoom = new Room(50,50,0,0);
+			roomArray.Add(firstRoom);
+
+
+			while(roomArray.Count < 6){
+				int sideToBuildOn = gameManagerScript.NextRandom(0,4);
+				int whichRoomToBuldNextTo = gameManagerScript.NextRandom(0,roomArray.Count);
+       			int ranRoomSize = gameManagerScript.NextRandom(50,100);
+       			Room[] tempArray = roomArray.ToArray();
+       			int[] neighborRoomBounds = tempArray[whichRoomToBuldNextTo].NESWBounds;
+       			int xLocation = 0;        //location for the lower left corner of the room
+       			int yLocation = 0;
+  				if(sideToBuildOn == 0){   //north
+  					xLocation = neighborRoomBounds[3];
+					yLocation = neighborRoomBounds[0];
+					if(IsSafeToBuild(roomArray[whichRoomToBuldNextTo].Width,ranRoomSize,xLocation,yLocation)){
+						roomArray.Add(new Room(roomArray[whichRoomToBuldNextTo].Width,ranRoomSize,xLocation,yLocation));
+					}else{
+						Debug.Log("room Collision sucsessfullyy detected");
+					}		
+				}else if(sideToBuildOn == 1){   //east
+					xLocation = neighborRoomBounds[1];
+					yLocation = neighborRoomBounds[2];
+					if(IsSafeToBuild(ranRoomSize,roomArray[whichRoomToBuldNextTo].Height,xLocation,yLocation)){
+						roomArray.Add(new Room(ranRoomSize,roomArray[whichRoomToBuldNextTo].Height,xLocation,yLocation));
+					}else{
+						Debug.Log("room Collision sucsessfullyy detected");
+					}
+				}else if(sideToBuildOn == 2){   // south
+					xLocation = neighborRoomBounds[3];
+					yLocation =  neighborRoomBounds[2]-ranRoomSize;
+					
+					if(IsSafeToBuild(roomArray[whichRoomToBuldNextTo].Width,ranRoomSize,xLocation,yLocation)){
+						roomArray.Add(new Room(roomArray[whichRoomToBuldNextTo].Width,ranRoomSize,xLocation,yLocation));
+					}else{
+						Debug.Log("room Collision sucsessfullyy detected");
+					}
+				}else if(sideToBuildOn == 3){   //west
+					xLocation = neighborRoomBounds[3] - ranRoomSize;
+					yLocation = neighborRoomBounds[2];
+					
+					if(IsSafeToBuild(ranRoomSize,roomArray[whichRoomToBuldNextTo].Height,xLocation,yLocation)){
+						roomArray.Add(new Room(ranRoomSize,roomArray[whichRoomToBuldNextTo].Height,xLocation,yLocation));
+					}else{
+						Debug.Log("room Collision sucsessfullyy detected");
+					}
+				}else{Debug.Log("something went teribad wrong in room generation");}
+
+			}
+				//maybe havve avalable side list atached to rooms
+				//pick a side
+				//pick a cube 
+				// check if works
+				// if works add
+
+
+		}
+
+			
+
+
+			//if min length room to max length room is only 3 times as big then checking at like 3 points along easch wall can confirm no intersections
+			bool IsSafeToBuild(int xDimension, int yDimension, int xLocation, int yLocation){  ///this should be 100% safe
+
+				int northBounds = yDimension+yLocation;
+				int eastBounds = xDimension+xLocation;
+				int southBounds = yLocation;
+				int westBounds = xLocation;
+				// Debug.Log(northBounds + " is northBounds");
+				// Debug.Log(eastBounds + " is eastBounds");
+				// Debug.Log(southBounds + " issouthhBounds");
+				// Debug.Log(westBounds + " iswesthBounds");
+
+/*				if(IsInWorld(eastBounds, northBounds) ||  //NE corner
+					IsInWorld(eastBounds, southBounds) || //SE corner
+					IsInWorld(westBounds, southBounds) || //SW corner
+					IsInWorld(westBounds, northBounds)	|| //NW corner
+					IsInWorld((eastBounds + westBounds)/2, northBounds) || // N middle
+					IsInWorld(eastBounds, (northBounds + southBounds)/2)) || // E middle
+					IsInWorld((eastBounds + westBounds)/2, southBounds) || // S middle
+					IsInWorld(westBounds,(northBounds + southBounds)/2))){ // W middle
+					return false;
+				}*/
+				if(IsInWorld(eastBounds, northBounds)){//NE corner
+					Debug.Log(1);
+					return false;
+				}
+				if(IsInWorld(westBounds, southBounds)){//SE corner
+					Debug.Log("point tested is " +westBounds+" "+ southBounds);
+					Debug.Log(2);
+					return false;
+				}
+				if(IsInWorld(westBounds, southBounds)){//SW corner
+					Debug.Log(3);
+					return false;
+				}
+				if(IsInWorld(westBounds, northBounds)){ //NW corner
+					Debug.Log(4);
+					return false;
+				}
+				if(IsInWorld((eastBounds + westBounds)/2, northBounds)){// N middle
+					Debug.Log(5);
+					return false;
+				}
+				if(IsInWorld(eastBounds, (northBounds + southBounds)/2)){ // E middle
+					//Debug.Log("point tested is " +eastBounds+" "+ (northBounds - southBounds));
+					Debug.Log(6);
+					return false;
+				}
+				if(IsInWorld((eastBounds + westBounds)/2, southBounds)){ // S middle
+					Debug.Log(7);
+					return false;
+				}
+				if(IsInWorld(westBounds, (northBounds + southBounds)/2)){ // W middle
+					Debug.Log(8);
+					return false;
+				}
+				return true;
+			}
+			
+
+
+			bool IsInWorld(int x, int y){
+				foreach(Room room in roomArray){
+					if(room.IsInRoom(x,y)){
+						return true;
+					}
+				}
+				return false;
+			}
+	
+	}
+
+
+
+
+
+
+//---------------------------------------------------------------------------------------------
+
+
 
 
 
