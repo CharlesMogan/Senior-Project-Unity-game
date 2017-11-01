@@ -104,8 +104,8 @@ public class WorldMaker : MonoBehaviour {
        		this.yOffset = yLocation;
 			this.xDimension = xDimension;
 			this.yDimension = yDimension;
-			northBounds = yDimension+yOffset;
-			eastBounds = xDimension+xOffset;
+			northBounds = yDimension+yOffset -1;
+			eastBounds = xDimension+xOffset -1;
 			southBounds = yOffset;
 			westBounds = xOffset;
 
@@ -144,7 +144,7 @@ public class WorldMaker : MonoBehaviour {
 
 
 		public bool IsInRoom(int x, int y){
-			if(y < northBounds && y > southBounds && x > westBounds && x <= eastBounds){
+			if(y <= northBounds && y >= southBounds && x >= westBounds && x <= eastBounds){
 				return true;
 			}
 			return false;
@@ -280,39 +280,14 @@ public class WorldMaker : MonoBehaviour {
        			
 
 
-			/*Room firstRoom = new Room(250,250,0,0);
-			Room secondRoom = new Room(250,250,250,0);
-			Room thirdRoom = new Room(250,250,0,250);
-			Room fourthRoom = new Room(250,250,250,250);*/
-			//firstRoom.getDoors();
-		
 
-			//first room
-			//Room firstRoom = new Room(250,25,0,0);
-			//second room
-			//Room firstRoom = new Room(ranRoomSize1,ranRoomSize2,0,0);
-
-			//int nextSide = gameManagerScript.NextRandom(0,4);
-
-			/*Room secondRoom;												// switch statement?----------------------
-			if(nextSide == 0){
-				secondRoom = new Room(ranRoomSize3,ranRoomSize4,0,ranRoomSize2);
-			}else if(nextSide == 1){
-				secondRoom = new Room(ranRoomSize3,ranRoomSize4,ranRoomSize1,0);
-			}else if(nextSide == 2){
-				secondRoom = new Room(ranRoomSize3,ranRoomSize4,0,-ranRoomSize4);
-			}else {
-				Debug.Assert(nextSide == 3,"random number bounds error");
-				secondRoom = new Room(ranRoomSize3,ranRoomSize4,-ranRoomSize3,0);
-			}
-*/
 
 			roomArray = new List<Room>();
 			Room firstRoom = new Room(50,50,0,0);
 			roomArray.Add(firstRoom);
 
-			//for(int i = 0; i < 16; i++){
-			while(roomArray.Count < 2){
+			//for(int i = 0; i < 20; i++){
+			while(roomArray.Count < 25){
 				int sideToBuildOn = gameManagerScript.NextRandom(0,4);
 				int whichRoomToBuldNextTo = gameManagerScript.NextRandom(0,roomArray.Count);
        			int ranRoomSize = gameManagerScript.NextRandom(50,100);
@@ -323,14 +298,14 @@ public class WorldMaker : MonoBehaviour {
        			Debug.Log("sideToBuildOn " + sideToBuildOn);
   				if(sideToBuildOn == 0){   //north
   					xLocation = neighborRoomBounds[3];
-					yLocation = neighborRoomBounds[0];
+					yLocation = neighborRoomBounds[0] + 1;
 					if(IsSafeToBuild(roomArray[whichRoomToBuldNextTo].Width,ranRoomSize,xLocation,yLocation)){
 						roomArray.Add(new Room(roomArray[whichRoomToBuldNextTo].Width,ranRoomSize,xLocation,yLocation));
 					}else{
 						Debug.Log("room Collision sucsessfullyy detected");
 					}		
 				}else if(sideToBuildOn == 1){   //east
-					xLocation = neighborRoomBounds[1];
+					xLocation = neighborRoomBounds[1] + 1;
 					yLocation = neighborRoomBounds[2];
 					if(IsSafeToBuild(ranRoomSize,roomArray[whichRoomToBuldNextTo].Height,xLocation,yLocation)){
 						roomArray.Add(new Room(ranRoomSize,roomArray[whichRoomToBuldNextTo].Height,xLocation,yLocation));
