@@ -3,7 +3,7 @@ room knows about adjacent rooms
 world makes a list of touples with the start and end of their intersection
 
 
-
+getting all north and east relations gets all relations
 
 
 
