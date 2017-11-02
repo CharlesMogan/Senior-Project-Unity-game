@@ -126,14 +126,13 @@ public class WorldMaker : MonoBehaviour {
 			for(int i = 0; i < 5; i++){  //i do ever even
 				nextGeneration();
 			}
-			Draw();	
 		}
 
 
 
 
 
-		void Draw(){
+		public void Draw(){
 			for (int i = 0; i < xDimension; i++){
 				for (int j = 0; j < yDimension; j++){
 					room[i,j].Draw();
@@ -141,6 +140,92 @@ public class WorldMaker : MonoBehaviour {
 			}	
 		}
 
+		public void AddDoorAtAbsoluteLocation(int x, int y){
+			Debug.Log("I am trying to add a door at " + x +" "+ y +" !");
+			//Debug.Log("I am trying to add a door locally at " + (x - xOffset) +" "+ (y - yOffset) +" !");
+			//Debug.Log("I am my offset is! " + (xOffset) +" "+ (yOffset) +" !");
+			room[x - xOffset,y - yOffset].IsDoor = true;
+		}
+
+		public void AddDoors(World world){
+
+			int indexOfRoomBeingTracked = -1;
+			int upperBoundsOfBorder = 0;
+			int lowerBoundsOfBorder = 0;
+			int borderingRoom = -1;
+			int yToBuildAt = 0;
+
+
+			for(int i = southBounds; i < northBounds; i++){  //checking east wall
+				borderingRoom = world.IsInWorld(eastBounds+1,i);
+
+				if(indexOfRoomBeingTracked == -1 && borderingRoom != -1){
+					lowerBoundsOfBorder = i;
+					indexOfRoomBeingTracked = borderingRoom;
+				}	
+				if(indexOfRoomBeingTracked != borderingRoom){   // the room being bordered changes
+					upperBoundsOfBorder = i -1;
+					yToBuildAt = (upperBoundsOfBorder + lowerBoundsOfBorder) / 2;
+					if(upperBoundsOfBorder - lowerBoundsOfBorder > 4){
+	 					AddDoorAtAbsoluteLocation(eastBounds, yToBuildAt);
+	 					world.AddDoor(indexOfRoomBeingTracked, eastBounds+1, yToBuildAt);
+	 				}
+	 				indexOfRoomBeingTracked = borderingRoom;
+	 				lowerBoundsOfBorder = i;
+				}
+			}
+			if(indexOfRoomBeingTracked != -1){
+				upperBoundsOfBorder = northBounds;
+				yToBuildAt = (upperBoundsOfBorder + lowerBoundsOfBorder) / 2;
+				if(upperBoundsOfBorder - lowerBoundsOfBorder > 4){
+					AddDoorAtAbsoluteLocation(eastBounds, yToBuildAt);
+	 				world.AddDoor(indexOfRoomBeingTracked, eastBounds+1, yToBuildAt);
+	 			}
+			}
+
+
+
+
+
+
+			indexOfRoomBeingTracked = -1;
+			upperBoundsOfBorder = 0;
+			lowerBoundsOfBorder = 0;
+			borderingRoom = -1;
+			int xToBuildAt = 0;
+
+
+			for(int i = westBounds; i < eastBounds; i++){  //checking north wall
+				borderingRoom = world.IsInWorld(i,northBounds+1);
+				Debug.Log("rawr");
+				if(indexOfRoomBeingTracked == -1 && borderingRoom != -1){
+					lowerBoundsOfBorder = i;
+					indexOfRoomBeingTracked = borderingRoom;
+				}	
+				if(indexOfRoomBeingTracked != borderingRoom){   // the room being bordered changes
+					upperBoundsOfBorder = i -1;
+					xToBuildAt = (upperBoundsOfBorder + lowerBoundsOfBorder) / 2;
+					if(upperBoundsOfBorder - lowerBoundsOfBorder > 4){
+	 					AddDoorAtAbsoluteLocation(xToBuildAt, northBounds);
+	 					world.AddDoor(indexOfRoomBeingTracked, xToBuildAt, northBounds+1);
+	 				}
+	 				indexOfRoomBeingTracked = borderingRoom;
+	 				lowerBoundsOfBorder = i;
+				}
+			}
+			if(indexOfRoomBeingTracked != -1){
+				upperBoundsOfBorder = eastBounds;
+				xToBuildAt = (upperBoundsOfBorder + lowerBoundsOfBorder) / 2;
+				if(upperBoundsOfBorder - lowerBoundsOfBorder > 4){
+					AddDoorAtAbsoluteLocation(xToBuildAt, northBounds);
+	 				world.AddDoor(indexOfRoomBeingTracked, xToBuildAt, northBounds+1);
+	 			}
+			}
+
+
+
+			
+		}
 
 
 		public bool IsInRoom(int x, int y){
@@ -287,7 +372,7 @@ public class WorldMaker : MonoBehaviour {
 			roomArray.Add(firstRoom);
 
 			//for(int i = 0; i < 20; i++){
-			while(roomArray.Count < 25){
+			while(roomArray.Count < 15){
 				int sideToBuildOn = gameManagerScript.NextRandom(0,4);
 				int whichRoomToBuldNextTo = gameManagerScript.NextRandom(0,roomArray.Count);
        			int ranRoomSize = gameManagerScript.NextRandom(50,100);
@@ -295,7 +380,6 @@ public class WorldMaker : MonoBehaviour {
        			int[] neighborRoomBounds = tempArray[whichRoomToBuldNextTo].NESWBounds;
        			int xLocation = 0;        //location for the lower left corner of the room
        			int yLocation = 0;
-       			Debug.Log("sideToBuildOn " + sideToBuildOn);
   				if(sideToBuildOn == 0){   //north
   					xLocation = neighborRoomBounds[3];
 					yLocation = neighborRoomBounds[0] + 1;
@@ -335,89 +419,110 @@ public class WorldMaker : MonoBehaviour {
 			}
 			
 			for(int i = 0; i < roomArray.Count; i++){
-				Debug.Log("room " + i + " has a NESW bounds of " + roomArray[i].NESWBounds[0] + " " + roomArray[i].NESWBounds[1] + " " + roomArray[i].NESWBounds[2] + " " + roomArray[i].NESWBounds[3]);
+			 	Debug.Log("room " + i + " has a NESW bounds of " + roomArray[i].NESWBounds[0] + " " + roomArray[i].NESWBounds[1] + " " + roomArray[i].NESWBounds[2] + " " + roomArray[i].NESWBounds[3]);
 			}  
+
+			AddDoors();
+			Draw();
 
 		}
 
+
+
+
+
+		void Draw(){
+			foreach(Room room in roomArray){
+				room.Draw();
+			}
+		}
+
+
+
+
+
+
 			
+		void AddDoors(){
+			foreach(Room room in roomArray){
+				room.AddDoors(this);
+			}
+		}
+
+		public void AddDoor(int RoomIndex, int x, int y){
+			roomArray[RoomIndex].AddDoorAtAbsoluteLocation(x,y);
+		}
 
 
+		//if min length room to max length room is only 3 times as big then checking at like 3 points along easch wall can confirm no intersections
+		bool IsSafeToBuild(int xDimension, int yDimension, int xLocation, int yLocation){  ///this should be 100% safe
 
-
-
-
-
-
-			//if min length room to max length room is only 3 times as big then checking at like 3 points along easch wall can confirm no intersections
-			bool IsSafeToBuild(int xDimension, int yDimension, int xLocation, int yLocation){  ///this should be 100% safe
-
-				int northBounds = yDimension+yLocation-1;
-				int eastBounds = xDimension+xLocation-1;
-				int southBounds = yLocation;
-				int westBounds = xLocation;
-				// Debug.Log(northBounds + " is northBounds");
-				// Debug.Log(eastBounds + " is eastBounds");
-				// Debug.Log(southBounds + " issouthhBounds");
-				// Debug.Log(westBounds + " iswesthBounds");
+			int northBounds = yDimension+yLocation-1;
+			int eastBounds = xDimension+xLocation-1;
+			int southBounds = yLocation;
+			int westBounds = xLocation;
+			// Debug.Log(northBounds + " is northBounds");
+			// Debug.Log(eastBounds + " is eastBounds");
+			// Debug.Log(southBounds + " issouthhBounds");
+			// Debug.Log(westBounds + " iswesthBounds");
 
 /*				if(IsInWorld(eastBounds, northBounds) ||  //NE corner
-					IsInWorld(eastBounds, southBounds) || //SE corner
-					IsInWorld(westBounds, southBounds) || //SW corner
-					IsInWorld(westBounds, northBounds)	|| //NW corner
-					IsInWorld((eastBounds + westBounds)/2, northBounds) || // N middle
-					IsInWorld(eastBounds, (northBounds + southBounds)/2)) || // E middle
-					IsInWorld((eastBounds + westBounds)/2, southBounds) || // S middle
-					IsInWorld(westBounds,(northBounds + southBounds)/2))){ // W middle
-					return false;
-				}*/
-				if(IsInWorld(eastBounds, northBounds)){//NE corner
-					Debug.Log(1);
-					return false;
-				}
-				if(IsInWorld(westBounds, southBounds)){//SE corner
-					Debug.Log("point tested is " +westBounds+" "+ southBounds);
-					Debug.Log(2);
-					return false;
-				}
-				if(IsInWorld(westBounds, southBounds)){//SW corner
-					Debug.Log(3);
-					return false;
-				}
-				if(IsInWorld(westBounds, northBounds)){ //NW corner
-					Debug.Log(4);
-					return false;
-				}
-				if(IsInWorld((eastBounds + westBounds)/2, northBounds)){// N middle
-					Debug.Log(5);
-					return false;
-				}
-				if(IsInWorld(eastBounds, (northBounds + southBounds)/2)){ // E middle
-					//Debug.Log("point tested is " +eastBounds+" "+ (northBounds - southBounds));
-					Debug.Log(6);
-					return false;
-				}
-				if(IsInWorld((eastBounds + westBounds)/2, southBounds)){ // S middle
-					Debug.Log(7);
-					return false;
-				}
-				if(IsInWorld(westBounds, (northBounds + southBounds)/2)){ // W middle
-					Debug.Log(8);
-					return false;
-				}
-				return true;
-			}
-			
-
-
-			bool IsInWorld(int x, int y){
-				foreach(Room room in roomArray){
-					if(room.IsInRoom(x,y)){
-						return true;
-					}
-				}
+				IsInWorld(eastBounds, southBounds) || //SE corner
+				IsInWorld(westBounds, southBounds) || //SW corner
+				IsInWorld(westBounds, northBounds)	|| //NW corner
+				IsInWorld((eastBounds + westBounds)/2, northBounds) || // N middle
+				IsInWorld(eastBounds, (northBounds + southBounds)/2)) || // E middle
+				IsInWorld((eastBounds + westBounds)/2, southBounds) || // S middle
+				IsInWorld(westBounds,(northBounds + southBounds)/2))){ // W middle
+				return false;
+			}*/
+			if(IsInWorld(eastBounds, northBounds) != -1){//NE corner
+				Debug.Log(1);
 				return false;
 			}
+			if(IsInWorld(westBounds, southBounds) != -1){//SE corner
+				Debug.Log("point tested is " +westBounds+" "+ southBounds);
+				Debug.Log(2);
+				return false;
+			}
+			if(IsInWorld(westBounds, southBounds) != -1){//SW corner
+				Debug.Log(3);
+				return false;
+			}
+			if(IsInWorld(westBounds, northBounds) != -1){ //NW corner
+				Debug.Log(4);
+				return false;
+			}
+			if(IsInWorld((eastBounds + westBounds)/2, northBounds) != -1){// N middle
+				Debug.Log(5);
+				return false;
+			}
+			if(IsInWorld(eastBounds, (northBounds + southBounds)/2) != -1){ // E middle
+				//Debug.Log("point tested is " +eastBounds+" "+ (northBounds - southBounds));
+				Debug.Log(6);
+				return false;
+			}
+			if(IsInWorld((eastBounds + westBounds)/2, southBounds) != -1){ // S middle
+				Debug.Log(7);
+				return false;
+			}
+			if(IsInWorld(westBounds, (northBounds + southBounds)/2) != -1){ // W middle
+				Debug.Log(8);
+				return false;
+			}
+			return true;
+		}
+		
+
+
+		public int IsInWorld(int x, int y){
+			for(int i = 0; i < roomArray.Count; i++){
+				if(roomArray[i].IsInRoom(x,y)){
+					return i;
+				}
+			}
+			return -1;
+		}
 	
 	}
 
