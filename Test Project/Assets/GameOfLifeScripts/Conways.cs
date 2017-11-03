@@ -13,16 +13,9 @@ public class Conways : MonoBehaviour {
 	void Start () {
 		genDelay = 0;
 		seed();
-		if(world[1,5] == false){
-			Debug.Log("genBad");
-		}
 	}
 
 	void draw(){
-		if(world[1,5] == false){
-			Debug.Log("drawbad");
-		}
-		
 		for (int i = 0; i < world.GetLength(0); i++){
 			for (int j = 0; j < world.GetLength(1); j++){
 				if(world[i,j]){
@@ -105,10 +98,6 @@ public class Conways : MonoBehaviour {
 				tempWorld[i,j] = world[i,j];
 			}
 		}
-		if(world[1,5] == false){
-			Debug.Log("bad");
-		}
-
 		for (int i = 0; i < world.GetLength(0); i++){
 			for (int j = 0; j < world.GetLength(1); j++){
 				int neighbors = getMooreNeighborhood(i,j);
@@ -122,9 +111,6 @@ public class Conways : MonoBehaviour {
 			}
 		}
 		world = tempWorld;
-		if(world[1,5] == false){
-			Debug.Log("bad3");
-		}
 	}
 	
 

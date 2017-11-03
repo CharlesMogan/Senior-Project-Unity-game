@@ -371,11 +371,12 @@ public class WorldMaker : MonoBehaviour {
 			Room firstRoom = new Room(50,50,0,0);
 			roomArray.Add(firstRoom);
 
-			//for(int i = 0; i < 20; i++){
-			while(roomArray.Count < 15){
+			
+			//for(int i = 0; i < 500; i++){
+			while(roomArray.Count < 10){
 				int sideToBuildOn = gameManagerScript.NextRandom(0,4);
 				int whichRoomToBuldNextTo = gameManagerScript.NextRandom(0,roomArray.Count);
-       			int ranRoomSize = gameManagerScript.NextRandom(50,100);
+				int ranRoomSize = gameManagerScript.NextRandom(50,100);
        			Room[] tempArray = roomArray.ToArray();
        			int[] neighborRoomBounds = tempArray[whichRoomToBuldNextTo].NESWBounds;
        			int xLocation = 0;        //location for the lower left corner of the room
@@ -480,8 +481,7 @@ public class WorldMaker : MonoBehaviour {
 				Debug.Log(1);
 				return false;
 			}
-			if(IsInWorld(westBounds, southBounds) != -1){//SE corner
-				Debug.Log("point tested is " +westBounds+" "+ southBounds);
+			if(IsInWorld(eastBounds, southBounds) != -1){//SE corner
 				Debug.Log(2);
 				return false;
 			}
