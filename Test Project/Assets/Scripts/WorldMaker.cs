@@ -60,9 +60,9 @@ public class WorldMaker : MonoBehaviour {
 
 		public void Draw(){
 			Destroy(myCube);
-			if(isDoor){
+			if(isDoor && isOn){
 				myCube = Instantiate(Resources.Load("DoorCuber") as GameObject, new Vector3(absoluteXLocation,-20,absoluteyLocation), Quaternion.identity);
-			}else if(isOuterWall){
+			}else if(isOuterWall && isOn){
 				myCube = Instantiate(Resources.Load("OuterCuber") as GameObject, new Vector3(absoluteXLocation,-20,absoluteyLocation), Quaternion.identity);
 			}else if(isOn){
 				myCube = Instantiate(Resources.Load("Cuber") as GameObject, new Vector3(absoluteXLocation,-20,absoluteyLocation), Quaternion.identity);
@@ -112,12 +112,34 @@ public class WorldMaker : MonoBehaviour {
 			westBounds = xOffset;
 
 			room = new Cell[xDimension,yDimension];
+			
+			MakeOuterWalls();
+
+			//FillRoom();
+			
+		}
+
+
+
+		void MakeOuterWalls(){
 			for (int i = 0; i < xDimension; i++){
-				for (int j = 0; j < yDimension; j++){
+				for (int j = 0; j < yDimension; j += (yDimension -1)){
+					room[i,j]= new Cell(true,true,false,i,j,xOffset,yOffset); 
+				}
+			}
+			for (int i = 0; i < xDimension; i+=(xDimension -1)){
+				for (int j = 1; j < yDimension; j ++){
+					room[i,j]= new Cell(true,true,false,i,j,xOffset,yOffset);   
+				}
+			}
+
+		}
+
+		public void Fill(){
+			for (int i = 1; i < xDimension-1; i++){
+				for (int j = 1; j < yDimension-1; j++){
 					int ranNum = gameManagerScript.NextRandom(0,100);
-					if( i == 0 || j == 0 || i == xDimension-1 || j == yDimension-1){
-						room[i,j]= new Cell(true,true,false,i,j,xOffset,yOffset);
-					}else if(ranNum < fill){
+					if(ranNum < fill){
 						room[i,j]= new Cell(true,false,false,i,j,xOffset,yOffset);
 					}else{
 						room[i,j]= new Cell(false,false,false,i,j,xOffset,yOffset);
@@ -125,21 +147,19 @@ public class WorldMaker : MonoBehaviour {
 				}
 			}
 
-			for(int i = 0; i < 5; i++){  //i do ever even
+			for(int i = 0; i < 5; i++){  
 				nextGeneration();
 			}
+
+
 		}
-
-
-
-		//public void FillRoom{}
 
 
 
 
 		public void Draw(){
-			int xToDrawAt = (eastBounds + westBounds) /2;
-			int yToDrawAt = (northBounds + southBounds) /2;
+			int xToDrawAt = (eastBounds+1 + westBounds) /2;
+			int yToDrawAt = (northBounds+1 + southBounds) /2;
 			groundplane = Instantiate(Resources.Load("GroundPlane2") as GameObject, new Vector3(xToDrawAt,-21,yToDrawAt), Quaternion.identity);
 			Transform groundplaneTransform = groundplane.GetComponent<Transform>();
 			//groundplaneTransform.localScale = new Vector3((xDimension/10)+.1f, 1, (yDimension/10)+.1f);
@@ -154,6 +174,7 @@ public class WorldMaker : MonoBehaviour {
 
 		public void AddDoorAtAbsoluteLocation(int x, int y){
 			room[x - xOffset,y - yOffset].IsDoor = true;
+			room[x - xOffset,y - yOffset].IsOn = false;
 		}
 
 		public void AddDoors(World world){
@@ -191,11 +212,6 @@ public class WorldMaker : MonoBehaviour {
 	 				world.AddDoor(indexOfRoomBeingTracked, eastBounds+1, yToBuildAt);
 	 			}
 			}
-
-
-
-
-
 
 			indexOfRoomBeingTracked = -1;
 			upperBoundsOfBorder = 0;
@@ -251,6 +267,7 @@ public class WorldMaker : MonoBehaviour {
 
 			for (int i = 0; i < xDimension; i++){
 				for (int j = 0; j < yDimension; j++){
+
 					tempRoom[i,j] = room[i,j].IsOn;
 				}
 			}
@@ -428,13 +445,18 @@ public class WorldMaker : MonoBehaviour {
 			}  
 
 			AddDoors();
+			Fill();
 			Draw();
 
 		}
 
 
 
-
+		void Fill(){
+			foreach(Room room in roomArray){
+				room.Fill();
+			}
+		}
 
 		void Draw(){
 			foreach(Room room in roomArray){
