@@ -61,7 +61,7 @@ public class WorldMaker : MonoBehaviour {
 		public void Draw(){
 			Destroy(myCube);
 			if(isDoor){
-				Debug.Log("implement me!");
+				myCube = Instantiate(Resources.Load("DoorCuber") as GameObject, new Vector3(absoluteXLocation,-20,absoluteyLocation), Quaternion.identity);
 			}else if(isOuterWall){
 				myCube = Instantiate(Resources.Load("OuterCuber") as GameObject, new Vector3(absoluteXLocation,-20,absoluteyLocation), Quaternion.identity);
 			}else if(isOn){
@@ -86,6 +86,8 @@ public class WorldMaker : MonoBehaviour {
 		GameObject gameManager;
        	GameManager gameManagerScript;
 		public GameObject cube;
+		GameObject groundplane;
+		Transform groundplaneTransform;
 		int xOffset;
 		int yOffset;
 		int xDimension;
@@ -130,20 +132,27 @@ public class WorldMaker : MonoBehaviour {
 
 
 
+		//public void FillRoom{}
+
+
 
 
 		public void Draw(){
+			int xToDrawAt = (eastBounds + westBounds) /2;
+			int yToDrawAt = (northBounds + southBounds) /2;
+			groundplane = Instantiate(Resources.Load("GroundPlane2") as GameObject, new Vector3(xToDrawAt,-21,yToDrawAt), Quaternion.identity);
+			Transform groundplaneTransform = groundplane.GetComponent<Transform>();
+			//groundplaneTransform.localScale = new Vector3((xDimension/10)+.1f, 1, (yDimension/10)+.1f);
+			groundplaneTransform.localScale = new Vector3(xDimension-1, 1, yDimension-1);
+
 			for (int i = 0; i < xDimension; i++){
-				for (int j = 0; j < yDimension; j++){
+				for (int j = 0; j < yDimension; j++){		
 					room[i,j].Draw();
 				}
 			}	
 		}
 
 		public void AddDoorAtAbsoluteLocation(int x, int y){
-			Debug.Log("I am trying to add a door at " + x +" "+ y +" !");
-			//Debug.Log("I am trying to add a door locally at " + (x - xOffset) +" "+ (y - yOffset) +" !");
-			//Debug.Log("I am my offset is! " + (xOffset) +" "+ (yOffset) +" !");
 			room[x - xOffset,y - yOffset].IsDoor = true;
 		}
 
@@ -357,12 +366,7 @@ public class WorldMaker : MonoBehaviour {
 
 
 			GameObject gameManager = GameObject.FindWithTag("GameController");
-       		GameManager gameManagerScript = gameManager.GetComponent<GameManager>();
-       		int ranRoomSize1 = gameManagerScript.NextRandom(40,125);
-       		int ranRoomSize2 = gameManagerScript.NextRandom(40,75);
-			//int ranRoomSize3 = gameManagerScript.NextRandom(60,125);
-       		//int ranRoomSize4 = gameManagerScript.NextRandom(40,125);
-       			
+       		GameManager gameManagerScript = gameManager.GetComponent<GameManager>();	
 
 
 
