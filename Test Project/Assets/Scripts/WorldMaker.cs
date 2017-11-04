@@ -38,6 +38,14 @@ public class WorldMaker : MonoBehaviour {
 			// if it is not on the outer wall I need to add health at somepoint.
 		}
 
+		public int XInRoom{
+			get{return xLocationInRoom;}
+		}
+
+		public int YInRoom{
+			get{return yLocationInRoom;}
+		}
+
 		public bool IsOn{
 			get{return isOn;}
 
@@ -81,7 +89,7 @@ public class WorldMaker : MonoBehaviour {
 
 
 	class Room{
-		int fill = 32;
+		int fill = 34;
 
 		GameObject gameManager;
        	GameManager gameManagerScript;
@@ -98,6 +106,10 @@ public class WorldMaker : MonoBehaviour {
 		int southBounds;
 		int westBounds;
 		Cell[,] room;
+		List<Cell> northDoors;
+		List<Cell> eastDoors;
+		List<Cell> southDoors;
+		List<Cell> westDoors;
 
 		public Room(int xDimension, int yDimension, int xLocation, int yLocation){
 			gameManager = GameObject.FindWithTag("GameController");
@@ -110,6 +122,12 @@ public class WorldMaker : MonoBehaviour {
 			eastBounds = xDimension+xOffset -1;
 			southBounds = yOffset;
 			westBounds = xOffset;
+			northDoors = new List<Cell>();
+			eastDoors = new List<Cell>();
+			southDoors = new List<Cell>();
+			westDoors = new List<Cell>();
+
+
 
 			room = new Cell[xDimension,yDimension];
 			
@@ -150,6 +168,37 @@ public class WorldMaker : MonoBehaviour {
 			for(int i = 0; i < 5; i++){  
 				nextGeneration();
 			}
+			for(int i = 0; i < 1; i++){  
+				lastGeneration();
+			}
+
+			
+
+		}
+
+		public void ClearDoors(){
+			int cellsToClear = 12;
+			foreach(Cell door in northDoors){
+				for(int i = door.YInRoom-1; i > door.YInRoom- cellsToClear; i--){
+					room[door.XInRoom,i].IsOn = false;
+				}
+			}
+			foreach(Cell door in eastDoors){
+				for(int i = door.XInRoom-1; i > door.XInRoom- cellsToClear; i--){
+					room[i,door.YInRoom].IsOn = false;
+				}
+
+			}
+			foreach(Cell door in southDoors){
+				for(int i = door.YInRoom+1; i < door.YInRoom + cellsToClear; i++){
+					room[door.XInRoom,i].IsOn = false;
+				}
+			}
+			foreach(Cell door in westDoors){
+				for(int i = door.XInRoom+1; i < door.XInRoom + cellsToClear; i++){
+					room[i,door.YInRoom].IsOn = false;
+				}
+			}
 
 
 		}
@@ -158,12 +207,12 @@ public class WorldMaker : MonoBehaviour {
 
 
 		public void Draw(){
-			int xToDrawAt = (eastBounds+1 + westBounds) /2;
-			int yToDrawAt = (northBounds+1 + southBounds) /2;
-			groundplane = Instantiate(Resources.Load("GroundPlane2") as GameObject, new Vector3(xToDrawAt,-21,yToDrawAt), Quaternion.identity);
+			float xToDrawAt = (eastBounds + westBounds) / 2f;
+			float yToDrawAt = (northBounds + southBounds) / 2f;
+			groundplane = Instantiate(Resources.Load("GroundPlane2") as GameObject, new Vector3(xToDrawAt,-21,yToDrawAt), Quaternion.identity);   //xToDrawAt+.5f,-21,yToDrawAt+.5f
 			Transform groundplaneTransform = groundplane.GetComponent<Transform>();
 			//groundplaneTransform.localScale = new Vector3((xDimension/10)+.1f, 1, (yDimension/10)+.1f);
-			groundplaneTransform.localScale = new Vector3(xDimension-1, 1, yDimension-1);
+			groundplaneTransform.localScale = new Vector3(xDimension, 1, yDimension);
 
 			for (int i = 0; i < xDimension; i++){
 				for (int j = 0; j < yDimension; j++){		
@@ -173,6 +222,15 @@ public class WorldMaker : MonoBehaviour {
 		}
 
 		public void AddDoorAtAbsoluteLocation(int x, int y){
+			if(y == northBounds){
+				northDoors.Add(room[x - xOffset,y - yOffset]);
+			}else if(x == eastBounds){
+				eastDoors.Add(room[x - xOffset,y - yOffset]);
+			}else if(y == southBounds){
+				southDoors.Add(room[x - xOffset,y - yOffset]);
+			}else if(x == westBounds){
+				westDoors.Add(room[x - xOffset,y - yOffset]);
+			}
 			room[x - xOffset,y - yOffset].IsDoor = true;
 			room[x - xOffset,y - yOffset].IsOn = false;
 		}
@@ -289,6 +347,34 @@ public class WorldMaker : MonoBehaviour {
 		}
 
 
+		void lastGeneration(){
+			bool[,] tempRoom = new bool[xDimension,yDimension];
+			
+
+			for (int i = 0; i < xDimension; i++){
+				for (int j = 0; j < yDimension; j++){
+
+					tempRoom[i,j] = room[i,j].IsOn;
+				}
+			}
+
+
+			for (int i = 0; i < xDimension; i++){
+				for (int j = 0; j < yDimension; j++){
+					tempRoom[i,j] = B678S678(i,j);
+				}
+			}
+
+
+			for (int i = 1; i < xDimension-1; i++){    //so the sides are uneffected
+				for (int j = 1; j < yDimension-1; j++){
+					room[i,j].IsOn = tempRoom[i,j];
+				}
+			}
+			
+		}
+
+
 
 		bool B3S23(int x, int y){                             //conway's rules
 			int neighbors = getMooreNeighborhood(x,y);
@@ -305,6 +391,27 @@ public class WorldMaker : MonoBehaviour {
 		bool B45678S45678(int x, int y){
 			int neighbors = getMooreNeighborhood(x,y);
 			if(neighbors < 4){
+				return false;
+			}else{
+				return true;
+			}
+
+		}
+
+
+		bool B5678S5678(int x, int y){
+			int neighbors = getMooreNeighborhood(x,y);
+			if(neighbors < 5){
+				return false;
+			}else{
+				return true;
+			}
+
+		}
+
+		bool B678S678(int x, int y){
+			int neighbors = getMooreNeighborhood(x,y);
+			if(neighbors < 6){
 				return false;
 			}else{
 				return true;
@@ -394,7 +501,7 @@ public class WorldMaker : MonoBehaviour {
 
 			
 			//for(int i = 0; i < 500; i++){
-			while(roomArray.Count < 10){
+			while(roomArray.Count < 20){
 				int sideToBuildOn = gameManagerScript.NextRandom(0,4);
 				int whichRoomToBuldNextTo = gameManagerScript.NextRandom(0,roomArray.Count);
 				int ranRoomSize = gameManagerScript.NextRandom(50,100);
@@ -440,12 +547,13 @@ public class WorldMaker : MonoBehaviour {
 
 			}
 			
-			for(int i = 0; i < roomArray.Count; i++){
-			 	Debug.Log("room " + i + " has a NESW bounds of " + roomArray[i].NESWBounds[0] + " " + roomArray[i].NESWBounds[1] + " " + roomArray[i].NESWBounds[2] + " " + roomArray[i].NESWBounds[3]);
-			}  
+			// for(int i = 0; i < roomArray.Count; i++){
+			//  	Debug.Log("room " + i + " has a NESW bounds of " + roomArray[i].NESWBounds[0] + " " + roomArray[i].NESWBounds[1] + " " + roomArray[i].NESWBounds[2] + " " + roomArray[i].NESWBounds[3]);
+			// }  
 
 			AddDoors();
 			Fill();
+			ClearDoors();
 			Draw();
 
 		}
@@ -455,6 +563,12 @@ public class WorldMaker : MonoBehaviour {
 		void Fill(){
 			foreach(Room room in roomArray){
 				room.Fill();
+			}
+		}
+
+		void ClearDoors(){
+			foreach(Room room in roomArray){
+				room.ClearDoors();
 			}
 		}
 
