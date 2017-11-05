@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class WorldMaker : MonoBehaviour {
-	
+	public static float globalScaler = 2.1f;
 
 
 
@@ -69,12 +69,17 @@ public class WorldMaker : MonoBehaviour {
 		public void Draw(){
 			Destroy(myCube);
 			if(isDoor && isOn){
-				myCube = Instantiate(Resources.Load("DoorCuber") as GameObject, new Vector3(absoluteXLocation,-20,absoluteyLocation), Quaternion.identity);
+				myCube = Instantiate(Resources.Load("DoorCuber") as GameObject, new Vector3(absoluteXLocation*globalScaler,-20,absoluteyLocation*globalScaler), Quaternion.identity);
 			}else if(isOuterWall && isOn){
-				myCube = Instantiate(Resources.Load("OuterCuber") as GameObject, new Vector3(absoluteXLocation,-20,absoluteyLocation), Quaternion.identity);
+				myCube = Instantiate(Resources.Load("OuterCuber") as GameObject, new Vector3(absoluteXLocation*globalScaler,-20,absoluteyLocation*globalScaler), Quaternion.identity);
 			}else if(isOn){
-				myCube = Instantiate(Resources.Load("Cuber") as GameObject, new Vector3(absoluteXLocation,-20,absoluteyLocation), Quaternion.identity);
+				myCube = Instantiate(Resources.Load("Cuber") as GameObject, new Vector3(absoluteXLocation*globalScaler,-20,absoluteyLocation*globalScaler), Quaternion.identity);
 			}
+			if(isOn){
+				Transform myCubeTransform = myCube.GetComponent<Transform>();
+				myCubeTransform.localScale = new Vector3(globalScaler, 1, globalScaler);
+			}
+
 		}
 	}
 
@@ -89,6 +94,7 @@ public class WorldMaker : MonoBehaviour {
 
 
 	class Room{
+		
 		int fill = 34;
 
 		GameObject gameManager;
@@ -209,10 +215,10 @@ public class WorldMaker : MonoBehaviour {
 		public void Draw(){
 			float xToDrawAt = (eastBounds + westBounds) / 2f;
 			float yToDrawAt = (northBounds + southBounds) / 2f;
-			groundplane = Instantiate(Resources.Load("GroundPlane2") as GameObject, new Vector3(xToDrawAt,-21,yToDrawAt), Quaternion.identity);   //xToDrawAt+.5f,-21,yToDrawAt+.5f
+			groundplane = Instantiate(Resources.Load("GroundPlane2") as GameObject, new Vector3(xToDrawAt*globalScaler,-21,yToDrawAt*globalScaler), Quaternion.identity);   //xToDrawAt+.5f,-21,yToDrawAt+.5f
 			Transform groundplaneTransform = groundplane.GetComponent<Transform>();
 			//groundplaneTransform.localScale = new Vector3((xDimension/10)+.1f, 1, (yDimension/10)+.1f);
-			groundplaneTransform.localScale = new Vector3(xDimension, 1, yDimension);
+			groundplaneTransform.localScale = new Vector3(xDimension*globalScaler, 1, yDimension*globalScaler);
 
 			for (int i = 0; i < xDimension; i++){
 				for (int j = 0; j < yDimension; j++){		
