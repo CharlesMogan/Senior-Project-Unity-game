@@ -14,7 +14,8 @@ public class GameManager : MonoBehaviour {
 		if(seedIsSetable){
 			random = new System.Random(seed);
 		}else{
-			random = new System.Random(DateTime.Now.Millisecond);   //https://msdn.microsoft.com/en-us/library/system.random(v=vs.110).aspx       https://msdn.microsoft.com/en-us/library/system.datetime.millisecond(v=vs.110).aspx
+			seed = DateTime.Now.Millisecond;
+			random = new System.Random(seed);   //https://msdn.microsoft.com/en-us/library/system.random(v=vs.110).aspx       https://msdn.microsoft.com/en-us/library/system.datetime.millisecond(v=vs.110).aspx
 		}
 	}
 
@@ -23,6 +24,10 @@ public class GameManager : MonoBehaviour {
 		return random.Next(lowerBound, upperBound);
 	}
 
+
+	public int Seed{
+		get{return seed;}
+	}
 
 	void EndGame(){
 		Debug.Log("game over script active");

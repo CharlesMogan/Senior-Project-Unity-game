@@ -10,10 +10,17 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using UnityEngine.Assertions;
+
+
+
 using UnityEngine;
 
 public class WorldMaker : MonoBehaviour {
 	public static float globalScaler = 2.1f;
+	public static int fill = 32;
 
 
 
@@ -95,8 +102,8 @@ public class WorldMaker : MonoBehaviour {
 
 	class Room{
 		
-		int fill = 34;
-
+		
+		
 		GameObject gameManager;
        	GameManager gameManagerScript;
 		public GameObject cube;
@@ -160,9 +167,10 @@ public class WorldMaker : MonoBehaviour {
 		}
 
 		public void Fill(){
+			System.Random randomNumGenerator = new System.Random(gameManagerScript.Seed); 
 			for (int i = 1; i < xDimension-1; i++){
 				for (int j = 1; j < yDimension-1; j++){
-					int ranNum = gameManagerScript.NextRandom(0,100);
+					int ranNum = randomNumGenerator.Next(0,100);
 					if(ranNum < fill){
 						room[i,j]= new Cell(true,false,false,i,j,xOffset,yOffset);
 					}else{
@@ -174,11 +182,25 @@ public class WorldMaker : MonoBehaviour {
 			for(int i = 0; i < 5; i++){  
 				nextGeneration();
 			}
-			for(int i = 0; i < 1; i++){  
-				lastGeneration();
-			}
-
 			
+			
+
+			//-------------------------------------------------------------test code delete
+			int onRooms = 1;
+			int offRooms = 0;
+
+			for (int i = 1; i < xDimension-1; i++){    //so the sides are uneffected
+				for (int j = 1; j < yDimension-1; j++){
+					if(room[i,j].IsOn){
+						onRooms++;
+					}else{
+						offRooms++;
+					}
+
+				}
+			}
+			Assert.IsTrue(onRooms < offRooms);
+			//--------------------------------------------------------------------------------------------------------------
 
 		}
 
@@ -331,7 +353,6 @@ public class WorldMaker : MonoBehaviour {
 
 			for (int i = 0; i < xDimension; i++){
 				for (int j = 0; j < yDimension; j++){
-
 					tempRoom[i,j] = room[i,j].IsOn;
 				}
 			}
@@ -434,12 +455,12 @@ public class WorldMaker : MonoBehaviour {
 			get{return yDimension;}
 		}
 
+		
 
 		public int[] NESWBounds{
 			get{return new int[4]{northBounds,eastBounds,southBounds,westBounds};}///////////////// might be backwoards
 		}
 		
-
 
 
 		int getMooreNeighborhood(int x, int y){
@@ -487,12 +508,7 @@ public class WorldMaker : MonoBehaviour {
 		public World(){
 
 
-			//make a room 
-			//make a touching room off of one of the sides
-			//propose a third room at a location
-			//check if that conflicts with other rooms.
-
-
+			
 
 
 			GameObject gameManager = GameObject.FindWithTag("GameController");
@@ -567,9 +583,27 @@ public class WorldMaker : MonoBehaviour {
 
 
 		void Fill(){
-			foreach(Room room in roomArray){
+			
+
+
+
+			// foreach(Room room in roomArray){
+			// 	room.Fill();
+			// }
+
+
+			//------------------------------
+
+			System.Threading.Tasks.Parallel.ForEach(roomArray, room =>
+			{
 				room.Fill();
-			}
+			});
+
+
+
+			//-----------------------------
+
+
 		}
 
 		void ClearDoors(){
@@ -687,7 +721,6 @@ public class WorldMaker : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		World myWorld = new World();
-
 	}
 
 

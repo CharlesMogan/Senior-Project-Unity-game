@@ -5,7 +5,7 @@ world makes a list of touples with the start and end of their intersection
 
 getting all north and east relations gets all relations
 
-
+multi threading error likley has to do with rannum generator
 
 
 
