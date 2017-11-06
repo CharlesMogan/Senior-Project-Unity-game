@@ -21,7 +21,9 @@ using UnityEngine;
 public class WorldMaker : MonoBehaviour {
 	public static float globalScaler = 2.1f;
 	public static int fill = 32;
-
+	public static int globalElevation = 0;
+	public static int wallHeight = 12;
+	public static int minimumEdgeOverlapToBuildDoor = 5;
 
 
 
@@ -76,15 +78,15 @@ public class WorldMaker : MonoBehaviour {
 		public void Draw(){
 			Destroy(myCube);
 			if(isDoor && isOn){
-				myCube = Instantiate(Resources.Load("DoorCuber") as GameObject, new Vector3(absoluteXLocation*globalScaler,-20,absoluteyLocation*globalScaler), Quaternion.identity);
+				myCube = Instantiate(Resources.Load("DoorCuber") as GameObject, new Vector3(absoluteXLocation*globalScaler,globalElevation + (wallHeight / 2f)-.5f,absoluteyLocation*globalScaler), Quaternion.identity);
 			}else if(isOuterWall && isOn){
-				myCube = Instantiate(Resources.Load("OuterCuber") as GameObject, new Vector3(absoluteXLocation*globalScaler,-20,absoluteyLocation*globalScaler), Quaternion.identity);
+				myCube = Instantiate(Resources.Load("OuterCuber") as GameObject, new Vector3(absoluteXLocation*globalScaler,globalElevation + (wallHeight / 2f)-.5f,absoluteyLocation*globalScaler), Quaternion.identity);
 			}else if(isOn){
-				myCube = Instantiate(Resources.Load("Cuber") as GameObject, new Vector3(absoluteXLocation*globalScaler,-20,absoluteyLocation*globalScaler), Quaternion.identity);
+				myCube = Instantiate(Resources.Load("Cuber") as GameObject, new Vector3(absoluteXLocation*globalScaler,globalElevation + (wallHeight / 2f)-.5f,absoluteyLocation*globalScaler), Quaternion.identity);
 			}
 			if(isOn){
 				Transform myCubeTransform = myCube.GetComponent<Transform>();
-				myCubeTransform.localScale = new Vector3(globalScaler, 1, globalScaler);
+				myCubeTransform.localScale = new Vector3(globalScaler, wallHeight, globalScaler);
 			}
 
 		}
@@ -237,9 +239,8 @@ public class WorldMaker : MonoBehaviour {
 		public void Draw(){
 			float xToDrawAt = (eastBounds + westBounds) / 2f;
 			float yToDrawAt = (northBounds + southBounds) / 2f;
-			groundplane = Instantiate(Resources.Load("GroundPlane2") as GameObject, new Vector3(xToDrawAt*globalScaler,-21,yToDrawAt*globalScaler), Quaternion.identity);   //xToDrawAt+.5f,-21,yToDrawAt+.5f
+			groundplane = Instantiate(Resources.Load("GroundPlane2") as GameObject, new Vector3(xToDrawAt*globalScaler,globalElevation-1,yToDrawAt*globalScaler), Quaternion.identity);   //xToDrawAt+.5f,-21,yToDrawAt+.5f
 			Transform groundplaneTransform = groundplane.GetComponent<Transform>();
-			//groundplaneTransform.localScale = new Vector3((xDimension/10)+.1f, 1, (yDimension/10)+.1f);
 			groundplaneTransform.localScale = new Vector3(xDimension*globalScaler, 1, yDimension*globalScaler);
 
 			for (int i = 0; i < xDimension; i++){
@@ -282,7 +283,7 @@ public class WorldMaker : MonoBehaviour {
 				if(indexOfRoomBeingTracked != borderingRoom){   // the room being bordered changes
 					upperBoundsOfBorder = i -1;
 					yToBuildAt = (upperBoundsOfBorder + lowerBoundsOfBorder) / 2;
-					if(upperBoundsOfBorder - lowerBoundsOfBorder > 4){
+					if(upperBoundsOfBorder - lowerBoundsOfBorder > minimumEdgeOverlapToBuildDoor){
 	 					AddDoorAtAbsoluteLocation(eastBounds, yToBuildAt);
 	 					world.AddDoor(indexOfRoomBeingTracked, eastBounds+1, yToBuildAt);
 	 				}
@@ -293,7 +294,7 @@ public class WorldMaker : MonoBehaviour {
 			if(indexOfRoomBeingTracked != -1){
 				upperBoundsOfBorder = northBounds;
 				yToBuildAt = (upperBoundsOfBorder + lowerBoundsOfBorder) / 2;
-				if(upperBoundsOfBorder - lowerBoundsOfBorder > 4){
+				if(upperBoundsOfBorder - lowerBoundsOfBorder > minimumEdgeOverlapToBuildDoor){
 					AddDoorAtAbsoluteLocation(eastBounds, yToBuildAt);
 	 				world.AddDoor(indexOfRoomBeingTracked, eastBounds+1, yToBuildAt);
 	 			}
