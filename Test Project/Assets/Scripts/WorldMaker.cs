@@ -27,7 +27,7 @@ public class WorldMaker : MonoBehaviour {
 
 
 
-	class Cell{
+	public class Cell{
 		int xLocationInRoom;
 		int yLocationInRoom;
 		int absoluteXLocation;
@@ -36,7 +36,8 @@ public class WorldMaker : MonoBehaviour {
 		bool isOuterWall;
 		bool isDoor;
 		GameObject myCube;
-		public Cell(bool isOn, bool isOuterWall, bool isDoor, int xInRoom, int yInRoom, int xOffset, int yOffset){
+		Room myRoom;
+		public Cell(bool isOn, bool isOuterWall, bool isDoor, int xInRoom, int yInRoom, int xOffset, int yOffset, Room myRoom){
 			this.isOn = isOn;
 			this.isOuterWall = isOuterWall; 
 			this.isDoor = isDoor;
@@ -44,6 +45,7 @@ public class WorldMaker : MonoBehaviour {
 			this.yLocationInRoom = yInRoom;
 			this.absoluteXLocation = xInRoom + xOffset;
 			this.absoluteyLocation = yInRoom + yOffset;
+			this.myRoom = myRoom;
 			// if it is not on the outer wall I need to add health at somepoint.
 		}
 
@@ -75,21 +77,36 @@ public class WorldMaker : MonoBehaviour {
 
 
 
+
+
 		public void Draw(){
 			Destroy(myCube);
 			if(isDoor && isOn){
-				myCube = Instantiate(Resources.Load("DoorCuber") as GameObject, new Vector3(absoluteXLocation*globalScaler,globalElevation + (wallHeight / 2f)-.5f,absoluteyLocation*globalScaler), Quaternion.identity);
-			}else if(isOuterWall && isOn){
+				myCube = Instantiate(Resources.Load("DoorCuberUp") as GameObject, new Vector3(absoluteXLocation*globalScaler,globalElevation + (wallHeight / 2f)-.5f,absoluteyLocation*globalScaler), Quaternion.identity);
+			}else if(isDoor && !isOn){
+				myCube = Instantiate(Resources.Load("DoorCuberDown") as GameObject, new Vector3(absoluteXLocation*globalScaler,globalElevation + (wallHeight / 2f)-.5f,absoluteyLocation*globalScaler), Quaternion.identity);
+				DownDoor downDoorScript = myCube.GetComponent<DownDoor>();
+				downDoorScript.SendMessage("WhoIsMyRoom",myRoom,SendMessageOptions.RequireReceiver);
+			}else if(isOuterWall){
 				myCube = Instantiate(Resources.Load("OuterCuber") as GameObject, new Vector3(absoluteXLocation*globalScaler,globalElevation + (wallHeight / 2f)-.5f,absoluteyLocation*globalScaler), Quaternion.identity);
 			}else if(isOn){
 				myCube = Instantiate(Resources.Load("Cuber") as GameObject, new Vector3(absoluteXLocation*globalScaler,globalElevation + (wallHeight / 2f)-.5f,absoluteyLocation*globalScaler), Quaternion.identity);
 			}
-			if(isOn){
+			if(isOn || isDoor){
 				Transform myCubeTransform = myCube.GetComponent<Transform>();
 				myCubeTransform.localScale = new Vector3(globalScaler, wallHeight, globalScaler);
 			}
 
 		}
+
+
+
+
+
+		//need to pass a refrence to the room to the instatiated downdoor
+		
+
+
 	}
 
 //--------------------------------------------------------------------
@@ -102,10 +119,10 @@ public class WorldMaker : MonoBehaviour {
 
 
 
-	class Room{
+	public class Room{
 		
 		
-		
+		World myWorld;
 		GameObject gameManager;
        	GameManager gameManagerScript;
 		public GameObject cube;
@@ -126,13 +143,14 @@ public class WorldMaker : MonoBehaviour {
 		List<Cell> southDoors;
 		List<Cell> westDoors;
 
-		public Room(int xDimension, int yDimension, int xLocation, int yLocation){
+		public Room(int xDimension, int yDimension, int xLocation, int yLocation, World myWorld){
 			gameManager = GameObject.FindWithTag("GameController");
        		gameManagerScript = gameManager.GetComponent<GameManager>();
        		this.xOffset = xLocation;
        		this.yOffset = yLocation;
 			this.xDimension = xDimension;
 			this.yDimension = yDimension;
+			this.myWorld = myWorld;
 			northBounds = yDimension+yOffset -1;
 			eastBounds = xDimension+xOffset -1;
 			southBounds = yOffset;
@@ -147,22 +165,46 @@ public class WorldMaker : MonoBehaviour {
 			room = new Cell[xDimension,yDimension];
 			
 			MakeOuterWalls();
-
-			//FillRoom();
 			
 		}
 
+		public void EnteredRoom(){
+			//do stuff here to make sure the room hasn't already been cleared
+
+			myWorld.EnteredRoom(this);
+		}
+
+
+		public void LockDoors(){
+			Debug.Log("okay1");
+			foreach(Cell door in northDoors){
+				door.IsOn = true;
+				door.Draw();
+			}
+			foreach(Cell door in eastDoors){
+				door.IsOn = true;
+				door.Draw();
+			}
+			foreach(Cell door in southDoors){
+				door.IsOn = true;
+				door.Draw();
+			}
+			foreach(Cell door in westDoors){
+				door.IsOn = true;
+				door.Draw();
+			}
+		}
 
 
 		void MakeOuterWalls(){
 			for (int i = 0; i < xDimension; i++){
 				for (int j = 0; j < yDimension; j += (yDimension -1)){
-					room[i,j]= new Cell(true,true,false,i,j,xOffset,yOffset); 
+					room[i,j]= new Cell(true,true,false,i,j,xOffset,yOffset,this); 
 				}
 			}
 			for (int i = 0; i < xDimension; i+=(xDimension -1)){
 				for (int j = 1; j < yDimension; j ++){
-					room[i,j]= new Cell(true,true,false,i,j,xOffset,yOffset);   
+					room[i,j]= new Cell(true,true,false,i,j,xOffset,yOffset,this);   
 				}
 			}
 
@@ -174,9 +216,9 @@ public class WorldMaker : MonoBehaviour {
 				for (int j = 1; j < yDimension-1; j++){
 					int ranNum = randomNumGenerator.Next(0,100);
 					if(ranNum < fill){
-						room[i,j]= new Cell(true,false,false,i,j,xOffset,yOffset);
+						room[i,j]= new Cell(true,false,false,i,j,xOffset,yOffset,this);
 					}else{
-						room[i,j]= new Cell(false,false,false,i,j,xOffset,yOffset);
+						room[i,j]= new Cell(false,false,false,i,j,xOffset,yOffset,this);
 					}
 				}
 			}
@@ -503,7 +545,7 @@ public class WorldMaker : MonoBehaviour {
 
 
 
-	class World{
+	public class World{
 		List<Room> roomArray;
 
 		public World(){
@@ -519,7 +561,7 @@ public class WorldMaker : MonoBehaviour {
 
 
 			roomArray = new List<Room>();
-			Room firstRoom = new Room(50,50,0,0);
+			Room firstRoom = new Room(50,50,0,0,this);
 			roomArray.Add(firstRoom);
 
 			
@@ -536,7 +578,7 @@ public class WorldMaker : MonoBehaviour {
   					xLocation = neighborRoomBounds[3];
 					yLocation = neighborRoomBounds[0] + 1;
 					if(IsSafeToBuild(roomArray[whichRoomToBuldNextTo].Width,ranRoomSize,xLocation,yLocation)){
-						roomArray.Add(new Room(roomArray[whichRoomToBuldNextTo].Width,ranRoomSize,xLocation,yLocation));
+						roomArray.Add(new Room(roomArray[whichRoomToBuldNextTo].Width,ranRoomSize,xLocation,yLocation,this));
 					}else{
 						Debug.Log("room Collision sucsessfullyy detected");
 					}		
@@ -544,7 +586,7 @@ public class WorldMaker : MonoBehaviour {
 					xLocation = neighborRoomBounds[1] + 1;
 					yLocation = neighborRoomBounds[2];
 					if(IsSafeToBuild(ranRoomSize,roomArray[whichRoomToBuldNextTo].Height,xLocation,yLocation)){
-						roomArray.Add(new Room(ranRoomSize,roomArray[whichRoomToBuldNextTo].Height,xLocation,yLocation));
+						roomArray.Add(new Room(ranRoomSize,roomArray[whichRoomToBuldNextTo].Height,xLocation,yLocation,this));
 					}else{
 						Debug.Log("room Collision sucsessfullyy detected");
 					}
@@ -553,7 +595,7 @@ public class WorldMaker : MonoBehaviour {
 					yLocation =  neighborRoomBounds[2]-ranRoomSize;
 					
 					if(IsSafeToBuild(roomArray[whichRoomToBuldNextTo].Width,ranRoomSize,xLocation,yLocation)){
-						roomArray.Add(new Room(roomArray[whichRoomToBuldNextTo].Width,ranRoomSize,xLocation,yLocation));
+						roomArray.Add(new Room(roomArray[whichRoomToBuldNextTo].Width,ranRoomSize,xLocation,yLocation,this));
 					}else{
 						Debug.Log("room Collision sucsessfullyy detected");
 					}
@@ -562,11 +604,11 @@ public class WorldMaker : MonoBehaviour {
 					yLocation = neighborRoomBounds[2];
 					
 					if(IsSafeToBuild(ranRoomSize,roomArray[whichRoomToBuldNextTo].Height,xLocation,yLocation)){
-						roomArray.Add(new Room(ranRoomSize,roomArray[whichRoomToBuldNextTo].Height,xLocation,yLocation));
+						roomArray.Add(new Room(ranRoomSize,roomArray[whichRoomToBuldNextTo].Height,xLocation,yLocation,this));
 					}else{
 						Debug.Log("room Collision sucsessfullyy detected");
 					}
-				}else{Debug.Log("something went teribad wrong in room generation");}
+				}else{Assert.IsTrue(false);}
 
 			}
 			
@@ -581,6 +623,16 @@ public class WorldMaker : MonoBehaviour {
 
 		}
 
+
+
+		public void EnteredRoom(Room enteredRoom){
+			foreach(Room room in roomArray){
+				if(room != enteredRoom){
+					room.LockDoors();
+				}
+
+			}
+		}
 
 
 		void Fill(){

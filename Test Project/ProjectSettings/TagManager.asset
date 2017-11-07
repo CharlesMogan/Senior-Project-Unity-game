@@ -10,6 +10,7 @@ TagManager:
   - Unfriendly Bullet
   - Unfriendly Laser
   - Friendly Laser
+  - Wall
   layers:
   - Default
   - TransparentFX

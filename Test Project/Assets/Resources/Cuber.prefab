@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 114864168825433142}
   m_Layer: 0
   m_Name: Cuber
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -109,4 +109,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 10
   health: 10
-  DamageDelay: 0
+  DamageDelay: 0.1
