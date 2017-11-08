@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -506,7 +506,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4606537169567870, guid: 5d03cfb9a00ce9d428f919ce476f15db, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4606537169567870, guid: 5d03cfb9a00ce9d428f919ce476f15db, type: 2}
       propertyPath: m_LocalPosition.y
@@ -514,7 +514,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4606537169567870, guid: 5d03cfb9a00ce9d428f919ce476f15db, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4606537169567870, guid: 5d03cfb9a00ce9d428f919ce476f15db, type: 2}
       propertyPath: m_LocalRotation.x
@@ -567,6 +567,14 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1266701305908934, guid: 5d03cfb9a00ce9d428f919ce476f15db, type: 2}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4606537169567870, guid: 5d03cfb9a00ce9d428f919ce476f15db, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4606537169567870, guid: 5d03cfb9a00ce9d428f919ce476f15db, type: 2}
+      propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1395,7 +1403,7 @@ RectTransform:
   m_GameObject: {fileID: 2074509483}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 20.5, z: -0.00000023841858}
-  m_LocalScale: {x: 0.034114443, y: 0.034114443, z: 0.034114443}
+  m_LocalScale: {x: 0.079263166, y: 0.079263166, z: 0.079263166}
   m_Children:
   - {fileID: 315095583}
   m_Father: {fileID: 0}

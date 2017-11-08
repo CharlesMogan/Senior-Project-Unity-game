@@ -35,6 +35,7 @@ public class WorldMaker : MonoBehaviour {
 		bool isOn;
 		bool isOuterWall;
 		bool isDoor;
+		bool isTrigger = false;
 		GameObject myCube;
 		Room myRoom;
 		public Cell(bool isOn, bool isOuterWall, bool isDoor, int xInRoom, int yInRoom, int xOffset, int yOffset, Room myRoom){
@@ -62,6 +63,12 @@ public class WorldMaker : MonoBehaviour {
 
 			set{isOn = value;}
 		}
+		
+		public bool IsTrigger{
+			get{return isTrigger;}
+
+			set{isTrigger = value;}
+		}
 
 		public bool IsOuterWall{
 			get{return isOuterWall;}
@@ -79,12 +86,12 @@ public class WorldMaker : MonoBehaviour {
 
 
 
-		public void Draw(){
+		public void Draw(){   //could be refactored by subclassing diffrent types of cells
 			Destroy(myCube);
 			if(isDoor && isOn){
-				myCube = Instantiate(Resources.Load("DoorCuberUp") as GameObject, new Vector3(absoluteXLocation*globalScaler,globalElevation + (wallHeight / 2f)-.5f,absoluteyLocation*globalScaler), Quaternion.identity);
-			}else if(isDoor && !isOn){
-				myCube = Instantiate(Resources.Load("DoorCuberDown") as GameObject, new Vector3(absoluteXLocation*globalScaler,globalElevation + (wallHeight / 2f)-.5f,absoluteyLocation*globalScaler), Quaternion.identity);
+				myCube = Instantiate(Resources.Load("DoorCuber") as GameObject, new Vector3(absoluteXLocation*globalScaler,globalElevation + (wallHeight / 2f)-.5f,absoluteyLocation*globalScaler), Quaternion.identity);
+			}else if(isTrigger){
+				myCube = Instantiate(Resources.Load("DoorTriggerCuber") as GameObject, new Vector3(absoluteXLocation*globalScaler,globalElevation + (wallHeight / 2f)-.5f,absoluteyLocation*globalScaler), Quaternion.identity);
 				DownDoor downDoorScript = myCube.GetComponent<DownDoor>();
 				downDoorScript.SendMessage("WhoIsMyRoom",myRoom,SendMessageOptions.RequireReceiver);
 			}else if(isOuterWall){
@@ -92,7 +99,7 @@ public class WorldMaker : MonoBehaviour {
 			}else if(isOn){
 				myCube = Instantiate(Resources.Load("Cuber") as GameObject, new Vector3(absoluteXLocation*globalScaler,globalElevation + (wallHeight / 2f)-.5f,absoluteyLocation*globalScaler), Quaternion.identity);
 			}
-			if(isOn || isDoor){
+			if(isOn || isTrigger){
 				Transform myCubeTransform = myCube.GetComponent<Transform>();
 				myCubeTransform.localScale = new Vector3(globalScaler, wallHeight, globalScaler);
 			}
@@ -142,6 +149,7 @@ public class WorldMaker : MonoBehaviour {
 		List<Cell> eastDoors;
 		List<Cell> southDoors;
 		List<Cell> westDoors;
+		bool isCleared;
 
 		public Room(int xDimension, int yDimension, int xLocation, int yLocation, World myWorld){
 			gameManager = GameObject.FindWithTag("GameController");
@@ -162,6 +170,7 @@ public class WorldMaker : MonoBehaviour {
 
 
 
+
 			room = new Cell[xDimension,yDimension];
 			
 			MakeOuterWalls();
@@ -169,9 +178,20 @@ public class WorldMaker : MonoBehaviour {
 		}
 
 		public void EnteredRoom(){
-			//do stuff here to make sure the room hasn't already been cleared
+			if(!IsCleared){
+				myWorld.LockDoorsInAllRoomsBesides(this);
+			}
 
-			myWorld.EnteredRoom(this);
+			//-----------------------------------------------------------spawn enimies---------------------------------------------
+			//enemy array
+			//when all enemies dead 
+			// spawn tresures unlock door and decrement thing to boss counter
+		}
+
+		public bool IsCleared{
+			get{return isCleared;}
+
+			set{isCleared = value;}
 		}
 
 
@@ -251,22 +271,26 @@ public class WorldMaker : MonoBehaviour {
 		public void ClearDoors(){
 			int cellsToClear = 12;
 			foreach(Cell door in northDoors){
+				room[door.XInRoom,door.YInRoom-1].IsTrigger = true;
 				for(int i = door.YInRoom-1; i > door.YInRoom- cellsToClear; i--){
 					room[door.XInRoom,i].IsOn = false;
 				}
 			}
 			foreach(Cell door in eastDoors){
+				room[door.XInRoom-1,door.YInRoom].IsTrigger = true;
 				for(int i = door.XInRoom-1; i > door.XInRoom- cellsToClear; i--){
 					room[i,door.YInRoom].IsOn = false;
 				}
 
 			}
 			foreach(Cell door in southDoors){
+				room[door.XInRoom,door.YInRoom+1].IsTrigger = true;
 				for(int i = door.YInRoom+1; i < door.YInRoom + cellsToClear; i++){
 					room[door.XInRoom,i].IsOn = false;
 				}
 			}
 			foreach(Cell door in westDoors){
+				room[door.XInRoom+1,door.YInRoom].IsTrigger = true;
 				for(int i = door.XInRoom+1; i < door.XInRoom + cellsToClear; i++){
 					room[i,door.YInRoom].IsOn = false;
 				}
@@ -562,6 +586,7 @@ public class WorldMaker : MonoBehaviour {
 
 			roomArray = new List<Room>();
 			Room firstRoom = new Room(50,50,0,0,this);
+			firstRoom.IsCleared = true;
 			roomArray.Add(firstRoom);
 
 			
@@ -625,7 +650,7 @@ public class WorldMaker : MonoBehaviour {
 
 
 
-		public void EnteredRoom(Room enteredRoom){
+		public void LockDoorsInAllRoomsBesides(Room enteredRoom){
 			foreach(Room room in roomArray){
 				if(room != enteredRoom){
 					room.LockDoors();
