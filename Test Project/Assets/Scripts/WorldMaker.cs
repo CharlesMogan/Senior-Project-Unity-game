@@ -58,6 +58,14 @@ public class WorldMaker : MonoBehaviour {
 			get{return yLocationInRoom;}
 		}
 
+		public int AbsoluteXLocation{
+			get{return absoluteXLocation;}
+		}
+
+		public int AbsoluteyLocation{
+			get{return absoluteyLocation;}
+		}
+
 		public bool IsOn{
 			get{return isOn;}
 
@@ -139,6 +147,8 @@ public class WorldMaker : MonoBehaviour {
 		int yOffset;
 		int xDimension;
 		int yDimension;
+		int roomSeed;
+		int livingEnemies;
 
 		int northBounds;
 		int eastBounds;
@@ -150,8 +160,9 @@ public class WorldMaker : MonoBehaviour {
 		List<Cell> southDoors;
 		List<Cell> westDoors;
 		bool isCleared;
+		bool inCombat;
 
-		public Room(int xDimension, int yDimension, int xLocation, int yLocation, World myWorld){
+		public Room(int xDimension, int yDimension, int xLocation, int yLocation, World myWorld, int roomSeed){
 			gameManager = GameObject.FindWithTag("GameController");
        		gameManagerScript = gameManager.GetComponent<GameManager>();
        		this.xOffset = xLocation;
@@ -159,6 +170,7 @@ public class WorldMaker : MonoBehaviour {
 			this.xDimension = xDimension;
 			this.yDimension = yDimension;
 			this.myWorld = myWorld;
+			this.roomSeed = roomSeed;
 			northBounds = yDimension+yOffset -1;
 			eastBounds = xDimension+xOffset -1;
 			southBounds = yOffset;
@@ -167,7 +179,8 @@ public class WorldMaker : MonoBehaviour {
 			eastDoors = new List<Cell>();
 			southDoors = new List<Cell>();
 			westDoors = new List<Cell>();
-
+			isCleared = false;
+			inCombat = false;
 
 
 
@@ -178,20 +191,53 @@ public class WorldMaker : MonoBehaviour {
 		}
 
 		public void EnteredRoom(){
-			if(!IsCleared){
+			if(!isCleared && !inCombat){
+				inCombat = true;
 				myWorld.LockDoorsInAllRoomsBesides(this);
+				SpawnEnemies();
+			}
+		}
+
+
+		public void SpawnEnemies(){
+			livingEnemies = gameManagerScript.NextRandom(2,4);
+			for(int i = 0;i < livingEnemies; i++){
+				int xPlacement = 0;
+				int yPlacement = 0;
+				while(room[xPlacement,yPlacement].IsOn){
+					xPlacement = gameManagerScript.NextRandom(1,xDimension);
+					yPlacement = gameManagerScript.NextRandom(1,yDimension);
+				}
+				room[xPlacement,yPlacement].IsOn = true;
+				GameObject enemy = Instantiate(Resources.Load("OctalTurret") as GameObject, new Vector3(room[xPlacement,yPlacement].AbsoluteXLocation*globalScaler,globalElevation+1,room[xPlacement,yPlacement].AbsoluteyLocation*globalScaler), Quaternion.identity);
+				EnemyHealth enemyHealthScript = enemy.GetComponent<EnemyHealth>();
+				enemyHealthScript.SendMessage("WhoIsMyRoom",this,SendMessageOptions.RequireReceiver);
 			}
 
-			//-----------------------------------------------------------spawn enimies---------------------------------------------
-			//enemy array
-			//when all enemies dead 
-			// spawn tresures unlock door and decrement thing to boss counter
+
 		}
 
 		public bool IsCleared{
 			get{return isCleared;}
 
 			set{isCleared = value;}
+		}
+
+
+		public void EnemyDied(){
+			livingEnemies--;
+			Debug.Log("the number of living enemies is " + livingEnemies);
+
+			if(livingEnemies == 0){
+				EndCombat();
+			}
+		}
+
+
+		public void EndCombat(){
+			IsCleared = true;
+			inCombat = false;
+			myWorld.UnlockAllDoors();
 		}
 
 
@@ -215,6 +261,24 @@ public class WorldMaker : MonoBehaviour {
 			}
 		}
 
+		public void UnlockDoors(){
+			foreach(Cell door in northDoors){
+				door.IsOn = false;
+				door.Draw();
+			}
+			foreach(Cell door in eastDoors){
+				door.IsOn = false;
+				door.Draw();
+			}
+			foreach(Cell door in southDoors){
+				door.IsOn = false;
+				door.Draw();
+			}
+			foreach(Cell door in westDoors){
+				door.IsOn = false;
+				door.Draw();
+			}
+		}
 
 		void MakeOuterWalls(){
 			for (int i = 0; i < xDimension; i++){
@@ -231,7 +295,7 @@ public class WorldMaker : MonoBehaviour {
 		}
 
 		public void Fill(){
-			System.Random randomNumGenerator = new System.Random(gameManagerScript.Seed); 
+			System.Random randomNumGenerator = new System.Random(gameManagerScript.Seed + roomSeed); 
 			for (int i = 1; i < xDimension-1; i++){
 				for (int j = 1; j < yDimension-1; j++){
 					int ranNum = randomNumGenerator.Next(0,100);
@@ -585,7 +649,7 @@ public class WorldMaker : MonoBehaviour {
 
 
 			roomArray = new List<Room>();
-			Room firstRoom = new Room(50,50,0,0,this);
+			Room firstRoom = new Room(50,50,0,0,this, 0);
 			firstRoom.IsCleared = true;
 			roomArray.Add(firstRoom);
 
@@ -603,7 +667,7 @@ public class WorldMaker : MonoBehaviour {
   					xLocation = neighborRoomBounds[3];
 					yLocation = neighborRoomBounds[0] + 1;
 					if(IsSafeToBuild(roomArray[whichRoomToBuldNextTo].Width,ranRoomSize,xLocation,yLocation)){
-						roomArray.Add(new Room(roomArray[whichRoomToBuldNextTo].Width,ranRoomSize,xLocation,yLocation,this));
+						roomArray.Add(new Room(roomArray[whichRoomToBuldNextTo].Width,ranRoomSize,xLocation,yLocation,this,roomArray.Count));
 					}else{
 						Debug.Log("room Collision sucsessfullyy detected");
 					}		
@@ -611,7 +675,7 @@ public class WorldMaker : MonoBehaviour {
 					xLocation = neighborRoomBounds[1] + 1;
 					yLocation = neighborRoomBounds[2];
 					if(IsSafeToBuild(ranRoomSize,roomArray[whichRoomToBuldNextTo].Height,xLocation,yLocation)){
-						roomArray.Add(new Room(ranRoomSize,roomArray[whichRoomToBuldNextTo].Height,xLocation,yLocation,this));
+						roomArray.Add(new Room(ranRoomSize,roomArray[whichRoomToBuldNextTo].Height,xLocation,yLocation,this,roomArray.Count));
 					}else{
 						Debug.Log("room Collision sucsessfullyy detected");
 					}
@@ -620,7 +684,7 @@ public class WorldMaker : MonoBehaviour {
 					yLocation =  neighborRoomBounds[2]-ranRoomSize;
 					
 					if(IsSafeToBuild(roomArray[whichRoomToBuldNextTo].Width,ranRoomSize,xLocation,yLocation)){
-						roomArray.Add(new Room(roomArray[whichRoomToBuldNextTo].Width,ranRoomSize,xLocation,yLocation,this));
+						roomArray.Add(new Room(roomArray[whichRoomToBuldNextTo].Width,ranRoomSize,xLocation,yLocation,this,roomArray.Count));
 					}else{
 						Debug.Log("room Collision sucsessfullyy detected");
 					}
@@ -629,7 +693,7 @@ public class WorldMaker : MonoBehaviour {
 					yLocation = neighborRoomBounds[2];
 					
 					if(IsSafeToBuild(ranRoomSize,roomArray[whichRoomToBuldNextTo].Height,xLocation,yLocation)){
-						roomArray.Add(new Room(ranRoomSize,roomArray[whichRoomToBuldNextTo].Height,xLocation,yLocation,this));
+						roomArray.Add(new Room(ranRoomSize,roomArray[whichRoomToBuldNextTo].Height,xLocation,yLocation,this,roomArray.Count));
 					}else{
 						Debug.Log("room Collision sucsessfullyy detected");
 					}
@@ -648,7 +712,12 @@ public class WorldMaker : MonoBehaviour {
 
 		}
 
+		public void UnlockAllDoors(){
+			foreach(Room room in roomArray){
+				room.UnlockDoors();
 
+			}
+		}
 
 		public void LockDoorsInAllRoomsBesides(Room enteredRoom){
 			foreach(Room room in roomArray){

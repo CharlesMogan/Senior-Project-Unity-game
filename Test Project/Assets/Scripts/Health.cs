@@ -9,34 +9,23 @@ public class Health : MonoBehaviour {
 	public float DamageDelay;
 	protected float timeWhenDamageable = 0;
 	// Update is called once per frame
-	protected virtual void Update () {
-		if(health <= 0){
-			Debug.Log("this is get destroyed with a health of" + health);
-			Destroy(this.gameObject);
-		}
-
-		//if(maxHealth < health){
-		//	health = maxHealth;
-		//}
-		
+	
+	protected virtual void Die(){
+		Debug.Log("override this");
 	}
 
 
-	public void TakeDamage(float damage){
+	public virtual void TakeDamage(float damage){
 		if(Time.time >= timeWhenDamageable){
 			health-=damage;
 			timeWhenDamageable = Time.time + DamageDelay;	
 		}
+		if(health <= 0){
+			Debug.Log("this is get destroyed with a health of" + health);
+			Die();
+		}
 		
 	}
-
-	/*public float Health{
-		get{return health;}
-
-		set{health = value;}
-
-	}*/	
-
 
 
 	public void MaxHealthUp(){
