@@ -86,6 +86,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -101,6 +102,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -118,6 +120,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -133,6 +136,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -200,6 +204,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   health: 100
+  DamageDelay: 0
 --- !u!114 &114246150410140640
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -211,11 +216,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 006b06b9e332b98409f1bb7f4cd0625f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullet: {fileID: 1865026588461050, guid: 296f76c9ab681f74f8caf7d0d86d4534, type: 2}
-  bulletLifetime: 10
+  laser: {fileID: 0}
+  laserDamage: 0
+  laserLifetime: 0
+  laserLength: 0
   bulletSpeed: 5
+  laserChargeDelay: 0
+  laserDiameter: 0
+  laserRange: 0
+  bullet: {fileID: 0}
+  bulletLifetime: 10
   fireRate: 1
   transferedMomentum: 0
+  bulletDamage: 0
+  bulletScale: 0
 --- !u!136 &136409564087242668
 CapsuleCollider:
   m_ObjectHideFlags: 1

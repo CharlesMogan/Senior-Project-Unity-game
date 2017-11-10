@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 33666625469387650}
   - component: {fileID: 65118566353482170}
   - component: {fileID: 23636518203646684}
-  - component: {fileID: 114864168825433142}
+  - component: {fileID: 114150999369772268}
   m_Layer: 0
   m_Name: Cuber
   m_TagString: Wall
@@ -96,7 +96,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114864168825433142
+--- !u!114 &114150999369772268
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -104,9 +104,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1148138093383282}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a4eaff6a13cc2145a57909022e686ad, type: 3}
+  m_Script: {fileID: 11500000, guid: 3fb97e3b59b85624bb53a640a9c68cfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 10
   health: 10
-  DamageDelay: 0.1
+  DamageDelay: 0

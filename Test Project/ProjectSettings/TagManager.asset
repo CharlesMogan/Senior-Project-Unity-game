@@ -11,6 +11,8 @@ TagManager:
   - Unfriendly Laser
   - Friendly Laser
   - Wall
+  - Door
+  - OuterWall
   layers:
   - Default
   - TransparentFX

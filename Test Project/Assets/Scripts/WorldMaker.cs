@@ -19,11 +19,11 @@ using UnityEngine.Assertions;
 using UnityEngine;
 
 public class WorldMaker : MonoBehaviour {
-	public static float globalScaler = 2.1f;
-	public static int fill = 32;
-	public static int globalElevation = 0;
-	public static int wallHeight = 12;
-	public static int minimumEdgeOverlapToBuildDoor = 5;
+	public static readonly float globalScaler = 2.1f;
+	public static readonly int fill = 32;
+	public static readonly int globalElevation = 0;
+	public static readonly int wallHeight = 12;
+	public static readonly int minimumEdgeOverlapToBuildDoor = 5;
 
 
 
