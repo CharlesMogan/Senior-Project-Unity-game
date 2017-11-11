@@ -47,7 +47,6 @@ public class WorldMaker : MonoBehaviour {
 			this.absoluteXLocation = xInRoom + xOffset;
 			this.absoluteyLocation = yInRoom + yOffset;
 			this.myRoom = myRoom;
-			// if it is not on the outer wall I need to add health at somepoint.
 		}
 
 		public int XInRoom{
@@ -112,16 +111,7 @@ public class WorldMaker : MonoBehaviour {
 				myCubeTransform.localScale = new Vector3(globalScaler, wallHeight, globalScaler);
 			}
 
-		}
-
-
-
-
-
-		//need to pass a refrence to the room to the instatiated downdoor
-		
-
-
+		}		
 	}
 
 //--------------------------------------------------------------------
@@ -209,7 +199,7 @@ public class WorldMaker : MonoBehaviour {
 					yPlacement = gameManagerScript.NextRandom(1,yDimension);
 				}
 				room[xPlacement,yPlacement].IsOn = true;
-				GameObject enemy = Instantiate(Resources.Load("OctalTurret") as GameObject, new Vector3(room[xPlacement,yPlacement].AbsoluteXLocation*globalScaler,globalElevation+1,room[xPlacement,yPlacement].AbsoluteyLocation*globalScaler), Quaternion.identity);
+				GameObject enemy = Instantiate(Resources.Load("OctalTurret") as GameObject, new Vector3(room[xPlacement,yPlacement].AbsoluteXLocation*globalScaler,globalElevation,room[xPlacement,yPlacement].AbsoluteyLocation*globalScaler), Quaternion.identity);
 				EnemyHealth enemyHealthScript = enemy.GetComponent<EnemyHealth>();
 				enemyHealthScript.SendMessage("WhoIsMyRoom",this,SendMessageOptions.RequireReceiver);
 			}

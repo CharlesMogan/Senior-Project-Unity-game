@@ -17,8 +17,8 @@ public class EnemyHealth : Health {
 		GameObject gameManager = GameObject.FindWithTag("GameController");
 		GameManager gameManagerScript = gameManager.GetComponent<GameManager>();
 
-		if(gameManagerScript.NextRandom(1,11) > 9){
-			Debug.Log("should spawn health now");
+		if(gameManagerScript.NextRandom(1,11) > 1){
+			Instantiate(Resources.Load("HealthUpPickup") as GameObject, this.gameObject.transform.position, Quaternion.identity);
 		}
 		Destroy(this.gameObject);
 	}

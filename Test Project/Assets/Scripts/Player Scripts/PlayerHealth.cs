@@ -16,5 +16,14 @@ public class PlayerHealth : Health {
 		healthText.text =  health.ToString()+"/"+ maxHealth.ToString();	
 	}
 
+	public override void MaxHealthUp(){
+		base.MaxHealthUp();
+		healthText.text =  health.ToString()+"/"+ maxHealth.ToString();
+	}
+
+	public override void HealthUp(){
+		base.HealthUp();
+		healthText.text =  health.ToString()+"/"+ maxHealth.ToString();
+	}
 
 }

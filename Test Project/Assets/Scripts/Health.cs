@@ -28,12 +28,12 @@ public class Health : MonoBehaviour {
 	}
 
 
-	public void MaxHealthUp(){
+	public virtual void MaxHealthUp(){
 		maxHealth += 10;
 		health += 10;
 	}
 
-	public void healthUp(){
+	public virtual void HealthUp(){
 		health += 10;
 		if(health>maxHealth){
 			health = maxHealth;
