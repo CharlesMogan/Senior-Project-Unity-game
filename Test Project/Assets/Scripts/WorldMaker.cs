@@ -214,25 +214,48 @@ public class WorldMaker : MonoBehaviour {
 		}
 
 
-		public void EnemyDied(){
+		public void EnemyDied(Vector3 deathLocation){
 			livingEnemies--;
 			Debug.Log("the number of living enemies is " + livingEnemies);
 
 			if(livingEnemies == 0){
-				EndCombat();
+				EndCombat(deathLocation);
 			}
 		}
 
 
-		public void EndCombat(){
+		public void EndCombat(Vector3 locationToSpawnPickup){
 			IsCleared = true;
 			inCombat = false;
+			int randomNum = gameManagerScript.NextRandom(1,8);
+			if(randomNum == 1){
+			Debug.Log("youpicked up a " + "fire rate +");
+			Instantiate(Resources.Load("bulletFireRateUpPickup") as GameObject, locationToSpawnPickup, Quaternion.identity);
+			}else if(randomNum == 2){
+				Debug.Log("youpicked up a " + "bullet lifetime +");
+				Instantiate(Resources.Load("BulletLifetimeUpPickup") as GameObject, locationToSpawnPickup, Quaternion.identity);
+			}else if(randomNum == 3){
+				Debug.Log("youpicked up a " + "bullet speed +");
+				Instantiate(Resources.Load("BulletSpeedUpPickup") as GameObject, locationToSpawnPickup, Quaternion.identity);
+			}else if(randomNum == 4){
+				Debug.Log("youpicked up a " + "charge delay -");
+				Instantiate(Resources.Load("LaserChargeDelayDownPickup") as GameObject, locationToSpawnPickup, Quaternion.identity);
+			}else if(randomNum == 5){
+				Debug.Log("youpicked up a " + "laserDamage +");
+				Instantiate(Resources.Load("LaserDamageUpPickup") as GameObject, locationToSpawnPickup, Quaternion.identity);
+			}else if(randomNum == 6){
+				Debug.Log("youpicked up a " + "maxHealthUp +");
+				Instantiate(Resources.Load("MaxHealthUpPickup") as GameObject, locationToSpawnPickup, Quaternion.identity);
+			}else if(randomNum == 7){
+				Debug.Log("youpicked up a " + "speed +");
+				Instantiate(Resources.Load("SpeedUpPickup") as GameObject, locationToSpawnPickup, Quaternion.identity);
+			
+			}else{Assert.IsTrue(false);}
 			myWorld.UnlockAllDoors();
 		}
 
 
 		public void LockDoors(){
-			Debug.Log("okay1");
 			foreach(Cell door in northDoors){
 				door.IsOn = true;
 				door.Draw();
@@ -509,7 +532,7 @@ public class WorldMaker : MonoBehaviour {
 
 			for (int i = 0; i < xDimension; i++){
 				for (int j = 0; j < yDimension; j++){
-					tempRoom[i,j] = B678S678(i,j);
+					tempRoom[i,j] = B345678S345678(i,j);
 				}
 			}
 
@@ -536,6 +559,16 @@ public class WorldMaker : MonoBehaviour {
 				return false;
 		}
 
+		bool B345678S345678(int x, int y){   //--------------------=======================================================================================================
+			int neighbors = getMooreNeighborhood(x,y);
+			if(neighbors < 3){
+				return false;
+			}else{
+				return true;
+			}
+
+		}
+
 		bool B45678S45678(int x, int y){
 			int neighbors = getMooreNeighborhood(x,y);
 			if(neighbors < 4){
@@ -545,7 +578,6 @@ public class WorldMaker : MonoBehaviour {
 			}
 
 		}
-
 
 		bool B5678S5678(int x, int y){
 			int neighbors = getMooreNeighborhood(x,y);

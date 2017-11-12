@@ -12,8 +12,7 @@ public class EnemyHealth : Health {
 	}
 
 	protected override void Die(){
-		Debug.Log("you died");
-		myRoom.EnemyDied();
+		myRoom.EnemyDied(this.gameObject.transform.position);
 		GameObject gameManager = GameObject.FindWithTag("GameController");
 		GameManager gameManagerScript = gameManager.GetComponent<GameManager>();
 

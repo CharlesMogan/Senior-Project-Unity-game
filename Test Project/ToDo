@@ -7,7 +7,7 @@ getting all north and east relations gets all relations
 
 multi threading error likley has to do with rannum generator
 
-
+in combat might not need to exist in worldmaker script
 
 
 
@@ -263,12 +263,6 @@ normal:
 
 
 
-
-door room count
-1 room 4 doors implies 5 rooms
-another room 3 more door implies 7 rooms
-another room 3 more door implies 10 rooms
-3 more rooms with one door implies 13 rooms ish i think
 
 ///------------------------------------------------where----------------------------------------------------------
 	should the map generate a random powerup or should a powerup generate a random effect. - figured it out pickups should have a set effect but which one is made 
