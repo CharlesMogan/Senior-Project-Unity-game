@@ -8,7 +8,8 @@ public class Health : MonoBehaviour {
 	public float health;
 	public float DamageDelay;
 	protected float timeWhenDamageable = 0;
-	// Update is called once per frame
+
+
 	
 	protected virtual void Die(){
 		Debug.Log("override this");

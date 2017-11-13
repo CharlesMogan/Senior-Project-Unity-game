@@ -554,6 +554,11 @@ Prefab:
       propertyPath: transferedMomentum
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 54683052279399898, guid: 5d03cfb9a00ce9d428f919ce476f15db,
+        type: 2}
+      propertyPath: m_Constraints
+      value: 116
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5d03cfb9a00ce9d428f919ce476f15db, type: 2}
   m_IsPrefabParent: 0
@@ -730,7 +735,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 13
+  orthographic size: 20
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1174,7 +1179,7 @@ RectTransform:
   m_GameObject: {fileID: 2074509483}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 20.5, z: -0.00000023841858}
-  m_LocalScale: {x: 0.05543597, y: 0.05543597, z: 0.05543597}
+  m_LocalScale: {x: 0.0998672, y: 0.0998672, z: 0.0998672}
   m_Children:
   - {fileID: 315095583}
   m_Father: {fileID: 0}

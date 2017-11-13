@@ -190,7 +190,7 @@ public class WorldMaker : MonoBehaviour {
 
 
 		public void SpawnEnemies(){
-			livingEnemies = gameManagerScript.NextRandom(2,4);
+			livingEnemies = gameManagerScript.NextRandom(10,11);
 			for(int i = 0;i < livingEnemies; i++){
 				int xPlacement = 0;
 				int yPlacement = 0;
@@ -198,10 +198,25 @@ public class WorldMaker : MonoBehaviour {
 					xPlacement = gameManagerScript.NextRandom(1,xDimension);
 					yPlacement = gameManagerScript.NextRandom(1,yDimension);
 				}
+
+
+				int randomNum = gameManagerScript.NextRandom(1,3);
+				GameObject enemyToSpawn;
+				if(randomNum == 1){
+					enemyToSpawn = Resources.Load("OctalTurret") as GameObject;
+				}else if(randomNum == 2){
+					enemyToSpawn = Resources.Load("FollowEnemy") as GameObject;
+
+				}else{
+					enemyToSpawn = Resources.Load("FollowEnemy") as GameObject;
+				}
+				Debug.Log(enemyToSpawn);
+				
 				room[xPlacement,yPlacement].IsOn = true;
-				GameObject enemy = Instantiate(Resources.Load("OctalTurret") as GameObject, new Vector3(room[xPlacement,yPlacement].AbsoluteXLocation*globalScaler,globalElevation,room[xPlacement,yPlacement].AbsoluteyLocation*globalScaler), Quaternion.identity);
+				GameObject enemy = Instantiate(enemyToSpawn, new Vector3(room[xPlacement,yPlacement].AbsoluteXLocation*globalScaler,globalElevation-.5f,room[xPlacement,yPlacement].AbsoluteyLocation*globalScaler), Quaternion.identity);
 				EnemyHealth enemyHealthScript = enemy.GetComponent<EnemyHealth>();
 				enemyHealthScript.SendMessage("WhoIsMyRoom",this,SendMessageOptions.RequireReceiver);
+				Debug.Log("tacotacotaco");
 			}
 
 
