@@ -200,12 +200,15 @@ public class WorldMaker : MonoBehaviour {
 				}
 
 
-				int randomNum = gameManagerScript.NextRandom(1,3);
+				int randomNum = gameManagerScript.NextRandom(1,4);
 				GameObject enemyToSpawn;
 				if(randomNum == 1){
 					enemyToSpawn = Resources.Load("OctalTurret") as GameObject;
 				}else if(randomNum == 2){
 					enemyToSpawn = Resources.Load("FollowEnemy") as GameObject;
+
+				}else if(randomNum == 3){
+					enemyToSpawn = Resources.Load("ZigZagEnemy") as GameObject;
 
 				}else{
 					enemyToSpawn = Resources.Load("FollowEnemy") as GameObject;

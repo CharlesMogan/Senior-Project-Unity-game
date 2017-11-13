@@ -193,12 +193,11 @@ MonoBehaviour:
   laser: {fileID: 0}
   laserDamage: -1
   laserLifetime: -1
-  laserLength: -1
   bulletSpeed: 10
   laserChargeDelay: 0
   laserDiameter: 0
   laserRange: 0
-  bullet: {fileID: 114124083743112614, guid: 296f76c9ab681f74f8caf7d0d86d4534, type: 2}
+  bullet: {fileID: 114573424280549908, guid: dbccfcb15851c174896d5819ed5419f4, type: 2}
   bulletLifetime: 2
   fireRate: 0.2
   transferedMomentum: 0

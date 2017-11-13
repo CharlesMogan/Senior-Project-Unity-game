@@ -16,7 +16,6 @@ public class Shooting : MonoBehaviour {
 	public Laser laser;
 	public float laserDamage;
 	public float laserLifetime;
-	public float laserLength;
 	protected float lasersPerBurst = 13;
 	public float bulletSpeed;
 	public float laserChargeDelay;
@@ -53,33 +52,6 @@ public class Shooting : MonoBehaviour {
 	}
 
 
-
-
-	/*protected IEnumerator ShootWithDelay(){    
-		nextFire = Time.time + fireRate;
-		if(shotChargeDelay != 0){
-			IEnumerator paralizeShooter = shooterMovement.ParalyzeForTime(shotChargeDelay+bulletLifetime);
-			StartCoroutine(paralizeShooter);
-		}
-		yield return new WaitForSeconds(shotChargeDelay);
-		if(bullet.tag == "Friendly Bullet" || bullet.tag == "Unfriendly Bullet"){
-			Shoot();
-		}else if(laser.tag == "Friendly Laser" || laser.tag == "Unfriendly Laser"){
-			nextFire = Time.time + fireRate + shotChargeDelay;
-			shotsPerBurst = 13;
-			float laserLifetime = bulletLifetime/shotsPerBurst;
-			for(int i = 0; i < shotsPerBurst; i++){
-				ShootLaser(laserLifetime);			
-				yield return new WaitForSeconds(laserLifetime);
-				isFiring = false;
-			}
-		}else{
-
-			Debug.Log("it is just as I feared");
-		}
-	}*/
-
-
 	protected IEnumerator ShootWithDelay(){    
 		nextFire = Time.time + laserChargeDelay+laserLifetime;
 		IEnumerator paralizeShooter = shooterMovement.ParalyzeForTime(laserChargeDelay+laserLifetime);
@@ -96,7 +68,6 @@ public class Shooting : MonoBehaviour {
 
 	protected void ShootLaser(float laserLifetime){
 		foreach(Transform gun in guns){
-			//Debug.Log("actually shooting a laser");
 			Laser lastLaser= Instantiate(laser, gun.position, gun.rotation);
 			lastLaser.Damage = laserDamage;
 			Transform lastLaserTransform = lastLaser.GetComponent<Transform>();
@@ -153,9 +124,9 @@ public class Shooting : MonoBehaviour {
 		}
 	}
 
-	public void laserLengthUp(){
-		laserLifetime += 10;
-		if(laserLifetime > 100){
+	public void laserRangeUp(){
+		laserRange += 10;
+		if(laserRange > 100){
 			laserLifetime = 100;
 		}
 	}
