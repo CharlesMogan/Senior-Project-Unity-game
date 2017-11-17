@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
@@ -29,7 +30,7 @@ public class GameManager : MonoBehaviour {
 		get{return seed;}
 	}
 
-	void EndGame(){
-		Debug.Log("game over script active");
+	public void EndGame(){
+		SceneManager.LoadScene(0);
 	}
 }

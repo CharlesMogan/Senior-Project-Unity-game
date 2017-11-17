@@ -10,6 +10,8 @@ public class Shooting : MonoBehaviour {
 	protected Movement shooterMovement;
 	protected Vector3 previousPosition;
 	protected Vector3 characterVelocity;
+	protected Vector3 previousRotation;
+	protected Vector3 characterAngularVelocity;
 	protected bool isFiringLaser = false;
 	
 	
@@ -45,10 +47,13 @@ public class Shooting : MonoBehaviour {
 	}	
 
 	void FixedUpdate(){
- 		if (Time.fixedDeltaTime != 0){
+ 		/*if (Time.fixedDeltaTime != 0){
 			characterVelocity = (shooterRB.position - previousPosition) / Time.fixedDeltaTime;
 			previousPosition = shooterRB.position;
-		}
+			characterAngularVelocity = (shooter.eulerAngles - previousRotation) / Time.fixedDeltaTime;
+			previousPosition = shooterRB.position;
+			previousRotation = shooter.eulerAngles;
+		}*/
 	}
 
 
@@ -68,12 +73,14 @@ public class Shooting : MonoBehaviour {
 
 	protected void ShootLaser(float laserLifetime){
 		foreach(Transform gun in guns){
-			Laser lastLaser= Instantiate(laser, gun.position, gun.rotation);
-			lastLaser.Damage = laserDamage;
-			Transform lastLaserTransform = lastLaser.GetComponent<Transform>();
-			lastLaserTransform.localScale = new Vector3(laserDiameter,laserRange,laserDiameter);
-			Vector3 yLessVelocity = new Vector3(characterVelocity.x,0.0f,characterVelocity.z);
-			Destroy(lastLaser.gameObject, laserLifetime);
+			if(gun != null){
+				Laser lastLaser= Instantiate(laser, gun.position, gun.rotation);
+				lastLaser.Damage = laserDamage;
+				Transform lastLaserTransform = lastLaser.GetComponent<Transform>();
+				lastLaserTransform.localScale = new Vector3(laserDiameter,laserRange,laserDiameter);
+				Vector3 yLessVelocity = new Vector3(characterVelocity.x,0.0f,characterVelocity.z);
+				Destroy(lastLaser.gameObject, laserLifetime);
+			}
 		}
 	}
 
@@ -81,16 +88,17 @@ public class Shooting : MonoBehaviour {
 
 	protected void Shoot(){
 		foreach(Transform gun in guns){
-			nextFire = Time.time + fireRate;
-			Bullet lastBullet= Instantiate(bullet, gun.position+gun.forward*.55f + gun.forward*.5f*bulletScale, gun.rotation);
-			lastBullet.Damage = bulletDamage; 
-			Transform lastBulletTransform = lastBullet.GetComponent<Transform>();
-			Vector3 yLessVelocity = new Vector3(characterVelocity.x,0.0f,characterVelocity.z); 
-			Rigidbody lastBulletRigedBody = lastBullet.GetComponent<Rigidbody>();
-			lastBulletRigedBody.velocity = transferedMomentum*yLessVelocity + lastBulletTransform.forward*bulletSpeed; //http://answers.unity3d.com/questions/808262/how-to-instantiate-a-prefab-with-initial-velocity.html
-			lastBulletTransform.localScale = new Vector3(bulletScale, bulletScale, bulletScale);
-			Debug.Log(lastBullet);
-			Destroy(lastBullet.gameObject, bulletLifetime);  /// for some reason you have to get the game object, compiles either way, just doesn't work.
+			if(gun != null){
+				nextFire = Time.time + fireRate;
+				Bullet lastBullet= Instantiate(bullet, gun.position+gun.forward*.55f + gun.forward*.5f*bulletScale, gun.rotation);
+				lastBullet.Damage = bulletDamage; 
+				Transform lastBulletTransform = lastBullet.GetComponent<Transform>();
+				//Vector3 yLessVelocity = new Vector3(characterVelocity.x,0.0f,characterVelocity.z); 
+				Rigidbody lastBulletRigedBody = lastBullet.GetComponent<Rigidbody>();
+				lastBulletRigedBody.velocity = /*transferedMomentum*yLessVelocity + new Vector3(characterAngularVelocity.x,0,characterAngularVelocity.z) * transferedMomentum +*/ lastBulletTransform.forward*bulletSpeed; //http://answers.unity3d.com/questions/808262/how-to-instantiate-a-prefab-with-initial-velocity.html
+				lastBulletTransform.localScale = new Vector3(bulletScale, bulletScale, bulletScale);
+				Destroy(lastBullet.gameObject, bulletLifetime);  /// for some reason you have to get the game object, doesn't complain either way, just doesn't work.
+			}
 		}
 	}
 

@@ -24,6 +24,7 @@ public class WorldMaker : MonoBehaviour {
 	public static readonly int globalElevation = 0;
 	public static readonly int wallHeight = 12;
 	public static readonly int minimumEdgeOverlapToBuildDoor = 5;
+	public static readonly int roomsToBuild = 2;
 
 
 
@@ -151,8 +152,9 @@ public class WorldMaker : MonoBehaviour {
 		List<Cell> westDoors;
 		bool isCleared;
 		bool inCombat;
+		bool bossRoom;
 
-		public Room(int xDimension, int yDimension, int xLocation, int yLocation, World myWorld, int roomSeed){
+		public Room(int xDimension, int yDimension, int xLocation, int yLocation, World myWorld, int roomSeed, bool bossRoom){
 			gameManager = GameObject.FindWithTag("GameController");
        		gameManagerScript = gameManager.GetComponent<GameManager>();
        		this.xOffset = xLocation;
@@ -171,6 +173,8 @@ public class WorldMaker : MonoBehaviour {
 			westDoors = new List<Cell>();
 			isCleared = false;
 			inCombat = false;
+			this.bossRoom = bossRoom;
+			livingEnemies = 0;
 
 
 
@@ -184,10 +188,40 @@ public class WorldMaker : MonoBehaviour {
 			if(!isCleared && !inCombat){
 				inCombat = true;
 				myWorld.LockDoorsInAllRoomsBesides(this);
-				SpawnEnemies();
+				if(!bossRoom){
+					SpawnEnemies();
+				}else{
+					SpawnBoss();
+				}
 			}
 		}
 
+		public bool IsMooreNeighborhoodCleared(int x, int y){
+			return(getMooreNeighborhood(x,y) == 0 && room[x,y].IsOn == false);
+		}
+
+		
+
+		public void SpawnBoss(){
+			livingEnemies = 1;
+			int xPlacement = 0;
+			int yPlacement = 0;
+			while(!IsMooreNeighborhoodCleared(xPlacement,yPlacement)){
+				xPlacement = gameManagerScript.NextRandom(1,xDimension);
+				yPlacement = gameManagerScript.NextRandom(1,yDimension);
+			}
+			GameObject enemyToSpawn = Resources.Load("Boss") as GameObject;
+			GameObject enemy = Instantiate(enemyToSpawn, new Vector3(room[xPlacement,yPlacement].AbsoluteXLocation*globalScaler,globalElevation-.5f,room[xPlacement,yPlacement].AbsoluteyLocation*globalScaler), Quaternion.identity);
+			Health enemyHealthScript = enemy.GetComponent<Health>();
+			enemyHealthScript.SendMessage("WhoIsMyRoom",this,SendMessageOptions.RequireReceiver);
+			for(int i = -1; i <= 1; i++){
+				for(int j = -1; j <= 1; j++){
+					room[xPlacement,yPlacement].IsOn = true;
+				}
+			}
+
+
+		}
 
 		public void SpawnEnemies(){
 			livingEnemies = gameManagerScript.NextRandom(10,11);
@@ -206,10 +240,8 @@ public class WorldMaker : MonoBehaviour {
 					enemyToSpawn = Resources.Load("OctalTurret") as GameObject;
 				}else if(randomNum == 2){
 					enemyToSpawn = Resources.Load("FollowEnemy") as GameObject;
-
 				}else if(randomNum == 3){
 					enemyToSpawn = Resources.Load("ZigZagEnemy") as GameObject;
-
 				}else{
 					enemyToSpawn = Resources.Load("FollowEnemy") as GameObject;
 				}
@@ -217,12 +249,37 @@ public class WorldMaker : MonoBehaviour {
 				
 				room[xPlacement,yPlacement].IsOn = true;
 				GameObject enemy = Instantiate(enemyToSpawn, new Vector3(room[xPlacement,yPlacement].AbsoluteXLocation*globalScaler,globalElevation-.5f,room[xPlacement,yPlacement].AbsoluteyLocation*globalScaler), Quaternion.identity);
-				EnemyHealth enemyHealthScript = enemy.GetComponent<EnemyHealth>();
+				Health enemyHealthScript = enemy.GetComponent<Health>();
 				enemyHealthScript.SendMessage("WhoIsMyRoom",this,SendMessageOptions.RequireReceiver);
-				Debug.Log("tacotacotaco");
 			}
 
 
+		}
+
+		public void SpawnChasers(int chasersToSpawn){
+			SpawnEnemy(chasersToSpawn,"FollowEnemy");
+		}
+
+
+		public void SpawnTurrets(int turretsToSpawn){
+			SpawnEnemy(turretsToSpawn,"OctalTurret");
+		}
+
+
+		void SpawnEnemy(int numberToSpawn, string enemyToSpawn){
+			int xPlacement = 0;
+			int yPlacement = 0;
+			for(int i = 0; i <= numberToSpawn; i++){
+				while(room[xPlacement,yPlacement].IsOn){
+					xPlacement = gameManagerScript.NextRandom(1,xDimension);
+					yPlacement = gameManagerScript.NextRandom(1,yDimension);
+				}
+				room[xPlacement,yPlacement].IsOn = true;
+				GameObject enemy = Instantiate(Resources.Load(enemyToSpawn) as GameObject, new Vector3(room[xPlacement,yPlacement].AbsoluteXLocation*globalScaler,globalElevation-.5f,room[xPlacement,yPlacement].AbsoluteyLocation*globalScaler), Quaternion.identity);
+				EnemyHealth enemyHealthScript = enemy.GetComponent<EnemyHealth>();
+				enemyHealthScript.SendMessage("WhoIsMyRoom",this,SendMessageOptions.RequireReceiver);
+				livingEnemies++;
+			}
 		}
 
 		public bool IsCleared{
@@ -425,7 +482,7 @@ public class WorldMaker : MonoBehaviour {
 			room[x - xOffset,y - yOffset].IsOn = false;
 		}
 
-		public void AddDoors(World world){
+		public void AddDoors(World world){      // adds doors to the north and east walls of the room, and tells the south and west walls of adjacent rooms where to build.
 
 			int indexOfRoomBeingTracked = -1;
 			int upperBoundsOfBorder = 0;
@@ -470,7 +527,6 @@ public class WorldMaker : MonoBehaviour {
 
 			for(int i = westBounds; i < eastBounds; i++){  //checking north wall
 				borderingRoom = world.IsInWorld(i,northBounds+1);
-				Debug.Log("rawr");
 				if(indexOfRoomBeingTracked == -1 && borderingRoom != -1){
 					lowerBoundsOfBorder = i;
 					indexOfRoomBeingTracked = borderingRoom;
@@ -629,7 +685,7 @@ public class WorldMaker : MonoBehaviour {
 		
 
 		public int[] NESWBounds{
-			get{return new int[4]{northBounds,eastBounds,southBounds,westBounds};}///////////////// might be backwoards
+			get{return new int[4]{northBounds,eastBounds,southBounds,westBounds};}
 		}
 		
 
@@ -638,8 +694,7 @@ public class WorldMaker : MonoBehaviour {
 			int sum = 0;
 			for(int i = -1; i <= 1; i++){
 				for(int j = -1; j <= 1; j++){
-					//Debug.Log("tryingTo acsess"+ (x+i)+" "+(y+j));
-					if(x+i>-1 && y+j>-1 && x+i < xDimension && y+j < yDimension){           ///this is real bad, need to fix
+					if(x+i>-1 && y+j>-1 && x+i < xDimension && y+j < yDimension){
 						if(room[x+i,y+j].IsOn){
 							sum += 1;
 						}
@@ -689,13 +744,13 @@ public class WorldMaker : MonoBehaviour {
 
 
 			roomArray = new List<Room>();
-			Room firstRoom = new Room(50,50,0,0,this, 0);
+			Room firstRoom = new Room(50,50,0,0,this, 0, false);
 			firstRoom.IsCleared = true;
 			roomArray.Add(firstRoom);
 
 			
 			//for(int i = 0; i < 500; i++){
-			while(roomArray.Count < 20){
+			while(roomArray.Count < roomsToBuild){
 				int sideToBuildOn = gameManagerScript.NextRandom(0,4);
 				int whichRoomToBuldNextTo = gameManagerScript.NextRandom(0,roomArray.Count);
 				int ranRoomSize = gameManagerScript.NextRandom(50,100);
@@ -707,15 +762,24 @@ public class WorldMaker : MonoBehaviour {
   					xLocation = neighborRoomBounds[3];
 					yLocation = neighborRoomBounds[0] + 1;
 					if(IsSafeToBuild(roomArray[whichRoomToBuldNextTo].Width,ranRoomSize,xLocation,yLocation)){
-						roomArray.Add(new Room(roomArray[whichRoomToBuldNextTo].Width,ranRoomSize,xLocation,yLocation,this,roomArray.Count));
+						if(roomArray.Count == roomsToBuild -1){
+							roomArray.Add(new Room(roomArray[whichRoomToBuldNextTo].Width,ranRoomSize,xLocation,yLocation,this,roomArray.Count, true));
+						}else{
+							roomArray.Add(new Room(roomArray[whichRoomToBuldNextTo].Width,ranRoomSize,xLocation,yLocation,this,roomArray.Count, false));
+							Debug.Log("bossRoomMade");
+						}
 					}else{
 						Debug.Log("room Collision sucsessfullyy detected");
 					}		
-				}else if(sideToBuildOn == 1){   //east
+				}else if(sideToBuildOn == 1){  //east
 					xLocation = neighborRoomBounds[1] + 1;
 					yLocation = neighborRoomBounds[2];
 					if(IsSafeToBuild(ranRoomSize,roomArray[whichRoomToBuldNextTo].Height,xLocation,yLocation)){
-						roomArray.Add(new Room(ranRoomSize,roomArray[whichRoomToBuldNextTo].Height,xLocation,yLocation,this,roomArray.Count));
+						if(roomArray.Count == roomsToBuild -1){
+							roomArray.Add(new Room(ranRoomSize,roomArray[whichRoomToBuldNextTo].Height,xLocation,yLocation,this,roomArray.Count, true));
+						}else{
+							roomArray.Add(new Room(ranRoomSize,roomArray[whichRoomToBuldNextTo].Height,xLocation,yLocation,this,roomArray.Count, false));
+						}
 					}else{
 						Debug.Log("room Collision sucsessfullyy detected");
 					}
@@ -724,7 +788,11 @@ public class WorldMaker : MonoBehaviour {
 					yLocation =  neighborRoomBounds[2]-ranRoomSize;
 					
 					if(IsSafeToBuild(roomArray[whichRoomToBuldNextTo].Width,ranRoomSize,xLocation,yLocation)){
-						roomArray.Add(new Room(roomArray[whichRoomToBuldNextTo].Width,ranRoomSize,xLocation,yLocation,this,roomArray.Count));
+						if(roomArray.Count == roomsToBuild -1){
+							roomArray.Add(new Room(roomArray[whichRoomToBuldNextTo].Width,ranRoomSize,xLocation,yLocation,this,roomArray.Count, true));
+						}else{
+							roomArray.Add(new Room(roomArray[whichRoomToBuldNextTo].Width,ranRoomSize,xLocation,yLocation,this,roomArray.Count, false));
+						}
 					}else{
 						Debug.Log("room Collision sucsessfullyy detected");
 					}
@@ -733,14 +801,19 @@ public class WorldMaker : MonoBehaviour {
 					yLocation = neighborRoomBounds[2];
 					
 					if(IsSafeToBuild(ranRoomSize,roomArray[whichRoomToBuldNextTo].Height,xLocation,yLocation)){
-						roomArray.Add(new Room(ranRoomSize,roomArray[whichRoomToBuldNextTo].Height,xLocation,yLocation,this,roomArray.Count));
+						if(roomArray.Count == roomsToBuild -1){
+							roomArray.Add(new Room(ranRoomSize,roomArray[whichRoomToBuldNextTo].Height,xLocation,yLocation,this,roomArray.Count, true));
+						}else{
+							roomArray.Add(new Room(ranRoomSize,roomArray[whichRoomToBuldNextTo].Height,xLocation,yLocation,this,roomArray.Count, false));
+						}
 					}else{
 						Debug.Log("room Collision sucsessfullyy detected");
 					}
 				}else{Assert.IsTrue(false);}
 
 			}
-			
+
+		
 			// for(int i = 0; i < roomArray.Count; i++){
 			//  	Debug.Log("room " + i + " has a NESW bounds of " + roomArray[i].NESWBounds[0] + " " + roomArray[i].NESWBounds[1] + " " + roomArray[i].NESWBounds[2] + " " + roomArray[i].NESWBounds[3]);
 			// }  
@@ -824,7 +897,8 @@ public class WorldMaker : MonoBehaviour {
 
 		//if min length room to max length room is only 3 times as big then checking at like 3 points along easch wall can confirm no intersections
 		bool IsSafeToBuild(int xDimension, int yDimension, int xLocation, int yLocation){  ///this should be 100% safe
-
+			Assert.IsTrue(xDimension*2 >= yDimension);
+			Assert.IsTrue(yDimension*2 >= xDimension);
 			int northBounds = yDimension+yLocation-1;
 			int eastBounds = xDimension+xLocation-1;
 			int southBounds = yLocation;

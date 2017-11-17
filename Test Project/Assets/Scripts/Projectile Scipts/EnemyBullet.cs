@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class EnemyBullet : Bullet {	
 
-	 protected override void OnTriggerEnter(Collider other) {
-	 	base.OnTriggerEnter(other);
+	 public override void OnTriggerEnter(Collider other){
+	 	if(other.gameObject.tag != "Friendly Bullet" && other.gameObject.tag != "Unfriendly Bullet" && other.gameObject.tag != "Enemy"){
+    		Destroy(this.gameObject);
+    	}
        	if(other.gameObject.tag == "Player"){
        		Health health = other.GetComponent<Health>();
        		health.TakeDamage(projectileDamage);

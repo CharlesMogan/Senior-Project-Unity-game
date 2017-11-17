@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerBullet : Bullet {
 
 
-	protected override void OnTriggerEnter(Collider other) {
+	public override void OnTriggerEnter(Collider other){
 		if(other.gameObject.tag != "Player" && other.gameObject.tag != "Friendly Bullet" && other.gameObject.tag != "Unfriendly Bullet"){
     		Destroy(this.gameObject);
     	}

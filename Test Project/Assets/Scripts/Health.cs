@@ -8,8 +8,12 @@ public class Health : MonoBehaviour {
 	public float health;
 	public float DamageDelay;
 	protected float timeWhenDamageable = 0;
+	protected WorldMaker.Room myRoom;
 
 
+	public void WhoIsMyRoom(WorldMaker.Room myRoom){
+		this.myRoom = myRoom;
+	}
 	
 	protected virtual void Die(){
 		Debug.Log("override this");

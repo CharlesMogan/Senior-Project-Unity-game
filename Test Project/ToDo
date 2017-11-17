@@ -9,7 +9,7 @@ multi threading error likley has to do with rannum generator
 
 in combat might not need to exist in worldmaker script
 
-
+who is my room and is ocupied for teleporting enemies.
 
 
 -------------things to for sure impliment soon-----------------
@@ -127,8 +127,6 @@ make sure all damage and health mecanics are tied to phisics frame rate. current
 
 
 when the laser shooter shoots his laser he is only paralized for the begining of the shot not until the laser disapears.
-
-if you get hit (by another rb) then try to shoot your laser you just end up spinning around.
 
 there is a rendering error with enemy lasers now that I Fixed the walls
 

@@ -6,7 +6,7 @@ public class EnemyLaserShooting : Shooting {
 
 	void Update () {
 		if(Time.time > nextFire && isFiringLaser == false){
-			isFiringLaser  = true;
+			//isFiringLaser  = true;
 			IEnumerator delayShot = ShootWithDelay();
 			StartCoroutine(delayShot);
 		}
