@@ -24,7 +24,8 @@ public class WorldMaker : MonoBehaviour {
 	public static readonly int globalElevation = 0;
 	public static readonly int wallHeight = 12;
 	public static readonly int minimumEdgeOverlapToBuildDoor = 5;
-	public static readonly int roomsToBuild = 2;
+	public static readonly int roomsToBuild = 30;
+	public static readonly int numberOfGenerations = 5;
 
 
 
@@ -395,10 +396,10 @@ public class WorldMaker : MonoBehaviour {
 				}
 			}
 
-			for(int i = 0; i < 5; i++){  
-				nextGeneration();
+			for(int i = 0; i < numberOfGenerations; i++){  
+				NextGeneration();
 			}
-			
+			LastGeneration();
 			
 
 			//-------------------------------------------------------------test code delete
@@ -565,7 +566,7 @@ public class WorldMaker : MonoBehaviour {
 		}
 
 
-		void nextGeneration(){
+		void NextGeneration(){
 			bool[,] tempRoom = new bool[xDimension,yDimension];
 			
 
@@ -592,7 +593,7 @@ public class WorldMaker : MonoBehaviour {
 		}
 
 
-		void lastGeneration(){
+		void LastGeneration(){
 			bool[,] tempRoom = new bool[xDimension,yDimension];
 			
 
@@ -606,7 +607,7 @@ public class WorldMaker : MonoBehaviour {
 
 			for (int i = 0; i < xDimension; i++){
 				for (int j = 0; j < yDimension; j++){
-					tempRoom[i,j] = B345678S345678(i,j);
+					tempRoom[i,j] = B1S12345678(i,j);
 				}
 			}
 
@@ -633,9 +634,31 @@ public class WorldMaker : MonoBehaviour {
 				return false;
 		}
 
-		bool B345678S345678(int x, int y){   //--------------------=======================================================================================================
+
+
+		bool B1S12345678(int x, int y){                             //conway's rules
+			int neighbors = getMooreNeighborhood(x,y);
+			if(neighbors == 1){
+				return true;
+			}
+			return room[x,y].IsOn;
+		}
+
+
+
+		bool B345678S345678(int x, int y){   
 			int neighbors = getMooreNeighborhood(x,y);
 			if(neighbors < 3){
+				return false;
+			}else{
+				return true;
+			}
+
+		}
+
+		bool B35678S35678(int x, int y){   
+			int neighbors = getMooreNeighborhood(x,y);
+			if(neighbors < 3 || neighbors == 4){
 				return false;
 			}else{
 				return true;
@@ -646,6 +669,36 @@ public class WorldMaker : MonoBehaviour {
 		bool B45678S45678(int x, int y){
 			int neighbors = getMooreNeighborhood(x,y);
 			if(neighbors < 4){
+				return false;
+			}else{
+				return true;
+			}
+
+		}
+
+		bool B4678S4678(int x, int y){					//this ones no good
+			int neighbors = getMooreNeighborhood(x,y);
+			if(neighbors < 4 || neighbors == 5){
+				return false;
+			}else{
+				return true;
+			}
+
+		}
+
+		bool B4578S4578(int x, int y){
+			int neighbors = getMooreNeighborhood(x,y);
+			if(neighbors < 4 || neighbors == 6){
+				return false;
+			}else{
+				return true;
+			}
+
+		}
+
+		bool B4568S4568(int x, int y){
+			int neighbors = getMooreNeighborhood(x,y);
+			if(neighbors < 4 || neighbors == 7){
 				return false;
 			}else{
 				return true;
@@ -854,7 +907,7 @@ public class WorldMaker : MonoBehaviour {
 
 			//------------------------------
 
-			System.Threading.Tasks.Parallel.ForEach(roomArray, room =>
+			Parallel.ForEach(roomArray, room =>
 			{
 				room.Fill();
 			});

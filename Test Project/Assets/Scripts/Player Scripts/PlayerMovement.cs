@@ -8,7 +8,7 @@ public class PlayerMovement : Movement {
 	
 	private float nextFire;
 	public Camera playerCamera;
-	public Transform crosshair;
+	//public Transform crosshair;
 	private Vector3 mousePosition3D;
 	private GameObject playerObject;
 	
@@ -21,7 +21,7 @@ public class PlayerMovement : Movement {
 		//Mouse position is designed forr 2d you have to do this shenanages for it to work
 			mousePosition3D = new Vector3(playerCamera.ScreenToWorldPoint(Input.mousePosition).x,character.position.y,playerCamera.ScreenToWorldPoint(Input.mousePosition).z);
 			character.LookAt(mousePosition3D);
-			crosshair.position = mousePosition3D;		
+			//crosshair.position = mousePosition3D;		
 		}else{
 			Debug.Log("I Am isParalyzed!!!!!!!!!");
 		}
