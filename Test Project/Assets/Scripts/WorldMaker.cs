@@ -920,15 +920,22 @@ public class WorldMaker : MonoBehaviour {
 		}
 
 		void ClearDoors(){
-			foreach(Room room in roomArray){
+			/*foreach(Room room in roomArray){
 				room.ClearDoors();
-			}
+			}*/
+
+			Parallel.ForEach(roomArray, room =>
+			{
+				room.ClearDoors();
+			});
 		}
 
 		void Draw(){
 			foreach(Room room in roomArray){
 				room.Draw();
 			}
+
+
 		}
 
 

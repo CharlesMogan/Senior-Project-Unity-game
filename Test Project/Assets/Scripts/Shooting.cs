@@ -46,27 +46,29 @@ public class Shooting : MonoBehaviour {
 		}
 	}	
 
-	void FixedUpdate(){
- 		/*if (Time.fixedDeltaTime != 0){
+	/*void FixedUpdate(){
+ 		if (Time.fixedDeltaTime != 0){
 			characterVelocity = (shooterRB.position - previousPosition) / Time.fixedDeltaTime;
 			previousPosition = shooterRB.position;
 			characterAngularVelocity = (shooter.eulerAngles - previousRotation) / Time.fixedDeltaTime;
 			previousPosition = shooterRB.position;
 			previousRotation = shooter.eulerAngles;
-		}*/
-	}
+		}
+	}*/
 
 
 	protected IEnumerator ShootWithDelay(){    
 		nextFire = Time.time + laserChargeDelay+laserLifetime;
-		IEnumerator paralizeShooter = shooterMovement.ParalyzeForTime(laserChargeDelay+laserLifetime);
-		StartCoroutine(paralizeShooter);
+		//IEnumerator paralizeShooter = shooterMovement.ParalyzeForTime(laserChargeDelay+laserLifetime);
+		//StartCoroutine(paralizeShooter);
+		shooterMovement.enabled = false;
 		yield return new WaitForSeconds(laserChargeDelay);
 		float laserFragmentLifetime = laserLifetime/lasersPerBurst;
 		for(int i = 0; i < lasersPerBurst; i++){
 			ShootLaser(laserFragmentLifetime);			
 			yield return new WaitForSeconds(laserFragmentLifetime);
 		}
+		shooterMovement.enabled = true;
 		isFiringLaser = false;
 	}
 
