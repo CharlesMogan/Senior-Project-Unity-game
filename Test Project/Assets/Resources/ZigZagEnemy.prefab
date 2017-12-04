@@ -190,19 +190,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 006b06b9e332b98409f1bb7f4cd0625f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  laser: {fileID: 0}
-  laserDamage: -1
-  laserLifetime: -1
+  shotDamage: 6
+  shotLifetime: 2.5
+  shotDiameter: 0.5
   bulletSpeed: 10
-  laserChargeDelay: 0
-  laserDiameter: 0
-  laserRange: 0
-  bullet: {fileID: 114573424280549908, guid: dbccfcb15851c174896d5819ed5419f4, type: 2}
-  bulletLifetime: 2
   fireRate: 0.2
-  transferedMomentum: 0
-  bulletDamage: 5
-  bulletScale: 0.5
+  bullet: {fileID: 114573424280549908, guid: dbccfcb15851c174896d5819ed5419f4, type: 2}
 --- !u!114 &114850734713978512
 MonoBehaviour:
   m_ObjectHideFlags: 1

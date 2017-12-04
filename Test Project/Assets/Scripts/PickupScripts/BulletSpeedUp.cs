@@ -5,7 +5,7 @@ using UnityEngine;
 public class BulletSpeedUp : MonoBehaviour {
 	protected virtual void OnTriggerEnter(Collider other) {
 	if(other.gameObject.tag == "Player"){
-		Shooting shooting = other.GetComponent<Shooting>();
+		BulletShooting shooting = other.GetComponent<BulletShooting>();
 		shooting.BulletSpeedUp();
 		Destroy(this.gameObject);
 		}

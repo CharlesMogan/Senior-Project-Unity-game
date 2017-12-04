@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
+//crappy testing scripts
+
 public class Pickup : MonoBehaviour {
 
 protected virtual void OnTriggerEnter(Collider other) {

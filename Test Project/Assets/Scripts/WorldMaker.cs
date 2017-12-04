@@ -24,7 +24,7 @@ public class WorldMaker : MonoBehaviour {
 	public static readonly int globalElevation = 0;
 	public static readonly int wallHeight = 12;
 	public static readonly int minimumEdgeOverlapToBuildDoor = 5;
-	public static readonly int roomsToBuild = 30;
+	public static readonly int roomsToBuild = 12;
 	public static readonly int numberOfGenerations = 5;
 
 
