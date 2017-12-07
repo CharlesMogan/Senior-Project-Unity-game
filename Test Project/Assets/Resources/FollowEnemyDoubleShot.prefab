@@ -268,10 +268,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shotDamage: 8
-  shotLifetime: 2.3
+  shotLifetime: 2.4
   shotDiameter: 0.44
-  bulletSpeed: 10
-  fireRate: 0.2
+  bulletSpeed: 12
+  fireRate: 0.27
   bullet: {fileID: 114573424280549908, guid: dbccfcb15851c174896d5819ed5419f4, type: 2}
 --- !u!114 &114850734713978512
 MonoBehaviour:

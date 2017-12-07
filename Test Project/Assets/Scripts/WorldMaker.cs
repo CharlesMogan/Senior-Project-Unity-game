@@ -24,9 +24,12 @@ public class WorldMaker : MonoBehaviour {
 	public static readonly int globalElevation = 0;
 	public static readonly int wallHeight = 12;
 	public static readonly int minimumEdgeOverlapToBuildDoor = 5;
-	public static readonly int roomsToBuild = 12;
+	public static readonly int roomsToBuild = 45;
 	public static readonly int numberOfGenerations = 5;
-
+	public static readonly int minEnemiesToSpawn = 10;
+	public static readonly int maxEnemiesToSpawn = 11;
+	public static readonly int minRoomSize = 35;
+	public static readonly int maxRoomSize = 80;
 
 
 	public class Cell{
@@ -225,7 +228,7 @@ public class WorldMaker : MonoBehaviour {
 		}
 
 		public void SpawnEnemies(){
-			livingEnemies = gameManagerScript.NextRandom(10,11);
+			livingEnemies = gameManagerScript.NextRandom(minEnemiesToSpawn,maxEnemiesToSpawn);
 			for(int i = 0;i < livingEnemies; i++){
 				int xPlacement = 0;
 				int yPlacement = 0;
@@ -235,7 +238,7 @@ public class WorldMaker : MonoBehaviour {
 				}
 
 
-				int randomNum = gameManagerScript.NextRandom(1,4);
+				int randomNum = gameManagerScript.NextRandom(1,16);
 				GameObject enemyToSpawn;
 				if(randomNum == 1){
 					enemyToSpawn = Resources.Load("OctalTurret") as GameObject;
@@ -243,8 +246,12 @@ public class WorldMaker : MonoBehaviour {
 					enemyToSpawn = Resources.Load("FollowEnemy") as GameObject;
 				}else if(randomNum == 3){
 					enemyToSpawn = Resources.Load("ZigZagEnemy") as GameObject;
-				}else{
+				}else if(randomNum == 4){
 					enemyToSpawn = Resources.Load("FollowEnemy") as GameObject;
+				}else if(randomNum == 5){
+					enemyToSpawn = Resources.Load("FollowEnemyDoubleShot") as GameObject;
+				}else{
+					enemyToSpawn = Resources.Load("FollowEnemyTripleSpreadShot") as GameObject;
 				}
 				Debug.Log(enemyToSpawn);
 				
@@ -806,7 +813,7 @@ public class WorldMaker : MonoBehaviour {
 			while(roomArray.Count < roomsToBuild){
 				int sideToBuildOn = gameManagerScript.NextRandom(0,4);
 				int whichRoomToBuldNextTo = gameManagerScript.NextRandom(0,roomArray.Count);
-				int ranRoomSize = gameManagerScript.NextRandom(50,100);
+				int ranRoomSize = gameManagerScript.NextRandom(minRoomSize,maxRoomSize);
        			Room[] tempArray = roomArray.ToArray();
        			int[] neighborRoomBounds = tempArray[whichRoomToBuldNextTo].NESWBounds;
        			int xLocation = 0;        //location for the lower left corner of the room
@@ -814,7 +821,7 @@ public class WorldMaker : MonoBehaviour {
   				if(sideToBuildOn == 0){   //north
   					xLocation = neighborRoomBounds[3];
 					yLocation = neighborRoomBounds[0] + 1;
-					if(IsSafeToBuild(roomArray[whichRoomToBuldNextTo].Width,ranRoomSize,xLocation,yLocation)){
+					if(IsSafeToBuildV2(roomArray[whichRoomToBuldNextTo].Width,ranRoomSize,xLocation,yLocation)){
 						if(roomArray.Count == roomsToBuild -1){
 							roomArray.Add(new Room(roomArray[whichRoomToBuldNextTo].Width,ranRoomSize,xLocation,yLocation,this,roomArray.Count, true));
 						}else{
@@ -827,7 +834,7 @@ public class WorldMaker : MonoBehaviour {
 				}else if(sideToBuildOn == 1){  //east
 					xLocation = neighborRoomBounds[1] + 1;
 					yLocation = neighborRoomBounds[2];
-					if(IsSafeToBuild(ranRoomSize,roomArray[whichRoomToBuldNextTo].Height,xLocation,yLocation)){
+					if(IsSafeToBuildV2(ranRoomSize,roomArray[whichRoomToBuldNextTo].Height,xLocation,yLocation)){
 						if(roomArray.Count == roomsToBuild -1){
 							roomArray.Add(new Room(ranRoomSize,roomArray[whichRoomToBuldNextTo].Height,xLocation,yLocation,this,roomArray.Count, true));
 						}else{
@@ -840,7 +847,7 @@ public class WorldMaker : MonoBehaviour {
 					xLocation = neighborRoomBounds[3];
 					yLocation =  neighborRoomBounds[2]-ranRoomSize;
 					
-					if(IsSafeToBuild(roomArray[whichRoomToBuldNextTo].Width,ranRoomSize,xLocation,yLocation)){
+					if(IsSafeToBuildV2(roomArray[whichRoomToBuldNextTo].Width,ranRoomSize,xLocation,yLocation)){
 						if(roomArray.Count == roomsToBuild -1){
 							roomArray.Add(new Room(roomArray[whichRoomToBuldNextTo].Width,ranRoomSize,xLocation,yLocation,this,roomArray.Count, true));
 						}else{
@@ -853,7 +860,7 @@ public class WorldMaker : MonoBehaviour {
 					xLocation = neighborRoomBounds[3] - ranRoomSize;
 					yLocation = neighborRoomBounds[2];
 					
-					if(IsSafeToBuild(ranRoomSize,roomArray[whichRoomToBuldNextTo].Height,xLocation,yLocation)){
+					if(IsSafeToBuildV2(ranRoomSize,roomArray[whichRoomToBuldNextTo].Height,xLocation,yLocation)){
 						if(roomArray.Count == roomsToBuild -1){
 							roomArray.Add(new Room(ranRoomSize,roomArray[whichRoomToBuldNextTo].Height,xLocation,yLocation,this,roomArray.Count, true));
 						}else{
@@ -1014,6 +1021,30 @@ public class WorldMaker : MonoBehaviour {
 			return true;
 		}
 		
+
+
+		bool IsSafeToBuildV2(int xDimension, int yDimension, int xLocation, int yLocation){  ///this should be 100% safe
+			//Assert.IsTrue(xDimension*2 >= yDimension);
+			//Assert.IsTrue(yDimension*2 >= xDimension);
+			int northBounds = yDimension+yLocation-1;
+			int eastBounds = xDimension+xLocation-1;
+			int southBounds = yLocation;
+			int westBounds = xLocation;
+			// Debug.Log(northBounds + " is northBounds");
+			// Debug.Log(eastBounds + " is eastBounds");
+			// Debug.Log(southBounds + " issouthhBounds");
+			// Debug.Log(westBounds + " iswesthBounds");
+
+
+			foreach(Room room in roomArray){
+				int[] roombounds = room.NESWBounds;
+				if(((eastBounds <= roombounds[1] && eastBounds >= roombounds[3]) ||  (westBounds <= roombounds[1] && westBounds >= roombounds[3]))
+				&&((northBounds <= roombounds[0] && northBounds >= roombounds[2]) || (southBounds <= roombounds[0] && southBounds >= roombounds[2]))){
+					return false;
+				}
+			}
+			return true;
+		}
 
 
 		public int IsInWorld(int x, int y){

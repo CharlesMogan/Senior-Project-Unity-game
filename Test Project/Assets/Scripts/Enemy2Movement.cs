@@ -18,16 +18,14 @@ public class Enemy2Movement : Movement {
 
 	}
 	
-	// Update is called once per frame
+
 	void FixedUpdate () {		
 		if(player == null){
 			player = GameObject.FindWithTag("Player").transform;
 		}else{
-			if(!isParalyzed){
 				character.LookAt(player);
 				movement = character.forward*speed*Time.fixedDeltaTime;
 				rb.MovePosition(rb.position + movement);
-			}
 		}
 	}
 }

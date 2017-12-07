@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletShooting : Shooting {
+public abstract class BulletShooting : Shooting {
 	public float bulletSpeed;
 	public float fireRate;
 	public Bullet bullet;

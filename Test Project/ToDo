@@ -1,3 +1,11 @@
+
+
+
+maybe just checking the bounds of the rooms against eachother
+
+have gamemanager keep track of the number of living enemies. that way there is no null object nonsense when testing enemies because there will always be a gamemanager?
+
+
 room knows about adjacent rooms
 
 world makes a list of touples with the start and end of their intersection

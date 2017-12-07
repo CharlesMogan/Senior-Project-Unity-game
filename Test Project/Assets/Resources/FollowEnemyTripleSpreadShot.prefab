@@ -90,13 +90,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1691552701102602}
-  m_LocalRotation: {x: 0, y: 0.0026179885, z: 0, w: 0.9999966}
+  m_LocalRotation: {x: 0, y: 0.2588191, z: 0, w: 0.9659258}
   m_LocalPosition: {x: 0.3, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4404032559123336}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0.3, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 30, z: 0}
 --- !u!4 &4404032559123336
 Transform:
   m_ObjectHideFlags: 1
@@ -119,13 +119,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1879018559142954}
-  m_LocalRotation: {x: 0, y: -0.0026179885, z: 0, w: 0.9999966}
+  m_LocalRotation: {x: 0, y: -0.258819, z: 0, w: 0.9659259}
   m_LocalPosition: {x: -0.3, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4404032559123336}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -0.3, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -30, z: 0}
 --- !u!4 &4843417156929774
 Transform:
   m_ObjectHideFlags: 1
@@ -344,11 +344,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 006b06b9e332b98409f1bb7f4cd0625f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shotDamage: 10
-  shotLifetime: 2
+  shotDamage: 13
+  shotLifetime: 4
   shotDiameter: 0.48
-  bulletSpeed: 10
-  fireRate: 0.2
+  bulletSpeed: 11
+  fireRate: 0.45
   bullet: {fileID: 114573424280549908, guid: dbccfcb15851c174896d5819ed5419f4, type: 2}
 --- !u!114 &114850734713978512
 MonoBehaviour:

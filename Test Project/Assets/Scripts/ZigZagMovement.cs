@@ -10,17 +10,16 @@ public class ZigZagMovement : Movement {
 		player = null;
 	}
 	
-	// Update is called once per frame
 	void FixedUpdate () {
 		if(player == null){
 			player = GameObject.FindWithTag("Player").transform;
 		}else{
-			if(!isParalyzed && ((int)Time.realtimeSinceStartup) % 2 == 0){
+			if(((int)Time.realtimeSinceStartup) % 2 == 0){
 				Debug.Log("going right");
 				character.LookAt(player);
 				movement = (character.forward-character.right-character.right)*speed*Time.fixedDeltaTime;
 				rb.MovePosition(rb.position + movement);
-			}else if(!isParalyzed && ((int)Time.realtimeSinceStartup) % 2 == 1){
+			}else if(((int)Time.realtimeSinceStartup) % 2 == 1){
 				Debug.Log("going left");
 				character.LookAt(player);
 				movement = (character.forward+character.right+character.right)*speed*Time.fixedDeltaTime;

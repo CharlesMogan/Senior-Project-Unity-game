@@ -193,7 +193,7 @@ MonoBehaviour:
   shotDamage: 6
   shotLifetime: 2.5
   shotDiameter: 0.5
-  bulletSpeed: 10
+  bulletSpeed: 12
   fireRate: 0.2
   bullet: {fileID: 114573424280549908, guid: dbccfcb15851c174896d5819ed5419f4, type: 2}
 --- !u!114 &114850734713978512

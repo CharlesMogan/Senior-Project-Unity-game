@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shooting : MonoBehaviour {
+public abstract class Shooting : MonoBehaviour {
 	protected float time, nextFire;
 	protected List <Transform> guns;
 	protected Transform shooter;

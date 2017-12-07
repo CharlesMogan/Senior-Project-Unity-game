@@ -563,9 +563,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shotDamage: 10
-  shotLifetime: 3
+  shotLifetime: 0.7
   shotDiameter: 0.5
-  bulletSpeed: 20
+  bulletSpeed: 18
   fireRate: 0.1
   bullet: {fileID: 114294955228278028, guid: 8714506f0703e784495bb53b923137c5, type: 2}
 --- !u!114 &1278762704
@@ -580,8 +580,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2d02c4740c46904b893eeb7678815c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 500000
-  health: 50000
+  maxHealth: 150
+  health: 150
   DamageDelay: 0
   healthText: {fileID: 315095584}
 --- !u!114 &1278762705

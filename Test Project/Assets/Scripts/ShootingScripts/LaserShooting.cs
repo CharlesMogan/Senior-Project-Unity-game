@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LaserShooting : Shooting {
+public abstract class LaserShooting : Shooting {
 	protected float lasersPerBurst = 13;
 	public float laserChargeDelay;
 	public float laserRange;

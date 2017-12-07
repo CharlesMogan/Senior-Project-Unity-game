@@ -772,19 +772,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88cb8ffb9add852408a7446cb5ef0953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  laser: {fileID: 114181483194091058, guid: b3c93366cefc56b43a29beb133ec2cab, type: 2}
-  laserDamage: 10
-  laserLifetime: 1
-  bulletSpeed: 0
-  laserChargeDelay: 0
-  laserDiameter: 0.5
+  shotDamage: 10
+  shotLifetime: 1
+  shotDiameter: 1
+  laserChargeDelay: 0.7
   laserRange: 200
-  bullet: {fileID: 0}
-  bulletLifetime: 0
-  fireRate: 0
-  transferedMomentum: 0
-  bulletDamage: 0
-  bulletScale: 0
+  laser: {fileID: 114181483194091058, guid: b3c93366cefc56b43a29beb133ec2cab, type: 2}
 --- !u!114 &114940906248181216
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -796,19 +789,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 006b06b9e332b98409f1bb7f4cd0625f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  laser: {fileID: 0}
-  laserDamage: 0
-  laserLifetime: -1
+  shotDamage: 14
+  shotLifetime: 7
+  shotDiameter: 0.7
   bulletSpeed: 3
-  laserChargeDelay: -1
-  laserDiameter: 0
-  laserRange: 0
-  bullet: {fileID: 114573424280549908, guid: dbccfcb15851c174896d5819ed5419f4, type: 2}
-  bulletLifetime: 20
   fireRate: 0.5
-  transferedMomentum: 0
-  bulletDamage: 5
-  bulletScale: 0.7
+  bullet: {fileID: 114573424280549908, guid: dbccfcb15851c174896d5819ed5419f4, type: 2}
 --- !u!136 &136515692032181528
 CapsuleCollider:
   m_ObjectHideFlags: 1
