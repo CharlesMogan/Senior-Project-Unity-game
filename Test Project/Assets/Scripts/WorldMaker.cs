@@ -962,67 +962,6 @@ public class WorldMaker : MonoBehaviour {
 		}
 
 
-		//if min length room to max length room is only 3 times as big then checking at like 3 points along easch wall can confirm no intersections
-		bool IsSafeToBuild(int xDimension, int yDimension, int xLocation, int yLocation){  ///this should be 100% safe
-			Assert.IsTrue(xDimension*2 >= yDimension);
-			Assert.IsTrue(yDimension*2 >= xDimension);
-			int northBounds = yDimension+yLocation-1;
-			int eastBounds = xDimension+xLocation-1;
-			int southBounds = yLocation;
-			int westBounds = xLocation;
-			// Debug.Log(northBounds + " is northBounds");
-			// Debug.Log(eastBounds + " is eastBounds");
-			// Debug.Log(southBounds + " issouthhBounds");
-			// Debug.Log(westBounds + " iswesthBounds");
-
-/*				if(IsInWorld(eastBounds, northBounds) ||  //NE corner
-				IsInWorld(eastBounds, southBounds) || //SE corner
-				IsInWorld(westBounds, southBounds) || //SW corner
-				IsInWorld(westBounds, northBounds)	|| //NW corner
-				IsInWorld((eastBounds + westBounds)/2, northBounds) || // N middle
-				IsInWorld(eastBounds, (northBounds + southBounds)/2)) || // E middle
-				IsInWorld((eastBounds + westBounds)/2, southBounds) || // S middle
-				IsInWorld(westBounds,(northBounds + southBounds)/2))){ // W middle
-				return false;
-			}*/
-			if(IsInWorld(eastBounds, northBounds) != -1){//NE corner
-				Debug.Log(1);
-				return false;
-			}
-			if(IsInWorld(eastBounds, southBounds) != -1){//SE corner
-				Debug.Log(2);
-				return false;
-			}
-			if(IsInWorld(westBounds, southBounds) != -1){//SW corner
-				Debug.Log(3);
-				return false;
-			}
-			if(IsInWorld(westBounds, northBounds) != -1){ //NW corner
-				Debug.Log(4);
-				return false;
-			}
-			if(IsInWorld((eastBounds + westBounds)/2, northBounds) != -1){// N middle
-				Debug.Log(5);
-				return false;
-			}
-			if(IsInWorld(eastBounds, (northBounds + southBounds)/2) != -1){ // E middle
-				//Debug.Log("point tested is " +eastBounds+" "+ (northBounds - southBounds));
-				Debug.Log(6);
-				return false;
-			}
-			if(IsInWorld((eastBounds + westBounds)/2, southBounds) != -1){ // S middle
-				Debug.Log(7);
-				return false;
-			}
-			if(IsInWorld(westBounds, (northBounds + southBounds)/2) != -1){ // W middle
-				Debug.Log(8);
-				return false;
-			}
-			return true;
-		}
-		
-
-
 		bool IsSafeToBuildV2(int xDimension, int yDimension, int xLocation, int yLocation){  ///this should be 100% safe
 			//Assert.IsTrue(xDimension*2 >= yDimension);
 			//Assert.IsTrue(yDimension*2 >= xDimension);

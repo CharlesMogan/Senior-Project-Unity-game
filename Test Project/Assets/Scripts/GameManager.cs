@@ -9,9 +9,9 @@ public class GameManager : MonoBehaviour {
 	private System.Random random;
 	public bool seedIsSetable; 
 	public int seed;
+	public int livingEnemies;
 
 	void Start(){
-		//Debug.Log(DateTime.Now.Millisecond);
 		if(seedIsSetable){
 			random = new System.Random(seed);
 		}else{
@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour {
 	public int NextRandom(int lowerBound, int upperBound){
 		return random.Next(lowerBound, upperBound);
 	}
+
+
 
 
 	public int Seed{

@@ -20,10 +20,10 @@ MonoBehaviour:
     y: 30
     width: 2560
     height: 1307
-  m_MinSize: {x: 681, y: 342}
-  m_MaxSize: {x: 12006, y: 8042}
+  m_MinSize: {x: 683, y: 342}
+  m_MaxSize: {x: 12008, y: 8042}
   vertical: 0
-  controlID: 10462
+  controlID: 10708
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -70,7 +70,7 @@ MonoBehaviour:
     m_HSlider: 0
     m_VSlider: 0
     m_IgnoreScrollWheelUntilClicked: 0
-    m_EnableMouseInput: 1
+    m_EnableMouseInput: 0
     m_EnableSliderZoom: 0
     m_UniformScale: 1
     m_UpDirection: 1
@@ -120,10 +120,10 @@ MonoBehaviour:
     y: 0
     width: 1872
     height: 1307
-  m_MinSize: {x: 404, y: 342}
-  m_MaxSize: {x: 8004, y: 8042}
+  m_MinSize: {x: 406, y: 342}
+  m_MaxSize: {x: 8006, y: 8042}
   vertical: 1
-  controlID: 10429
+  controlID: 10675
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -144,10 +144,10 @@ MonoBehaviour:
     y: 0
     width: 1872
     height: 749
-  m_MinSize: {x: 404, y: 221}
-  m_MaxSize: {x: 8004, y: 4021}
+  m_MinSize: {x: 406, y: 221}
+  m_MaxSize: {x: 8006, y: 4021}
   vertical: 0
-  controlID: 10405
+  controlID: 10652
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -285,9 +285,9 @@ MonoBehaviour:
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -162.22229, y: 23.654297, z: -68.25417}
+    m_Target: {x: 16.87167, y: 28.526245, z: 203.34454}
     speed: 2
-    m_Value: {x: -162.22229, y: 23.654297, z: -68.25417}
+    m_Value: {x: 16.87167, y: 28.526245, z: 203.34454}
   m_RenderMode: 0
   m_ValidateTrueMetals: 0
   m_SceneViewState:
@@ -314,9 +314,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: -0.7007112, y: 0.002140323, z: -0.00210214, w: -0.7134388}
   m_Size:
-    m_Target: 1382.1895
+    m_Target: 762.1929
     speed: 2
-    m_Value: 1382.1895
+    m_Value: 762.1929
   m_Ortho:
     m_Target: 0
     speed: 2
