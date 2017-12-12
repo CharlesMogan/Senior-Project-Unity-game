@@ -19,12 +19,12 @@ using UnityEngine.Assertions;
 using UnityEngine;
 
 public class WorldMaker : MonoBehaviour {
-	public static readonly float globalScaler = 1f;
+	public static readonly float globalScaler = 2.1f;
 	public static readonly int fill = 32;
 	public static readonly int globalElevation = 0;
-	public static readonly int wallHeight = 12;
+	public static readonly int wallHeight = 3;
 	public static readonly int minimumEdgeOverlapToBuildDoor = 7;
-	public static readonly int roomsToBuild = 140;
+	public static readonly int roomsToBuild = 2;
 	public static readonly int numberOfGenerations = 5;
 	public static readonly int minEnemiesToSpawn = 10;
 	public static readonly int maxEnemiesToSpawn = 11;
@@ -283,8 +283,8 @@ public class WorldMaker : MonoBehaviour {
 				}
 				room[xPlacement,yPlacement].IsOn = true;
 				GameObject enemy = Instantiate(Resources.Load(enemyToSpawn) as GameObject, new Vector3(room[xPlacement,yPlacement].AbsoluteXLocation*globalScaler,globalElevation-.5f,room[xPlacement,yPlacement].AbsoluteyLocation*globalScaler), Quaternion.identity);
-				EnemyHealth enemyHealthScript = enemy.GetComponent<EnemyHealth>();
-				enemyHealthScript.SendMessage("WhoIsMyRoom",this,SendMessageOptions.RequireReceiver);
+				//EnemyHealth enemyHealthScript = enemy.GetComponent<EnemyHealth>();
+				//enemyHealthScript.SendMessage("WhoIsMyRoom",this,SendMessageOptions.RequireReceiver);
 			}
 		}
 
