@@ -729,7 +729,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shotDamage: 10
-  shotLifetime: 3
+  shotLifetime: 6
   shotDiameter: 0.53
   bulletSpeed: 5
   fireRate: 1

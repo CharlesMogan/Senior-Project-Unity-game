@@ -142,7 +142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5638955c2d9256c4687ab0ce7f4700ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  seedIsSetable: 1
+  seedIsSetable: 0
   seed: 0
 --- !u!4 &131420106
 Transform:

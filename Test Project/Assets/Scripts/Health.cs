@@ -8,16 +8,15 @@ public abstract class Health : MonoBehaviour {
 	public float health;
 	public float DamageDelay;
 	protected float timeWhenDamageable = 0;
-	protected WorldMaker.Room myRoom;
+	protected GameManager gameManager;
+	
 
-
-	public void WhoIsMyRoom(WorldMaker.Room myRoom){
-		this.myRoom = myRoom;
+	protected virtual void Start(){
+		gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
+		Debug.Log("actually running this code");
 	}
 	
-	protected virtual void Die(){
-		Debug.Log("override this");
-	}
+	protected abstract void Die();
 
 
 	public virtual void TakeDamage(float damage){

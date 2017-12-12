@@ -4,15 +4,14 @@ public class PlayerHealth : Health {
 	public Text healthText;
 	
 	
-	void Start () {
+	protected override void Start () {
+		base.Start();
 		healthText.text =  health.ToString()+"/"+ maxHealth.ToString();
 	}
 
 	protected override void Die(){
 		Debug.Log("you died");
-		GameObject gameManager = GameObject.FindWithTag("GameController");
-		GameManager gameManagerScript = gameManager.GetComponent<GameManager>();
-		gameManagerScript.EndGame();
+		gameManager.EndGame();
 	}
 
 	public override void TakeDamage(float damage){

@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyHealth : Health {
-
+	protected override void Start(){
+		base.Start();
+		gameManager.LivingEnemies++;
+	}
 
 	protected override void Die(){
-		myRoom.EnemyDied(this.gameObject.transform.position);
-		GameObject gameManager = GameObject.FindWithTag("GameController");
-		GameManager gameManagerScript = gameManager.GetComponent<GameManager>();
+		gameManager.EnemyDied(this.gameObject.transform.position);
 
-		if(gameManagerScript.NextRandom(1,11) > 1){
+		if(gameManager.NextRandom(1,11) > 5){
 			Instantiate(Resources.Load("HealthUpPickup") as GameObject, this.gameObject.transform.position, Quaternion.identity);
 		}
 		Destroy(this.gameObject);

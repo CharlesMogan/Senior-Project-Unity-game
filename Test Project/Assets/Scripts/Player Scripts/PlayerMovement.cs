@@ -18,7 +18,7 @@ public class PlayerMovement : Movement {
 			
 		
 		
-		//Mouse position is designed forr 2d you have to do this shenanages for it to work   https://docs.unity3d.com/ScriptReference/Camera.ScreenToWorldPoint.html
+		//Mouse position is designed for 2d you have to do this shenanages for it to work   https://docs.unity3d.com/ScriptReference/Camera.ScreenToWorldPoint.html
 		mousePosition3D = new Vector3(playerCamera.ScreenToWorldPoint(Input.mousePosition).x,character.position.y,playerCamera.ScreenToWorldPoint(Input.mousePosition).z);
 		character.LookAt(mousePosition3D);
 		//crosshair.position = mousePosition3D;		

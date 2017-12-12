@@ -5,19 +5,22 @@ using UnityEngine;
 public class BossHealth : Health{
 	int phase;
 	Transform bossTransform;
+	protected WorldMaker.Room myRoom;
 
-	void Start(){
+	protected override void Start(){
+		base.Start();
+		gameManager.LivingEnemies++;
 		phase = 0;
 		bossTransform = GetComponent<Transform>();
 	}
 
-	protected override void Die(){
-		myRoom.EnemyDied(this.gameObject.transform.position);
-		GameObject gameManager = GameObject.FindWithTag("GameController");
-		GameManager gameManagerScript = gameManager.GetComponent<GameManager>();
-		
+	public void WhoIsMyRoom(WorldMaker.Room myRoom){
+		this.myRoom = myRoom;
+	}
 
-		gameManagerScript.EndGame();
+	protected override void Die(){
+		gameManager.EnemyDied(this.gameObject.transform.position);
+		gameManager.EndGame();
 		Destroy(this.gameObject);
 	}
 
@@ -60,6 +63,6 @@ public class BossHealth : Health{
 }
 
 
-//promicing combos
+// combos
 
 //35 3
