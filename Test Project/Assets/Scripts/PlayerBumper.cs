@@ -29,7 +29,7 @@ public class PlayerBumper : MonoBehaviour {
 			Vector3 collisionPoint = new Vector3(collision.contacts[0].point.x, 0, collision.contacts[0].point.z);
 			Vector3 playerPosition = new Vector3(this.transform.position.x, 0, this.transform.position.z);
 			Vector3 enemyDirection = collisionPoint - playerPosition;
-			Vector3 movement = enemyDirection*0.4f;
+			Vector3 movement = enemyDirection*1.0f;
 			rb.MovePosition(rb.position - movement);
 			Debug.Log("coliding");
 		}

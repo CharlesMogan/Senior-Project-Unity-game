@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -137,7 +137,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 8
   m_Type: 1
-  m_Color: {r: 1, g: 0.9447633, b: 0.7941176, a: 1}
+  m_Color: {r: 0.9044118, g: 0.9044118, b: 0.9044118, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -630,8 +630,8 @@ MonoBehaviour:
   shotDamage: 10
   shotLifetime: 0.7
   shotDiameter: 0.5
-  bulletSpeed: 18
-  fireRate: 0.1
+  bulletSpeed: 24
+  fireRate: 0.14
   bullet: {fileID: 114294955228278028, guid: 8714506f0703e784495bb53b923137c5, type: 2}
 --- !u!114 &1278762704
 MonoBehaviour:
@@ -1364,7 +1364,7 @@ RectTransform:
   m_GameObject: {fileID: 2074509483}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0.99999976, z: -0.00000023841858}
-  m_LocalScale: {x: 0.10748031, y: 0.10748031, z: 0.10748031}
+  m_LocalScale: {x: 0.09620253, y: 0.09620253, z: 0.09620253}
   m_Children:
   - {fileID: 315095583}
   m_Father: {fileID: 0}

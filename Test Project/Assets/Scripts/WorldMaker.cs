@@ -107,7 +107,7 @@ public class WorldMaker : MonoBehaviour {
 				myCube = Instantiate(Resources.Load("DoorTriggerCuber") as GameObject, new Vector3(absoluteXLocation*globalScaler,globalElevation + (wallHeight / 2f)-.5f,absoluteyLocation*globalScaler), Quaternion.identity);
 				DownDoor downDoorScript = myCube.GetComponent<DownDoor>();
 				downDoorScript.SendMessage("WhoIsMyRoom",myRoom,SendMessageOptions.RequireReceiver);
-			}else if(isOuterWall){
+			}else if(isOuterWall && !isDoor){
 				myCube = Instantiate(Resources.Load("OuterCuber") as GameObject, new Vector3(absoluteXLocation*globalScaler,globalElevation + (wallHeight / 2f)-.5f,absoluteyLocation*globalScaler), Quaternion.identity);
 			}else if(isOn){
 				myCube = Instantiate(Resources.Load("Cuber") as GameObject, new Vector3(absoluteXLocation*globalScaler,globalElevation + (wallHeight / 2f)-.5f,absoluteyLocation*globalScaler), Quaternion.identity);

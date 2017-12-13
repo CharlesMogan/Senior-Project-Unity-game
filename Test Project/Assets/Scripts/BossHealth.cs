@@ -35,7 +35,6 @@ public class BossHealth : Health{
 			phase = 1;
 		}
 		if((float) health / (float) maxHealth < .8f && phase == 1){
-			Debug.Log("rawr spawn chasers");
 			myRoom.SpawnChasers(5);
 			phase = 2;
 		}
@@ -55,6 +54,7 @@ public class BossHealth : Health{
        			childIndex++;
         	}
         	shootingLaserScript.enabled = true;
+        	shootingScript.enabled = false;
 			phase = 4;
 		}
 
