@@ -729,9 +729,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shotDamage: 10
-  shotLifetime: 6
+  shotLifetime: 8
   shotDiameter: 0.53
-  bulletSpeed: 5
+  bulletSpeed: 7
   fireRate: 1
   bullet: {fileID: 114124083743112614, guid: 296f76c9ab681f74f8caf7d0d86d4534, type: 2}
 --- !u!114 &114824686567880726
@@ -745,8 +745,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a4eaff6a13cc2145a57909022e686ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  health: 100
+  maxHealth: 20
+  health: 20
   DamageDelay: 0
 --- !u!136 &136927510794473592
 CapsuleCollider:

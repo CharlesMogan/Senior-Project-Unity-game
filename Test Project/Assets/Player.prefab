@@ -42,7 +42,10 @@ GameObject:
   - component: {fileID: 54683052279399898}
   - component: {fileID: 114377387166180400}
   - component: {fileID: 114080118274937478}
+  - component: {fileID: 114347426883584328}
   - component: {fileID: 114173002092031118}
+  - component: {fileID: 65449675489929348}
+  - component: {fileID: 114960523881609180}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -57,7 +60,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1123591949608890}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4606537169567870}
@@ -70,7 +73,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1266701305908934}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4, y: 0, z: 4}
+  m_LocalPosition: {x: 50, y: 0, z: 50}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4178630713328790}
@@ -86,6 +89,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -101,6 +105,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -118,7 +123,8 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_MotionVectors: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 0
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
@@ -133,6 +139,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -158,11 +165,23 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 10
   m_AngularDrag: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
-  m_Interpolate: 1
-  m_Constraints: 112
-  m_CollisionDetection: 1
+  m_Interpolate: 2
+  m_Constraints: 116
+  m_CollisionDetection: 2
+--- !u!65 &65449675489929348
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1266701305908934}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &65454664132312486
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -198,8 +217,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2d02c4740c46904b893eeb7678815c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 500000
-  health: 500000
+  maxHealth: 500
+  health: 500
+  DamageDelay: 0
   healthText: {fileID: 0}
 --- !u!114 &114173002092031118
 MonoBehaviour:
@@ -212,20 +232,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 799263efc6f0c3e429019243b9e70ab7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  laser: {fileID: 114619251116961464, guid: 2d3be9a63e81a9847bb1602a84d52f2e, type: 2}
-  laserDamage: 10
-  laserLifetime: 1
-  laserLength: 2
-  bulletSpeed: 8
-  laserChargeDelay: 1
-  laserDiameter: 0.6
-  laserRange: 250
+  shotDamage: 10
+  shotLifetime: 0.4
+  shotDiameter: 0.5
+  bulletSpeed: 34
+  fireRate: 0.14
   bullet: {fileID: 114294955228278028, guid: 8714506f0703e784495bb53b923137c5, type: 2}
-  bulletLifetime: 2
-  fireRate: 0.1
-  transferedMomentum: 0.8
-  bulletDamage: 10
-  bulletScale: 0
+--- !u!114 &114347426883584328
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1266701305908934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aefa597dcacc5684aa16759842cf1443, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shotDamage: 10
+  shotLifetime: 1
+  shotDiameter: 0.5
+  laserChargeDelay: 1
+  laserRange: 30
+  laser: {fileID: 114619251116961464, guid: 2d3be9a63e81a9847bb1602a84d52f2e, type: 2}
 --- !u!114 &114377387166180400
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -239,4 +268,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 15
   playerCamera: {fileID: 0}
-  crosshair: {fileID: 4029457872893602, guid: 6138e98b8e977534fb8023862d3f8ad9, type: 2}
+--- !u!114 &114960523881609180
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1266701305908934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8dc6ae35b1cc7e4db0c692810b9614e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

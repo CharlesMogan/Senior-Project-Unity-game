@@ -13,7 +13,6 @@ public abstract class Health : MonoBehaviour {
 
 	protected virtual void Start(){
 		gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
-		Debug.Log("actually running this code");
 	}
 	
 	protected abstract void Die();
@@ -25,7 +24,6 @@ public abstract class Health : MonoBehaviour {
 			timeWhenDamageable = Time.time + DamageDelay;	
 		}
 		if(health <= 0){
-			Debug.Log("this is get destroyed with a health of" + health);
 			Die();
 		}
 		

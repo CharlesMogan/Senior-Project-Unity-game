@@ -31,7 +31,6 @@ public class PlayerBumper : MonoBehaviour {
 			Vector3 enemyDirection = collisionPoint - playerPosition;
 			Vector3 movement = enemyDirection*1.0f;
 			rb.MovePosition(rb.position - movement);
-			Debug.Log("coliding");
 		}
 	}
 

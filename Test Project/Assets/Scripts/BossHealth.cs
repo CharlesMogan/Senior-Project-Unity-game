@@ -43,11 +43,11 @@ public class BossHealth : Health{
 			myRoom.SpawnTurrets(8);
 			phase = 3;
 		}
-		if((float) health / (float) maxHealth < .5f && phase == 3){
+		if((float) health / (float) maxHealth < .4f && phase == 3){
 			myRoom.SpawnChasers(5);
 			myRoom.SpawnTurrets(8);
 			int childIndex = 0;
-			foreach (Transform child in bossTransform) {
+			foreach (Transform child in bossTransform) { // destroys half the guns
 				if(childIndex % 2 == 0){
 					Destroy(child.gameObject);
 				}
