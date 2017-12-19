@@ -2,32 +2,44 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Health : MonoBehaviour {
+public abstract class Health : MonoBehaviour {
 
 	public float maxHealth;
 	public float health;
-	// Update is called once per frame
-	protected virtual void Update () {
-		if(health <= 0){
-			Debug.Log("this is get destroyed");
-			Destroy(this.gameObject);
-		}
+	public float DamageDelay;
+	protected float timeWhenDamageable = 0;
+	protected GameManager gameManager;
+	
 
-		//if(maxHealth < health){
-		//	health = maxHealth;
-		//}
+	protected virtual void Start(){
+		gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
+	}
+	
+	protected abstract void Die();
+
+
+	public virtual void TakeDamage(float damage){
+		if(Time.time >= timeWhenDamageable){
+			health-=damage;
+			timeWhenDamageable = Time.time + DamageDelay;	
+		}
+		if(health <= 0){
+			Die();
+		}
 		
 	}
 
 
-	public void TakeDamage(float damage){
-		health-=damage;
+	public virtual void MaxHealthUp(){
+		maxHealth += 10;
+		health += 10;
 	}
 
-	/*public float Health{
-		get{return health;}
+	public virtual void HealthUp(){
+		health += 10;
+		if(health>maxHealth){
+			health = maxHealth;
+		}
+	}
 
-		set{health = value;}
-
-	}*/	
 }

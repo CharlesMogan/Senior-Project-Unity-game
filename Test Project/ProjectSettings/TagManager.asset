@@ -8,7 +8,11 @@ TagManager:
   - Gun
   - Friendly Bullet
   - Unfriendly Bullet
-  - Unfrendly Bullet
+  - Unfriendly Laser
+  - Friendly Laser
+  - Wall
+  - Door
+  - OuterWall
   layers:
   - Default
   - TransparentFX

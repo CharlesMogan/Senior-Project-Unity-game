@@ -1,11 +1,70 @@
 
 
 
+maybe just checking the bounds of the rooms against eachother
 
-notes to self:
+have gamemanager keep track of the number of living enemies. that way there is no null object nonsense when testing enemies because there will always be a gamemanager?
+
+
+room knows about adjacent rooms
+
+world makes a list of touples with the start and end of their intersection
+
+
+getting all north and east relations gets all relations
+
+multi threading error likley has to do with rannum generator
+
+in combat might not need to exist in worldmaker script
+
+who is my room and is ocupied for teleporting enemies.
+
+
+-------------things to for sure impliment soon-----------------
+sighting laser charge up. 
+contact damage
+invincibility after taking damage.
+powerups
+
+
+do relitive coordinates to the room or absolute coordanates.
+
+can clip bullets when turning too fast. not good.
+	dont make bullets destroy when hitting the launching player.
+
+
+oh shit what if for laser paralization you just disable movement script entirely
+
+	get componenents of type movement
+
+
+
+player bulets get destroyed when hitting enemy bullets
+
+
+the way laser damage is calculated needs to be redone.
+
+
+i think I need to add the time of the finial laser fragment to the paralization
+
+
+small chance of spawning a bunch of errors when firing laser.
+
+
+laser length and laser range, are duplicate variables.
+
+
+
+the player bounce can bounce you offscreen. this will allow you to be bounced into walls. no, not into walls, outside of walls doesn't happen if you don't bounce far.
+
+
+
+build rooms corener to corner and then fill in gaps????!!!!
+
+
+-----------------------------------------------notes to self:
 room goes out at all edges in issac, maybe use like 75degree angle.
 
-work on the cave generation algarithm, there are some notes on how a person might change it at the end of the first video in the series.
 
 LINQ seems like cool shit but seems useless for 2d arrays.
 
@@ -15,18 +74,71 @@ look int OnDrawGizmos
 look into celular atomita and marching squares.
 
 
+look up structs, know what the difrence is.
+
+look up Dictionary in c#
+
+look up indexers in c# seems useful for wepon wheel
+
+look up math.Sign
+
+look up bresenhams line algorithm
+
+figure out what a mesh filter and a mesh renderer are.
+
+
+to make a laser just make a really long bullet.
+
+figure out what the diference between a trigger and a colider is.
+
+forward.normalized might fix the momentium thing
+
+laser should have rotation lock for player
+
+
+trying to code in culling is entirely 100% pointless 
+using built in occlusion culling should help. https://docs.unity3d.com/Manual/OcclusionCulling.html
+
+
+optimising for cubes:
+https://forum.unity.com/threads/optimizing-thousands-of-cubes.77093/
+
+
 Goals:
 
+lasers
+
+maybe networking
 
 
 
-problems:
-bullets dont have momentum of the gun they are shot from- fixed!
+break out the move twords player as its own script if you can.
+
+
+
+
+
+you should be able to pass in a value for the speed and damage too a bullet and with that value the bullet should be able to set an ofset and contol min and max bounds.
+
+
+
+-------------------------------------------------------------------------------problems:
+bullets dont have momentum of the gun they are shot from- fixed! kinda broke again
 
 camera should "clamp" to the edges of rooms if you move to close to the edge.
 
-refacter classes into one script maybe?? c# is weird you can have nested public classes.
 
+
+
+
+make sure all damage and health mecanics are tied to phisics frame rate. currently lasers are tied to the framerate to do their ticks of damage. im also not sure fire rate is not framerate dependent 
+
+
+when the laser shooter shoots his laser he is only paralized for the begining of the shot not until the laser disapears.
+
+there is a rendering error with enemy lasers now that I Fixed the walls
+
+movement is completely broke, it gets floaty with the forces
 
 
 Shit I will need latter: player transfer between scenes:
@@ -34,7 +146,7 @@ Shit I will need latter: player transfer between scenes:
 https://forum.unity3d.com/threads/how-to-transfer-player-data-between-scenes.443347/
 
 
-
+lasers should destroy bullets.
 
 
 
@@ -43,3 +155,296 @@ sources:
 https://www.youtube.com/user/Brackeys specifically his how to make a unity game basics series.
 https://unity3d.com/learn/tutorials/projects/space-shooter-tutorial
 https://unity3d.com/learn/tutorials/projects/procedural-cave-generation-tutorial
+
+
+
+
+
+
+stuff for the speach
+
+spent like two hours trying to have the properties of the projectile determined by the gun that made it then realized that should be something the bullet handles itself.
+
+
+making bullets bigger required reworking.
+
+
+
+
+
+--------------------------------------------------------------procedural generation plan:
+
+
+make cells
+cellular atomita cells
+make a door along each wall of the border.
+make sure all walls are conected in some way. probs by drawing a line to a random point int the room maybe have difrent pathing to get to the points so it is not just a strait wall every time.
+
+the walls at the borders should be indestructable.
+
+when you click on a room it generates a new room of a bounded random size, unless the new room already boarders an existing room, then it must be big enough to not intersect or if it does line up it should use the previously unused door
+every room should have a small chance to spawn a door to the next level THIS DOES NOT NECCESSARLY NEED TO BE IN THE MAIN AREA, if it is cut off it can just be remade in another room.
+
+at the start of the next floor maybe have a boss?
+
+
+
+maybe only have the walls be visable if they are exposed ie there is a 1 in their von nomin nabhorhood.
+
+
+
+///----------------------------------- Ideas for enemy movement paterns:------------------------------------
+
+Teleporting:
+teleporting enemies would engage when the player enters a certin radius, or when they are shot the first time. after this they will relentlessly prasue the player
+
+
+	-right behind you and then dellay and then laser.
+
+	-teleport every second or two to a random position around the player.
+
+
+normal: 
+	-move tword player but also tries to dodge bullets with sometype of triger or collider.
+	a melee varient of this would be nice.
+
+
+
+
+///-----------------------------------makin da world-------------------------------------------------
+	makeworld
+		make a room
+		add 4 doors
+		make a room atached to a rondom door.
+		add 3 doors
+		make a room ataced to another door
+		add 3 doors
+
+		or!!!!!!!!!!!!
+
+		place a bunch of rooms
+
+
+
+
+	world.
+		list of rooms
+		isCoordinateInRoom(x,y);
+
+	room.
+		list of cells
+		IsInRoom(aCell);
+
+	cell.
+		IsW
+		Isindistructable 
+		IsDoor
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+///------------------------------------------------where----------------------------------------------------------
+	should the map generate a random powerup or should a powerup generate a random effect. - figured it out pickups should have a set effect but which one is made 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+///----------------------------------------------praposal-------------------------------------------------------
+
+I at least need an intro paragraph.
+
+	My goal with this project is to make a geometric styled top down shooter. The envirenment in the game will consist of a series of random rooms filled with various enemies that the player must traverse. At the end of each floor will be a boss that the player must defeat before they can advance to the next floor. Through this project I will explore the basics of the unity game engine, c# and procedular generation, all subjects I have no experence with at all.
+
+
+I am proposing to make a top down shooter with the following features:
+
+
+1. A player that can
+	fire at least two distinct projectile types. 
+		A.Possible Projectile types include:
+			medium speed bullets fired rapidly. ~2
+			a beam wepon that can penetrate enemies.  ~7
+				it will extend to the length of the room. ~2
+				there is a delay before firing during which time the player is not able to move. ~3 
+				perhaps taking enough damage will prevent the laser from firing, and unparalize the player early.
+				
+
+	When the player takes damage they will be made invincible for a short time, maybe half a second during this time they will be invincable.
+
+
+
+
+
+
+2. A HUD that at the minimum desplays ~3
+	the players health.
+
+
+
+
+
+
+
+
+3. At least X distinct enemies with diffrent combinations of movement and shooting paterns.
+	A. possible enemies include:
+		A Stationary turret that shoots:
+			bullets in a random direction.
+			bullets at the player.
+			4 bullets, one in each of the cardinal directions.
+			4 bullets, one in each of the primary intercardinal directions.
+			8 bullets, one in each of the cardinal directions and one in the primary intercardinal directions.
+			8 bullets, one in each of the secondary intercardinal directions.
+			16 bullets, one in each direction.
+
+			in the fashion of any turret listed above, but also rotates.
+
+			in the fashion of any turret listed above, but instead fires a beam weapon.
+
+
+
+		A mobile enemy that moves directly towards the player:
+			and shoots bullets.
+			and shoots bullets but also moves to strafe the player once close enough.
+			doesn't shoot, and detenates on impact with the player dealing high damage.
+			and detenates on impact with the player dealing high damage.
+			and shoots bullets, and has a front facing shield that blocks a limited number of bullets.
+		
+
+		A mobile enemy that moves in a zig-zag twords the player moving at 45 degrees reletive to the player and alterneates every second or two:
+			and does anything the enemy above does.
+			does not face the player but has an indistructable shield.
+
+
+		an enemy that teleports every x seconds:
+			relitive to the player at a fixed distance
+				randomly. 
+				or at a fixed rotation. ie always teleports behind the player.
+			to a random place in the room
+
+
+
+
+
+
+4. at least one boss with at least 2 phases that a player can face at the end of a floor.   
+
+
+
+
+5. A main menu that you can exit to the desktop from or start a game.   ~3
+
+
+
+
+
+6. A pickup system that lets the player improve their character. ~10
+	A. Possible pickups include:
+		Increasing character health.  done
+		Increasing beam Damage.       done
+		Increasing bullet Damage.     done
+		Increasing bullet fire rate.  done
+		Increasing player movement speed. done
+		Increasing beam weapon diamater.  done
+		Increasing bullet size.	      done
+		increasing bullet movement speed.  done
+		increasing bullet range. (time before despawn) done
+		Decreasing the delay before player can fire their beam weapon. done
+		Decreasing player size (making it easyer to dodge). working, but bad idea causes problems with bullet scaling.
+		Pull back camera to make it easyer to see.
+
+	All pickups will have caps so that the players stats do not become to high. This is not just a balance issue as something like too high a movement speed could make the game very unfun.
+
+	Which pickups the player will encounter will be determined by the random seed.
+
+	Pickups will be given as a reward at the end of every room.
+	or
+	Pickups will be given as a reward at the end of every floor. 
+
+	Enemies will also have a small chance of generating a health pickup on death.
+
+
+
+7. A dungen based on procedural generation that generates rooms with distructable walls that conect together and eventually lead to a boss room.  ~30
+	The dungeon will consist of mutliple rooms of random size.       
+	Each room will consist of many cube walls that will be destructable with the expception of the last layer of wall, which will be indestructable.
+	the distrubution of these wall cubes will be determined by a cellular atomita algarithum.         
+	
+	The walls and door placement will be done first with a single thread.
+	
+	Once the rooms placement has been determined, the contents of each room can be gernerated with multiple threads.     ~20
+	Their will be one or more door out of each room.
+
+	Inside a room conectivity between doors will be determined with bresenhams line algorithm.
+		Any wall cubes under the line will be disabled.
+
+		The lines will go from all doors the center of the room ensuring that getting to any door is possible.
+		or
+		The lines will go from all doors a random point in the room ensuring that getting to any door is possible.
+		or
+		The lines will go from all doors to all other doors in the room ensuring that getting to any door is possible.
+
+	or
+	I find a more clever way to do this.
+
+	if two rooms are adjacent they will share a door.										~10
+	Each rooms door can only be opened once the room's enemies have been defeated.
+	
+	the first room is pregenerated the others will be generated once the door is opened. - no longer being concidered.
+	or
+	the first room is pregenerated the others will be generated once entering an adjacent room.
+	or
+	The entire floor is generated once starting a game, the next floor is generated when going to the next floor  --I think this 
+
+	The final decision on this will be based on how long it takes to generate a satisfactory room.
+
+
+
+
+
+
+
+	interesting configs:
+
+	fill 30-32
+	b45678s45678 * 5
+	b1s12345678 *1
